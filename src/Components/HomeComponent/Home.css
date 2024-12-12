@@ -1,0 +1,20 @@
+.container{
+    width: 100%;
+    height: 130%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+}
+.btnCont{
+    display:flex;
+    justify-content: center;
+    gap: 15px;
+    background-color: transparent;
+}
+.id,.passport{
+    padding: 30px;
+    border-radius: 10%;
+    border: none;
+    cursor: pointer;
+}
