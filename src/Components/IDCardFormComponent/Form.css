@@ -3,6 +3,7 @@ form{
     flex-direction: column;
     gap: 15px;
     width: 90%;
+   
 }
 fieldset{
     display: flex;
