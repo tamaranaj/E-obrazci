@@ -2,8 +2,9 @@ import { useState } from 'react'
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Home } from './Components/HomeComponent/Home'
-import { FormCreate } from './Components/IDCardFormComponent/Form'
 import { PassportForm } from './Components/PassportFormComponent/Form'
+import StepperComponent from './Components/IDCardFormComponent/Stepper'
+
 
 function App() {
   
@@ -33,7 +34,7 @@ function App() {
     <button className='btn' onClick={changeBgColor}>{theme}</button>
     <Routes>
       <Route path='/' element={<Home/>}/>
-      <Route path="/барањеЗаЛичнаКарта" element={<FormCreate/>}/>
+      <Route path="/барањеЗаЛичнаКарта" element={<StepperComponent/>}/>
       <Route path='/барањеЗаПатнаИсправа'element={<PassportForm/>}/>
     </Routes>
     </BrowserRouter>

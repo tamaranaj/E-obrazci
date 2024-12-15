@@ -3,6 +3,7 @@ import { GeneralContext } from '../../context/general.context';
 import jsPDF from 'jspdf';
 import { addNotoSerifFont } from "../../addNotoSerifFont";
 import { addNotoSerifFontBold } from '../../addNotoSerifFontBold';
+import Button from '@mui/material/Button';
 // import font from  './assets/';
 export interface DocumentProps{
 
@@ -25,7 +26,7 @@ export interface DocumentProps{
 
 // Create Document Component
 export const IDCardDocument = () => {
-  const{props} = useContext(GeneralContext)
+  const{personalDetailsID,idCardDocument} = useContext(GeneralContext)
 
   const generatePDF = () =>{
     const doc = new jsPDF()
@@ -59,21 +60,21 @@ export const IDCardDocument = () => {
 
     doc.setFontSize(10);
     doc.text('1.1  Прв пат', 30, 70, {align:'left'})
-    if(props.reason==='прв пат'){
+    if(idCardDocument.reason==='прв пат'){
       doc.roundedRect(29,67,7,4,2,3 )
     }
     doc.text('1.2  Замена поради истечен рок на важење', 30, 75, {align:'left'})
-    if(props.reason==='замена поради истечен рок на важење'){
+    if(idCardDocument.reason==='замена поради истечен рок на важење'){
       doc.roundedRect(29,72,7,4,2,3 )
     }
     doc.text('1.3  Дупликат лична карта(изгубена, кражба или исчезнување', 30, 80, {align:'left'})
-    if(props.reason==='дупликат лична карта(изгубена, кражба или исчезнување)'){
+    if(idCardDocument.reason==='дупликат лична карта(изгубена, кражба или исчезнување)'){
       doc.roundedRect(29,77,7,4,2,3 )
     }
     
     doc.text('1.4  Предвремена поради оштетување, промена на лични податоци, промена на адреса', 30, 85, {align:'left'})
     doc.text(' на живеење, промена на живеалиште и др.', 35,90,{align:'left'})
-    if(props.reason==='предвремена поради оштетување, промена на лични податоци, промена на адреса на живеење, промена на живеалиште и др.'){
+    if(idCardDocument.reason==='предвремена поради оштетување, промена на лични податоци, промена на адреса на живеење, промена на живеалиште и др.'){
       doc.roundedRect(29,82,7,4,2,3 )
     }
     
@@ -95,12 +96,12 @@ export const IDCardDocument = () => {
     doc.setFontSize(9);
     doc.text('1.македонски.јазик',22,129)
     doc.line(55,129,100,129)
-    doc.text(props.firstName,58,128)
+    doc.text(personalDetailsID.firstName,58,128)
     doc.line(60,134,75,134)
     doc.line(144,129,159,129)
     doc.text('1.македонски.јазик',107,124)
     doc.line(140, 124, 185, 124 )
-    doc.text(props.lastName, 144,123)
+    doc.text(personalDetailsID.lastName, 144,123)
     doc.setFontSize(10);
     doc.text('2.2', 30, 145, {align: 'left'})
     doc.line(20, 146, 190, 146); // Line for separator
@@ -112,21 +113,21 @@ export const IDCardDocument = () => {
     doc.text('Барам образецот да биде изготвен на еден од наведените јазици и писмо',22,149 )
     doc.text('1. турски', 22, 153)
     doc.rect(36,151, 2,2)
-    if(props.cardLanguage ==='турски'){
+    if(idCardDocument.cardLanguage ==='турски'){
       doc.setFontSize(10)
       doc.text('х',36, 153)
       doc.setFontSize(8);
     }
     doc.text('2. влашки', 40, 153)
     doc.rect(55,151, 2,2)
-    if(props.cardLanguage ==='влашки'){
+    if(idCardDocument.cardLanguage ==='влашки'){
       doc.setFontSize(10)
       doc.text('х',55, 153)
       doc.setFontSize(8);
     }
     doc.text('3. српски', 59, 153)
     doc.rect(73,151, 2,2)
-    if(props.cardLanguage ==='српски'){
+    if(idCardDocument.cardLanguage ==='српски'){
       doc.setFontSize(10)
       doc.text('х',73, 153)
       doc.setFontSize(8);
@@ -134,7 +135,7 @@ export const IDCardDocument = () => {
 
     doc.text('4. ромски', 77, 153)
     doc.rect(92,151, 2,2)
-    if(props.cardLanguage ==='ромски'){
+    if(idCardDocument.cardLanguage ==='ромски'){
       doc.setFontSize(10)
       doc.text('х',92, 153)
       doc.setFontSize(8);
@@ -143,7 +144,7 @@ export const IDCardDocument = () => {
     
     doc.text('5. босански', 96, 153)
     doc.rect(113,151, 2,2)
-    if(props.cardLanguage ==='босански'){
+    if(idCardDocument.cardLanguage ==='босански'){
       doc.setFontSize(10)
       doc.text('х',113, 153)
       doc.setFontSize(8);
@@ -156,21 +157,21 @@ export const IDCardDocument = () => {
 
     doc.text('1. турски', 22, 165)
     doc.rect(36,163, 2,2)
-    if(props.nameLanguage ==='турски'){
+    if(idCardDocument.nameLanguage ==='турски'){
       doc.setFontSize(10)
       doc.text('х',36, 165)
       doc.setFontSize(8);
     }
     doc.text('2. влашки', 40, 165)
     doc.rect(55,163, 2,2)
-    if(props.nameLanguage ==='влашки'){
+    if(idCardDocument.nameLanguage ==='влашки'){
       doc.setFontSize(10)
       doc.text('х',55, 165)
       doc.setFontSize(8);
     }
     doc.text('3. српски', 59, 165)
     doc.rect(73,163, 2,2)
-    if(props.nameLanguage ==='српски'){
+    if(idCardDocument.nameLanguage ==='српски'){
       doc.setFontSize(10)
       doc.text('х',73, 165)
       doc.setFontSize(8);
@@ -178,7 +179,7 @@ export const IDCardDocument = () => {
 
     doc.text('4. ромски', 77, 165)
     doc.rect(92,163, 2,2)
-    if(props.nameLanguage ==='ромски'){
+    if(idCardDocument.nameLanguage ==='ромски'){
       doc.setFontSize(10)
       doc.text('х',92, 165)
       doc.setFontSize(8);
@@ -187,7 +188,7 @@ export const IDCardDocument = () => {
     
     doc.text('5. босански', 96, 165)
     doc.rect(113,163, 2,2)
-    if(props.nameLanguage ==='босански'){
+    if(idCardDocument.nameLanguage ==='босански'){
       doc.setFontSize(10)
       doc.text('х',113, 165)
       doc.setFontSize(8);
@@ -214,9 +215,9 @@ export const IDCardDocument = () => {
     doc.text('ЗА ОМАЖЕНИ-ОЖЕНЕТИ ', 22, 185)
     doc.setFontSize(8)
     doc.text('(презиме пред склучување на брак)', 68, 185)
-    if(props.marriedLastName){
+    if(personalDetailsID.marriedLastName){
       doc.setFontSize(10)
-      doc.text(props.marriedLastName, 130, 188)
+      doc.text(personalDetailsID.marriedLastName, 130, 188)
       doc.setFontSize(8)
     }
     doc.line(120,189,185,189)
@@ -228,11 +229,11 @@ export const IDCardDocument = () => {
     doc.text('ПОЛ', 22,236)
     doc.text('ЖИВЕАЛИШТЕ И АДРЕСА', 22,241)
     doc.line(90,213,185,213)
-    doc.text(props.birth,120,212 )
-    doc.text(props.placeBirth,120,225 )
-    doc.text(props.socialNumber,90,231)
-    doc.text(props.address,90, 241)
-    if(props.gender === 'машки'){
+    doc.text(personalDetailsID.birth,120,212 )
+    doc.text(personalDetailsID.placeBirth,120,225 )
+    doc.text(personalDetailsID.socialNumber,90,231)
+    doc.text(personalDetailsID.address,90, 241)
+    if(personalDetailsID.gender === 'машки'){
       doc.text('Х', 79.5,235.5)
     }else{
       doc.text('Х', 120.5,235.5)
@@ -248,8 +249,8 @@ export const IDCardDocument = () => {
     
     doc.text('Татко', 22, 198)
     doc.setFontSize(10)
-    doc.text(props.fatherName, 60,202)
-    doc.text(props.motherName,145, 202)
+    doc.text(personalDetailsID.fatherName, 60,202)
+    doc.text(personalDetailsID.motherName,145, 202)
     doc.setFontSize(8)
     doc.line(40,203,100,203)
     doc.line(105,195,105,204)
@@ -304,7 +305,7 @@ export const IDCardDocument = () => {
     doc.line(23,74,80,74)
     doc.line(130,74,190,74)
     doc.text('Потпис на службеното лице кое го примило барањето', 23, 94)
-    doc.text(props.phone, 70, 83)
+    doc.text(personalDetailsID.phone, 70, 83)
     doc.line(55, 84,180,84)
     doc.line(112, 94,175,94)
     doc.setFontSize(8)
@@ -365,7 +366,9 @@ export const IDCardDocument = () => {
     
   }
   return(
- 
-    <button onClick={generatePDF}>Download PDf</button>
+    <Button onClick={generatePDF} sx={{ mt: 1, mr: 1 }}>
+    Download Document
+    </Button>
+   
   )
 };

@@ -1,11 +1,8 @@
 import { createContext, ReactNode, useState } from "react";
 
-interface DocumentProps {
-    reason: string,
+interface PersonalDetailsID{
     firstName: string,
     lastName: string ,
-    cardLanguage: string ,
-    nameLanguage: string ,
     marriedLastName: string ,
     fatherName: string,
     motherName: string ,
@@ -15,21 +12,25 @@ interface DocumentProps {
     gender: string ,
     address: string, 
     phone: string 
+}
 
+interface IDCardDocument{
+    reason: string,
+    cardLanguage: string ,
+    nameLanguage: string ,
 }
 
 
 interface ContextDefault {
-    props: DocumentProps,
-    updateProps(formResults: DocumentProps): void
+    personalDetailsID: PersonalDetailsID
+    idCardDocument: IDCardDocument
+    updatePersonalDetailsID(formResults: PersonalDetailsID): void,
+    updateIDCardDocument(formResults: IDCardDocument): void
 }
 const contextDefaultValues: ContextDefault = {
-    props: {
-        reason:  '',
+    personalDetailsID: {
         firstName:  '',
         lastName: '',
-        cardLanguage: '',
-        nameLanguage: '',
         marriedLastName:'',
         fatherName: '',
         motherName: '',
@@ -40,7 +41,13 @@ const contextDefaultValues: ContextDefault = {
         address: '',
         phone: ''
     },
-    updateProps: ()=>{}
+    idCardDocument:{
+        reason:  '',
+        cardLanguage: '',
+        nameLanguage: '',
+    },
+    updatePersonalDetailsID: ()=>{},
+    updateIDCardDocument: ()=>{},
 }
 export const GeneralContext = createContext(contextDefaultValues)
 
@@ -50,12 +57,9 @@ interface GeneralContextProviderProps{
 
 export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)=>{
 
-    const[props, setProps] = useState({
-        reason:  '',
+    const[personalDetailsID, setPersonalDetailsIDCard] = useState({
         firstName:  '',
         lastName: '',
-        cardLanguage: '',
-        nameLanguage: '',
         marriedLastName:'',
         fatherName: '',
         motherName: '',
@@ -67,11 +71,22 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
         phone: ''
     })
 
-    function updateProps(formResults: DocumentProps){
-        setProps(formResults)
+    const [idCardDocument, setIDCardDocument] = useState({
+        reason: '',
+        nameLanguage: '',
+        cardLanguage: ''
+    })
+
+    function updatePersonalDetailsID(formResults: PersonalDetailsID){
+        setPersonalDetailsIDCard(formResults)
+    }
+
+    function updateIDCardDocument(formResults: IDCardDocument){
+        setIDCardDocument(formResults)
     }
     return(
-        <GeneralContext.Provider value={{props, updateProps}}>
+        <GeneralContext.Provider 
+        value={{personalDetailsID,idCardDocument,updateIDCardDocument,updatePersonalDetailsID  }}>
             {children}
         </GeneralContext.Provider>
     )
