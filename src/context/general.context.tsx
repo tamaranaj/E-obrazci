@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useState } from "react";
 
-interface PersonalDetailsID{
+export interface PersonalDetailsID{
     firstName: string,
     lastName: string ,
     marriedLastName: string ,
@@ -14,7 +14,7 @@ interface PersonalDetailsID{
     phone: string 
 }
 
-interface IDCardDocument{
+export interface IDCardDocument{
     reason: string,
     cardLanguage: string ,
     nameLanguage: string ,

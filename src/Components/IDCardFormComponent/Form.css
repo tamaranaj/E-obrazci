@@ -1,45 +1,59 @@
-form{
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 70%;
-   
-}
-fieldset{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    /* width: 100%; */
-}
-.radioCont{
-    display: flex;
-    align-items: flex-start;
-    flex-direction: row;
-    justify-content: flex-start;
-    
-}
-
-.container{
+.cardDetailsContainer{
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    width: 70%;
 }
-.row{
+.cardDetails{
     display: flex;
-    flex-direction: row;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 100%;
+    gap: 8px;
+    padding: 10px;
+    fieldset{
+        max-width: 50%;
+    }
 }
 
-.columns{
+.row{
     display: flex;
+  
+    
+}
+.row-flex-start{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 5px
+}
+
+.cardLanguages, .reasons{
+    display: flex ;
     flex-direction: column;
 }
-.personalDetails{
-    display: flex;
-    flex-direction: column;
+
+.select{
+    height: 35px;
+    border-radius: 4px;
+    width: 100%;
+    
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 3px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+    color: black;
 }
-.firstPersonalDetails{
+
+
+.select:focus{
+    border: 3px solid black;
+}
+
+.btnCont{
     display: flex;
-    flex-direction: column;
+    width: 50%;
+    justify-content: center;
 }

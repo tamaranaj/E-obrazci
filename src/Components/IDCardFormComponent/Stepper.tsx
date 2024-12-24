@@ -18,34 +18,40 @@ export default function StepperComponent() {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+  // const handleBack = () => {
+  //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  // };
 
   const handleReset = () => {
     setActiveStep(0);
   };
 
   return (
-    <Box sx={{ maxWidth: 800 }}>
-        <Stepper activeStep={activeStep} orientation="vertical">
+    <div className='stepperContainer'>
+        <Box >
+        <Stepper activeStep={activeStep} orientation="vertical" >
        
-       <Step>
-         <StepLabel>
-           First step
+       <Step >
+         <StepLabel >
+           Прв чекор
          </StepLabel>
-         <StepContent>
-           <Typography><PersonalDetailsForm handleNext={handleNext}/></Typography>
+         <StepContent >
+           <Typography>
+           
+           <PersonalDetailsForm handleNext={handleNext}/>
+            </Typography>
          </StepContent>
        </Step>
        
 
        <Step>
          <StepLabel>
-           Last step
+           Втор чекор
          </StepLabel>
-         <StepContent>
-           <Typography><FormCreate handleNext={handleNext} handleBack={handleBack}/></Typography>
+         <StepContent >
+           <Typography>
+           <FormCreate handleNext={handleNext}/>
+            </Typography>
          </StepContent>
        </Step>
        
@@ -53,7 +59,7 @@ export default function StepperComponent() {
       </Stepper>
       {activeStep === 2 && (
         <Paper square elevation={0} sx={{ p: 3 }} className='paper'>
-          <Typography>All steps completed - you&apos;re finished</Typography>
+          <Typography>Сите чекори се завршени - &apos;Вашето барање е подготвено</Typography>
            <IDCardDocument />
           <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
             Reset
@@ -62,6 +68,8 @@ export default function StepperComponent() {
       )}
       
     </Box>
+    </div>
+    
     
   );
 }

@@ -1,0 +1,11 @@
+.stepper{
+    width: 100%;
+   display: flex;
+}
+.stepperContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    max-width: 100%;
+}
+

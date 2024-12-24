@@ -1,110 +1,95 @@
 import { useForm } from "react-hook-form";
-import { FormEvent, useContext } from "react";
-import { GeneralContext } from "../../context/general.context";
+import { useContext } from "react";
+import { GeneralContext, IDCardDocument } from "../../context/general.context";
 import "./Form.css";
-import { PersonalDetailsProps } from "./PersonalDetailsForm";
 import Button from "@mui/material/Button";
+import { ErrorMessage } from "@hookform/error-message";
+import { PersonalDetailsProps } from "./PersonalDetailsForm";
 
-interface FormCreateProps{
-  handleNext: ()=>void,
-  handleBack: ()=>void,
-}
-
-export const FormCreate = (props: FormCreateProps) => {
+export const FormCreate = (props: PersonalDetailsProps) => {
 
   const { updateIDCardDocument } = useContext(GeneralContext);
-  const createForm = useForm({
-    defaultValues: {
-      reason: "",
-      firstName: "",
-      lastName: "",
-      cardLanguage: "српски",
-      nameLanguage: "српски",
-      marriedLastName: "",
-      fatherName: "",
-      motherName: "",
-      birth: "",
-      placeBirth: "",
-      socialNumber: "",
-      gender: "",
-      address: "",
-      phone: "",
-    },
+  const createForm = useForm<IDCardDocument>({
+    criteriaMode: "all",
   });
-  const { register, getValues, setValue } = createForm;
-  const submitForm = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    let result = getValues();
-    console.log("form results:", result);
-    updateIDCardDocument(result)
+  const { register, handleSubmit, formState: { errors } } = createForm;
+
+  const submitForm = (data: IDCardDocument)=>{
+    console.log(data)
+    updateIDCardDocument(data)
     props.handleNext()
-  };
-
-  // let year = new Date().getFullYear()-15
-  // let month = new Date().getMonth().toString()
-  // let day = new Date().getDate().toString()
-
-  // const maxDate = `${year}-${month}-${day}`
+  }
 
   return (
-    <>
-      <div className="container">
-        <form onSubmit={async (e) => { await submitForm(e); }}
+    
+      <div className="cardDetailsContainer">
+        <form onSubmit={handleSubmit(submitForm)}
+        className="cardDetails"
         >
-          {/* <h1>{maxDate}</h1> */}
-
 
           <fieldset className="reasons">
             <legend>Причина за барање:</legend>
 
-            <input
+            <div className="row"> <input
               type="radio"
               id="first"
               value="прв пат"
-              {...register("reason")}
+              {...register("reason", { required: 'Ова поле е задолжително.' })}
             />
-            <label htmlFor="first">Прв пат</label>
+            <label htmlFor="first">Прв пат</label></div>
+           
 
-
+            <div className="row">
             <input
               type="radio"
               id="change"
               value="замена поради истечен рок на важење"
-              {...register("reason")}
+              {...register("reason", { required: 'Ова поле е задолжително.' })}
             />
             <label htmlFor="change">
               Замена поради истечен рок на важење
             </label>
-
+            </div>
+            
+            <div className="row">
             <input
               type="radio"
               id="copy"
               value="дупликат лична карта(изгубена, кражба или исчезнување)"
-              {...register("reason")}
+              {...register("reason", { required: 'Ова поле е задолжително.' })}
             />
             <label htmlFor="copy">
               Дупликат лична карта(изгубена, кражба или исчезнување)
             </label>
 
+            </div>
+            
+            <div className="row-flex-start">
             <input
               type="radio"
               id="newPlace"
               value="предвремена поради оштетување, промена на лични податоци, промена на адреса на живеење, промена на живеалиште и др."
-              {...register("reason")}
+              {...register("reason", { required: 'Ова поле е задолжително.' })}
             />
-            <label htmlFor="newPlace">
+            <label htmlFor="newPlace" style={{textAlign: 'start'}}>
               Предвремена поради оштетување, промена на лични податоци,
               промена на адреса на живеење, промена на живеалиште.
             </label>
-
+            </div>
+            
+            <ErrorMessage
+              errors={errors}
+              name="reason"
+              render={({ message }) => <p className='errorMessage'>{message}</p>}
+            />
           </fieldset>
 
-          <fieldset>
+          <fieldset className="cardLanguages">
             <label htmlFor="named-select">
               Барам образецот да биде изготвен на еден од наведените јазици и
               писмо:
             </label>
-            <select id="named-select" {...register("cardLanguage")}>
+            <select id="named-select" {...register("cardLanguage")} className="select">
               <option value={"турски"}>турски</option>
               <option value={"влашки"}>влашки</option>
               <option value={"српски"}>српски</option>
@@ -116,7 +101,7 @@ export const FormCreate = (props: FormCreateProps) => {
               Барам податоците за личното име во образецот да бидат испишани
               на еден од наведените јазици и писмо:
             </label>
-            <select id="language-select" {...register("nameLanguage")}>
+            <select id="language-select" {...register("nameLanguage")} className="select">
               <option value={"турски"}>турски</option>
               <option value={"влашки"}>влашки</option>
               <option value={"српски"}>српски</option>
@@ -125,29 +110,23 @@ export const FormCreate = (props: FormCreateProps) => {
             </select>
           </fieldset>
 
-          <div>
+          <div className="btnCont">
           <Button
             variant="contained"
             type="submit"
-            sx={{ mt: 1, mr: 1 }}
+            sx={{width:'100%'}}
           >
             Continue
           </Button>
-
-          {/* <Button
-            variant="contained"
-            type="button"
-            sx={{ mt: 1, mr: 1 }}
-            onClick={props.handleBack}
-          >
-            Back
-          </Button> */}
-
           </div>
           
 
-        </form> </div>
+          
+          
 
-    </>
+        </form> 
+      </div>
+
+    
   );
 };
