@@ -1,37 +1,34 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Home } from './Components/HomeComponent/Home'
 import { PassportForm } from './Components/PassportFormComponent/Form'
 import StepperComponent from './Components/IDCardFormComponent/Stepper'
-
+import { GeneralContext } from './context/general.context'
+import { Header } from './Components/HeaderComponent/Header'
 
 function App() {
   
-  const[bgColor,setBgColor] = useState(true)
- const[theme,setTheme] = useState('Dark')
-  const changeBgColor = ()=>{
-    setBgColor(!bgColor)
-    if(bgColor){
-      let body = document.getElementsByTagName('body')
-      if(body){
+  const{language,bgColor,changeBgColor} = useContext(GeneralContext)
+//  const[theme,setTheme] = useState('Темна')
+  const change = ()=>{
+    changeBgColor()
+    let body = document.getElementsByTagName('body')
+    if(bgColor){    
         body[0].style.backgroundColor = '#242424'
-        body[0].style.color= 'white'
-        setTheme('Light')
-      }
+        // language == 'mkd' ? setTheme('Светла') : setTheme('Dritat')
+        
       
     }else{
-      let body = document.getElementsByTagName('body')
-      if(body){
+      
         body[0].style.backgroundColor = 'white'
-        body[0].style.color= 'black'
-        setTheme('Dark')
-      }
+        // language == 'mkd' ? setTheme('Темна') : setTheme('E errët')
     }
   }
   return (
     <BrowserRouter>
-    <button className='btn' onClick={changeBgColor}>{theme}</button>
+      <Header change={change} />
+
     <Routes>
       <Route path='/' element={<Home/>}/>
       <Route path="/барањеЗаЛичнаКарта" element={<StepperComponent/>}/>

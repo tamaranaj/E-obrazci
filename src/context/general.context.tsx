@@ -1,4 +1,5 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
+import { set } from "react-hook-form";
 
 export interface PersonalDetailsID{
     firstName: string,
@@ -24,8 +25,13 @@ export interface IDCardDocument{
 interface ContextDefault {
     personalDetailsID: PersonalDetailsID
     idCardDocument: IDCardDocument
+    bgColor: boolean
     updatePersonalDetailsID(formResults: PersonalDetailsID): void,
-    updateIDCardDocument(formResults: IDCardDocument): void
+    updateIDCardDocument(formResults: IDCardDocument): void,
+    changeBgColor: () => void,
+    language: string,
+    changeLanguage: () => void
+
 }
 const contextDefaultValues: ContextDefault = {
     personalDetailsID: {
@@ -46,8 +52,12 @@ const contextDefaultValues: ContextDefault = {
         cardLanguage: '',
         nameLanguage: '',
     },
+    bgColor: true,
     updatePersonalDetailsID: ()=>{},
     updateIDCardDocument: ()=>{},
+    changeBgColor: () => {},
+    language:'mkd',
+    changeLanguage: ()=>{}
 }
 export const GeneralContext = createContext(contextDefaultValues)
 
@@ -70,7 +80,16 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
         address: '',
         phone: ''
     })
+    const [bgColor, setBgColor] = useState(true)
+    const [language, setLanguage] = useState('mkd')
 
+    const changeLanguage = ()=> {
+        language == 'mkd'? setLanguage('alb') : setLanguage('mkd')
+    }
+
+    const changeBgColor = ()=>{
+        setBgColor(!bgColor)
+    }
     const [idCardDocument, setIDCardDocument] = useState({
         reason: '',
         nameLanguage: '',
@@ -84,9 +103,11 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
     function updateIDCardDocument(formResults: IDCardDocument){
         setIDCardDocument(formResults)
     }
+
+    
     return(
         <GeneralContext.Provider 
-        value={{personalDetailsID,idCardDocument,updateIDCardDocument,updatePersonalDetailsID  }}>
+        value={{personalDetailsID,idCardDocument,bgColor,updateIDCardDocument,updatePersonalDetailsID,changeBgColor, language, changeLanguage  }}>
             {children}
         </GeneralContext.Provider>
     )

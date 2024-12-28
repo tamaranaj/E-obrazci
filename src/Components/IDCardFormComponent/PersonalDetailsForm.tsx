@@ -9,11 +9,11 @@ export interface PersonalDetailsProps {
 }
 
 export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
-  const createForm = useForm<PersonalDetailsID>({
+  
+  const { updatePersonalDetailsID, bgColor } = useContext(GeneralContext)
+  const { register, handleSubmit, formState: { errors } } = useForm<PersonalDetailsID>({
     criteriaMode: "all",
   })
-  const { updatePersonalDetailsID } = useContext(GeneralContext)
-  const { register, handleSubmit, formState: { errors } } = createForm
   const [married, setMarried] = useState<boolean>(false)
   console.log(errors)
   const handleMarried = (value: string) => {
@@ -37,13 +37,15 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
   }
   return (
     <div className='personalDetailsFormContainer'>
-      <form onSubmit={handleSubmit(submitForm)} className='personalDetailsForm'>
+      <form onSubmit={handleSubmit(submitForm)} className='personalDetailsForm' style={bgColor == true ? {color: 'black'}: {color: 'white'}}>
 
+        <div className='gridWrapper'>
+        <section className='column'>
         <div className="column">
           <input type="text" className='input' id="firstName" placeholder='Име (пр.Трајче)' {...register("firstName", {
             required: 'Ова поле е задолжително.',
             pattern: {
-              value: /[а-шА-Ш]/g,
+              value: /[а-шА-Шa-zA-Z]/g,
               message: 'Внесете го вашето име.'
             },
             minLength: {
@@ -58,7 +60,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
             render={({ messages }) =>
               messages &&
               Object.entries(messages).map(([type, message]) => (
-                <p key={type} className='errorMessage'>{message}</p>
+                <span key={type} className='errorMessage'>{message}</span>
               ))
             }
           /></div>
@@ -68,7 +70,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
           <input type="text"className='input' id="lastName" placeholder='Презиме (пр.Трајковски)' {...register("lastName", {
             required: 'Ова поле е задолжително.',
             pattern: {
-              value: /[а-шА-Ш]/g,
+              value: /[а-шА-Шa-zA-Z]/g,
               message: 'Внесете го вашето име.'
             },
             minLength: {
@@ -82,7 +84,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
             render={({ messages }) =>
               messages &&
               Object.entries(messages).map(([type, message]) => (
-                <p key={type} className='errorMessage'>{message}</p>
+                <span key={type} className='errorMessage'>{message}</span>
               ))
             }
           />
@@ -90,8 +92,8 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
         </div>
 
         <div className="fieldsets">
-        <fieldset>
-          <legend>Дали сте во брак?</legend>
+        <fieldset >
+          <legend >Дали сте во брак?</legend>
           <div className="column">
             <div className="row">
               <input
@@ -102,7 +104,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
                 value='true'
                 onChange={(e) => { handleMarried(e.target.value) }}
               />
-              <label htmlFor="married">Да</label>
+              <label htmlFor="married" >Да</label>
             </div>
 
 
@@ -115,14 +117,14 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
                 value="false"
                 onChange={(e) => { handleMarried(e.target.value) }}
               />
-              <label htmlFor="single">Не</label>
+              <label htmlFor="single" >Не</label>
 
             </div>
           </div>
         </fieldset>
 
-        <fieldset>
-          <legend>Пол:</legend>
+        <fieldset >
+          <legend >Пол:</legend>
           <div className="column">
             <div className="row">
               <input
@@ -131,7 +133,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
                 value="машки"
                 {...register("gender", { required: 'Ова поле е задолжително.' })}
               />
-              <label htmlFor="male">Машки</label>
+              <label htmlFor="male" >Машки</label>
             </div>
 
 
@@ -142,13 +144,13 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
                 value="женски"
                 {...register("gender", { required: 'Ова поле е задолжително.' })}
               />
-              <label htmlFor="female">Женски</label>
+              <label htmlFor="female" >Женски</label>
 
             </div>
             <ErrorMessage
               errors={errors}
               name="gender"
-              render={({ message }) => <p className='errorMessage'>{message}</p>}
+              render={({ message }) => <span className='errorMessage'>{message}</span>}
             />
           </div>
 
@@ -167,7 +169,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
             placeholder='Презиме пред склучување на бракот (пр.Петковска)'
             {...register("marriedLastName", {
               pattern: {
-                value: /[а-шА-Ш]/g,
+                value: /[а-шА-Шa-zA-Z]/g,
                 message: 'Внесете го вашето име.'
               },
               minLength: {
@@ -179,13 +181,13 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
           <ErrorMessage
             errors={errors}
             name="marriedLastName"
-            render={({ message }) => <p className='errorMessage'>{message}</p>}
+            render={({ message }) => <span className='errorMessage'>{message}</span>}
           />
         </div>)}
 
 
         
-        <div className="fieldsets"><label htmlFor="birthDate">Дата на раѓање:</label>
+        <div className="fieldsets" style={bgColor == true ? {color: 'black'}: {color: 'white'}}><label htmlFor="birthDate" >Дата на раѓање:</label>
           <div className="column">
             <input
               type="date"
@@ -198,12 +200,16 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
             <ErrorMessage
               errors={errors}
               name="birth"
-              render={({ message }) => <p className='errorMessage'>{message}</p>}
+              render={({ message }) => <span className='errorMessage'>{message}</span>}
             />
           </div>
 
         </div>
 
+        </section>
+        
+
+        <section className='column'>
         <div className="column">
           <input
           className='input'
@@ -212,7 +218,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
             {...register("placeBirth", {
               required: 'Ова поле е задолжително.',
               pattern: {
-                value: /[а-шА-Ш]/g,
+                value: /[а-шА-Шa-zA-Z]/g,
                 message: 'Внесете го вашето место на раѓање.'
               },
               minLength: {
@@ -227,7 +233,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
             render={({ messages }) =>
               messages &&
               Object.entries(messages).map(([type, message]) => (
-                <p key={type} className='errorMessage'>{message}</p>
+                <span key={type} className='errorMessage'>{message}</span>
               ))
             }
           />
@@ -261,7 +267,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
             render={({ messages }) =>
               messages &&
               Object.entries(messages).map(([type, message]) => (
-                <p key={type} className='errorMessage'>{message}</p>
+                <span key={type} className='errorMessage'>{message}</span>
               ))
             }
           />
@@ -271,7 +277,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
           <input type="text" className='input' id="address" placeholder='Адреса на живеење (пр.Коста Новакович бр.24)' {...register("address", {
             required: 'Ова поле е задолжително.',
             pattern: {
-              value: /[а-шА-Ш0-9]/g,
+              value: /[а-шА-Ш0-9a-zA-Z]/g,
               message: 'Внесете го вашето име.'
             },
             minLength: {
@@ -285,7 +291,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
             render={({ messages }) =>
               messages &&
               Object.entries(messages).map(([type, message]) => (
-                <p key={type} className='errorMessage'>{message}</p>
+                <span key={type} className='errorMessage'>{message}</span>
               ))
             }
           />
@@ -315,7 +321,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
             render={({ messages }) =>
               messages &&
               Object.entries(messages).map(([type, message]) => (
-                <p key={type} className='errorMessage'>{message}</p>
+                <span key={type} className='errorMessage'>{message}</span>
               ))
             }
           />
@@ -331,7 +337,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
             {...register("fatherName", {
               required: 'Ова поле е задолжително.',
               pattern: {
-                value: /[а-шА-Ш]/g,
+                value: /[а-шА-Шa-zA-Z]/g,
                 message: 'Внесето го името на вашиот татко.'
               }
             })}
@@ -342,7 +348,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
             render={({ messages }) =>
               messages &&
               Object.entries(messages).map(([type, message]) => (
-                <p key={type} className='errorMessage'>{message}</p>
+                <span key={type} className='errorMessage'>{message}</span>
               ))
             }
           />
@@ -357,7 +363,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
             {...register("motherName", {
               required: 'Ова поле е задолжително.',
               pattern: {
-                value: /[а-шА-Ш]/g,
+                value: /[а-шА-Шa-zA-Z]/g,
                 message: 'Внесето го името на вашaтa мајка.'
               }
             })}
@@ -368,19 +374,24 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
             render={({ messages }) =>
               messages &&
               Object.entries(messages).map(([type, message]) => (
-                <p key={type} className='errorMessage'>{message}</p>
+                <span key={type} className='errorMessage'>{message}</span>
               ))
             }
           />
         </div>
+        </section>
+        </div>
+        
+        
 
         <div>
         <Button
           variant="contained"
           type='submit'
-          sx={{ mt: 1, mr: 1, backgroundColor: 'rgb(143, 143, 232) ' }}
+          
+          sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black'}}
         >
-          Continue
+          Понатаму
         </Button>
         </div>
         

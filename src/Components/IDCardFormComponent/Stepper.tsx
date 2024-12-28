@@ -11,8 +11,11 @@ import Typography from '@mui/material/Typography';
 import { FormCreate } from './Form';
 import { PersonalDetailsForm } from './PersonalDetailsForm';
 import { IDCardDocument } from './IDCardDocument';
+import { GeneralContext } from '../../context/general.context';
+import { useContext } from 'react';
 
 export default function StepperComponent() {
+  const {bgColor} = useContext(GeneralContext)
   const [activeStep, setActiveStep] = React.useState(0);
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -33,10 +36,10 @@ export default function StepperComponent() {
        
        <Step >
          <StepLabel >
-           Прв чекор
+           <span style={bgColor == true ? {color: 'black'} : {color:'white'}}>Прв чекор</span>
          </StepLabel>
          <StepContent >
-           <Typography>
+           <Typography component={'div'}>
            
            <PersonalDetailsForm handleNext={handleNext}/>
             </Typography>
@@ -45,11 +48,11 @@ export default function StepperComponent() {
        
 
        <Step>
-         <StepLabel>
-           Втор чекор
+         <StepLabel sx={{color: 'inherit'}}>
+         <span style={bgColor == true ? {color: 'black'} : {color:'white'}}>Втор чекор</span>
          </StepLabel>
          <StepContent >
-           <Typography>
+           <Typography component={'div'}>
            <FormCreate handleNext={handleNext}/>
             </Typography>
          </StepContent>
@@ -58,11 +61,16 @@ export default function StepperComponent() {
 
       </Stepper>
       {activeStep === 2 && (
-        <Paper square elevation={0} sx={{ p: 3 }} className='paper'>
-          <Typography>Сите чекори се завршени - &apos;Вашето барање е подготвено</Typography>
+        <Paper square elevation={0} sx={{ p: 3 , backgroundColor:'transparent'}} className='paper'>
+          <Typography component={'section'}>
+            <div>
+              <p style={bgColor == true ? {color: 'black'} : {color:'white'}}>Сите чекори се завршени - Вашето барање е подготвено</p>
+            </div>
+            
+            </Typography>
            <IDCardDocument />
           <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-            Reset
+            Ново барање
           </Button>
         </Paper>
       )}

@@ -8,7 +8,7 @@ import { PersonalDetailsProps } from "./PersonalDetailsForm";
 
 export const FormCreate = (props: PersonalDetailsProps) => {
 
-  const { updateIDCardDocument } = useContext(GeneralContext);
+  const { updateIDCardDocument, bgColor } = useContext(GeneralContext);
   const createForm = useForm<IDCardDocument>({
     criteriaMode: "all",
   });
@@ -25,41 +25,42 @@ export const FormCreate = (props: PersonalDetailsProps) => {
       <div className="cardDetailsContainer">
         <form onSubmit={handleSubmit(submitForm)}
         className="cardDetails"
+        style={bgColor == true ? {color: 'black'}: {color: 'white'}}
         >
+          <div className="grid">
 
-          <fieldset className="reasons">
+          <fieldset className="reasons" >
             <legend>Причина за барање:</legend>
 
-            <div className="row"> <input
+            <div className="row-flex-start"> <input
               type="radio"
               id="first"
               value="прв пат"
               {...register("reason", { required: 'Ова поле е задолжително.' })}
             />
-            <label htmlFor="first">Прв пат</label></div>
+            <label htmlFor="first" style={{textAlign: 'justify'}}>Прв пат</label></div>
            
 
-            <div className="row">
+            <div className="row-flex-start">
             <input
               type="radio"
               id="change"
-              value="замена поради истечен рок на важење"
+              value="редовна замена"
               {...register("reason", { required: 'Ова поле е задолжително.' })}
             />
-            <label htmlFor="change">
-              Замена поради истечен рок на важење
+            <label htmlFor="change" style={{textAlign: 'justify'}}>
+              Редовна замена
             </label>
             </div>
             
-            <div className="row">
+            <div className="row-flex-start">
             <input
               type="radio"
               id="copy"
-              value="дупликат лична карта(изгубена, кражба или исчезнување)"
+              value="промена на податоци (лични податоци, адреса и живеалиште)"
               {...register("reason", { required: 'Ова поле е задолжително.' })}
             />
-            <label htmlFor="copy">
-              Дупликат лична карта(изгубена, кражба или исчезнување)
+            <label htmlFor="copy" style={{textAlign: 'justify'}}>Промена на податоци (лични податоци, адреса и живеалиште)
             </label>
 
             </div>
@@ -68,19 +69,29 @@ export const FormCreate = (props: PersonalDetailsProps) => {
             <input
               type="radio"
               id="newPlace"
-              value="предвремена поради оштетување, промена на лични податоци, промена на адреса на живеење, промена на живеалиште и др."
+              value="дупликат лична карта (изгубена или украдена)"
               {...register("reason", { required: 'Ова поле е задолжително.' })}
             />
-            <label htmlFor="newPlace" style={{textAlign: 'start'}}>
-              Предвремена поради оштетување, промена на лични податоци,
-              промена на адреса на живеење, промена на живеалиште.
+            <label htmlFor="newPlace" style={{textAlign: 'justify'}}>
+              Дупликат лична карта (изгубена или украдена)
             </label>
             </div>
-            
+
+            <div className="row-flex-start">
+            <input
+              type="radio"
+              id="broken"
+              value="предвремена замена заради оштетеност на личната карта"
+              {...register("reason", { required: 'Ова поле е задолжително.' })}
+            />
+            <label htmlFor="broken" style={{textAlign: 'justify'}}>
+              Предвремена замена заради оштетеност на личната карта
+            </label>
+            </div>
             <ErrorMessage
               errors={errors}
               name="reason"
-              render={({ message }) => <p className='errorMessage'>{message}</p>}
+              render={({ message }) => <span className='errorMessage'>{message}</span>}
             />
           </fieldset>
 
@@ -110,20 +121,20 @@ export const FormCreate = (props: PersonalDetailsProps) => {
             </select>
           </fieldset>
 
-          <div className="btnCont">
-          <Button
-            variant="contained"
-            type="submit"
-            sx={{width:'100%'}}
-          >
-            Continue
-          </Button>
+
+
           </div>
           
 
-          
-          
-
+          <div className="button">
+          <Button
+            variant="contained"
+            type="submit"
+            sx={{ mt: 1, mr: 1,backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black'}}
+          >
+            Понатаму
+          </Button>
+          </div>
         </form> 
       </div>
 

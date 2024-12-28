@@ -2,23 +2,29 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 70%;
+    width: 100%;
 }
 .cardDetails{
     display: flex;
-    justify-content: center;
     flex-direction: column;
-    max-width: 100%;
-    gap: 8px;
+    align-items: center;
+    gap: 20px;
+    width: 70%;
     padding: 10px;
-    fieldset{
-        max-width: 50%;
-    }
-}
 
+}
+.grid{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    justify-items: center;
+    align-items: center;
+}
 .row{
     display: flex;
-  
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 5px
     
 }
 .row-flex-start{
@@ -29,16 +35,18 @@
 }
 
 .cardLanguages, .reasons{
-    display: flex ;
+    display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    width: 70%;
+    border: 3px solid #ccc;
 }
 
 .select{
     height: 35px;
     border-radius: 4px;
-    width: 100%;
-    
-    margin: 8px 0;
+    width: 95%;
+    margin: 5px;
     box-sizing: border-box;
     border: 3px solid #ccc;
     -webkit-transition: 0.5s;
@@ -52,7 +60,7 @@
     border: 3px solid black;
 }
 
-.btnCont{
+.button{
     display: flex;
     width: 50%;
     justify-content: center;

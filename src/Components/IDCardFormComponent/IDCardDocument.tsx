@@ -367,7 +367,7 @@ export const IDCardDocument = () => {
   }
   return(
     <Button onClick={generatePDF} sx={{ mt: 1, mr: 1 }}>
-    Download Document
+    Сними го барањето
     </Button>
    
   )
