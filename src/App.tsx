@@ -1,28 +1,23 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Home } from './Components/HomeComponent/Home'
-import { PassportForm } from './Components/PassportFormComponent/Form'
-import StepperComponent from './Components/IDCardFormComponent/Stepper'
+import StepperComponent from './Components/StepperComponent/Stepper'
 import { GeneralContext } from './context/general.context'
 import { Header } from './Components/HeaderComponent/Header'
 
 function App() {
   
-  const{language,bgColor,changeBgColor} = useContext(GeneralContext)
-//  const[theme,setTheme] = useState('Темна')
+  const{bgColor,changeBgColor} = useContext(GeneralContext)
   const change = ()=>{
     changeBgColor()
     let body = document.getElementsByTagName('body')
     if(bgColor){    
-        body[0].style.backgroundColor = '#242424'
-        // language == 'mkd' ? setTheme('Светла') : setTheme('Dritat')
-        
+        body[0].style.backgroundColor = '#242424'      
       
     }else{
       
         body[0].style.backgroundColor = 'white'
-        // language == 'mkd' ? setTheme('Темна') : setTheme('E errët')
     }
   }
   return (
@@ -31,8 +26,8 @@ function App() {
 
     <Routes>
       <Route path='/' element={<Home/>}/>
-      <Route path="/барањеЗаЛичнаКарта" element={<StepperComponent/>}/>
-      <Route path='/барањеЗаПатнаИсправа'element={<PassportForm/>}/>
+      <Route path="/е-образци" element={<StepperComponent/>}/>
+
     </Routes>
     </BrowserRouter>
 

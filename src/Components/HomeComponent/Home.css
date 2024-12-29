@@ -1,20 +1,16 @@
-.container{
+.homeContainer{
     width: 100%;
     height: 80vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 20px;
     background-color: transparent;
 }
-.btnCont{
-    display:flex;
-    justify-content: center;
-    gap: 15px;
-    background-color: transparent;
-    
-}
-.id,.passport{
-    padding: 30px;
+
+.id{
+    padding: 20px;
     border-radius: 10%;
     border: none;
     cursor: pointer;
@@ -22,22 +18,19 @@
     box-shadow: 0 4px 6px 0 #0b335c, 0 4px 10px 0 #7eb3e8;
     text-shadow: 2px 1px 2px #000000;
     color: white;
+    font-size: 1em;
+    font-weight: 600;
     transition: padding 2s ;
     
 }
-.id:hover,.passport:hover{
+.id:hover{
     animation-name: example;
     animation-duration: 3s;
     animation-iteration-count: 2;
-    padding: 35px;
+    padding: 25px;
 }
 @keyframes example {
     from {background-color:  #1976D2;transform: rotate(2deg);}
     to {background-color: #10467c;transform: rotate(-2deg);}
 }
 
-@media  screen and (max-width:400px) {
-    .btnCont{
-        flex-direction: column;
-    }
-}

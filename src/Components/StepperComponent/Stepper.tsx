@@ -8,14 +8,15 @@ import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { FormCreate } from './Form';
-import { PersonalDetailsForm } from './PersonalDetailsForm';
-import { IDCardDocument } from './IDCardDocument';
+import { IDCardForm } from '../IDCardFormComponent/IDCardForm';
+import { PersonalDetailsForm } from '../IDCardFormComponent/PersonalDetailsForm';
+import { IDCardDocument } from '../DocumentComponents/IDCardDocument';
 import { GeneralContext } from '../../context/general.context';
 import { useContext } from 'react';
+import { CheckboxComponent } from '../CheckboxComponent/CheckboxComponent';
 
 export default function StepperComponent() {
-  const {bgColor} = useContext(GeneralContext)
+  const {bgColor, language} = useContext(GeneralContext)
   const [activeStep, setActiveStep] = React.useState(0);
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -33,10 +34,22 @@ export default function StepperComponent() {
     <div className='stepperContainer'>
         <Box >
         <Stepper activeStep={activeStep} orientation="vertical" >
+
+        <Step >
+         <StepLabel >
+           <span style={bgColor == true ? {color: 'black'} : {color:'white'}}>{language == 'mkd'? 'Изберете документ': 'Zgjidhni një dokument'}</span>
+         </StepLabel>
+         <StepContent >
+           <Typography component={'div'}>
+           
+           <CheckboxComponent handleNext={handleNext}/>
+            </Typography>
+         </StepContent>
+       </Step>
        
        <Step >
          <StepLabel >
-           <span style={bgColor == true ? {color: 'black'} : {color:'white'}}>Прв чекор</span>
+           <span style={bgColor == true ? {color: 'black'} : {color:'white'}}>{language == 'mkd' ? 'Податоци за поднесителот на барањето': 'Informacion rreth aplikantit'}</span>
          </StepLabel>
          <StepContent >
            <Typography component={'div'}>
@@ -53,7 +66,7 @@ export default function StepperComponent() {
          </StepLabel>
          <StepContent >
            <Typography component={'div'}>
-           <FormCreate handleNext={handleNext}/>
+           <IDCardForm handleNext={handleNext}/>
             </Typography>
          </StepContent>
        </Step>

@@ -9,7 +9,6 @@ import TungstenOutlinedIcon from '@mui/icons-material/TungstenOutlined';
 import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
 interface HeaderProps{
     change: ()=> void
-    // theme: string
    
 }
 
@@ -20,7 +19,6 @@ export const Header = ({change}: HeaderProps)=>{
     const{language,bgColor, changeLanguage} = useContext(GeneralContext)
     const handleChangeLanguage = () =>{
       changeLanguage()
-      change()
     }
     return (
         <header className="header">

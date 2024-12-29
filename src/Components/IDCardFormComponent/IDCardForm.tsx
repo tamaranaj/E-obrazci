@@ -1,14 +1,15 @@
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
-import { GeneralContext, IDCardDocument } from "../../context/general.context";
-import "./Form.css";
+import { GeneralContext } from "../../context/general.context";
+import "./IDCardForm.css";
 import Button from "@mui/material/Button";
 import { ErrorMessage } from "@hookform/error-message";
 import { PersonalDetailsProps } from "./PersonalDetailsForm";
+import { IDCardDocument } from "../../Types/interfaces";
 
-export const FormCreate = (props: PersonalDetailsProps) => {
+export const IDCardForm = (props: PersonalDetailsProps) => {
 
-  const { updateIDCardDocument, bgColor } = useContext(GeneralContext);
+  const { updateIDCardDocument, bgColor ,language} = useContext(GeneralContext);
   const createForm = useForm<IDCardDocument>({
     criteriaMode: "all",
   });
@@ -36,7 +37,7 @@ export const FormCreate = (props: PersonalDetailsProps) => {
               type="radio"
               id="first"
               value="прв пат"
-              {...register("reason", { required: 'Ова поле е задолжително.' })}
+              {...register("reason", { required: language =='mkd'? 'Ова поле е задолжително.': 'Kjo fushë është e detyrueshme.' , })}
             />
             <label htmlFor="first" style={{textAlign: 'justify'}}>Прв пат</label></div>
            
@@ -46,7 +47,7 @@ export const FormCreate = (props: PersonalDetailsProps) => {
               type="radio"
               id="change"
               value="редовна замена"
-              {...register("reason", { required: 'Ова поле е задолжително.' })}
+              {...register("reason", { required: language =='mkd'? 'Ова поле е задолжително.': 'Kjo fushë është e detyrueshme.' , })}
             />
             <label htmlFor="change" style={{textAlign: 'justify'}}>
               Редовна замена
@@ -58,7 +59,7 @@ export const FormCreate = (props: PersonalDetailsProps) => {
               type="radio"
               id="copy"
               value="промена на податоци (лични податоци, адреса и живеалиште)"
-              {...register("reason", { required: 'Ова поле е задолжително.' })}
+              {...register("reason", { required: language =='mkd'? 'Ова поле е задолжително.': 'Kjo fushë është e detyrueshme.' , })}
             />
             <label htmlFor="copy" style={{textAlign: 'justify'}}>Промена на податоци (лични податоци, адреса и живеалиште)
             </label>
@@ -70,7 +71,7 @@ export const FormCreate = (props: PersonalDetailsProps) => {
               type="radio"
               id="newPlace"
               value="дупликат лична карта (изгубена или украдена)"
-              {...register("reason", { required: 'Ова поле е задолжително.' })}
+              {...register("reason", { required: language =='mkd'? 'Ова поле е задолжително.': 'Kjo fushë është e detyrueshme.' ,})}
             />
             <label htmlFor="newPlace" style={{textAlign: 'justify'}}>
               Дупликат лична карта (изгубена или украдена)
@@ -82,7 +83,7 @@ export const FormCreate = (props: PersonalDetailsProps) => {
               type="radio"
               id="broken"
               value="предвремена замена заради оштетеност на личната карта"
-              {...register("reason", { required: 'Ова поле е задолжително.' })}
+              {...register("reason", { required: language =='mkd'? 'Ова поле е задолжително.': 'Kjo fushë është e detyrueshme.' , })}
             />
             <label htmlFor="broken" style={{textAlign: 'justify'}}>
               Предвремена замена заради оштетеност на личната карта
@@ -121,7 +122,37 @@ export const FormCreate = (props: PersonalDetailsProps) => {
             </select>
           </fieldset>
 
+          <fieldset className="reasons" >
+            <legend>Барам личната карта да биде издадена во:</legend>
 
+            <div className="row-flex-start"> <input
+              type="radio"
+              id="regularProcedure"
+              value="редовна"
+              {...register("procedure", { required: language =='mkd'? 'Ова поле е задолжително.': 'Kjo fushë është e detyrueshme.' , })}
+            />
+            <label htmlFor="regularProcedure" style={{textAlign: 'justify'}}>Редовна постапка</label></div>
+           
+
+            <div className="row-flex-start">
+            <input
+              type="radio"
+              id="fastProcedure"
+              value="итна"
+              {...register("procedure", { required: language =='mkd'? 'Ова поле е задолжително.': 'Kjo fushë është e detyrueshme.' , })}
+            />
+            <label htmlFor="fastProcedure" style={{textAlign: 'justify'}}>
+              Итна постапка(во случај кога нема промена на живеалиште или адреса на стан)
+            </label>
+            </div>
+            
+            
+            <ErrorMessage
+              errors={errors}
+              name="procedure"
+              render={({ message }) => <span className='errorMessage'>{message}</span>}
+            />
+          </fieldset>
 
           </div>
           
