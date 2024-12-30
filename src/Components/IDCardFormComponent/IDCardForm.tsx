@@ -31,7 +31,7 @@ export const IDCardForm = (props: PersonalDetailsProps) => {
           <div className="grid">
 
           <fieldset className="reasons" >
-            <legend>Причина за барање:</legend>
+            <legend>{language=='mkd'? 'Причина за барање:':'Arsyeja e kërkesës:'}</legend>
 
             <div className="row-flex-start"> <input
               type="radio"
@@ -39,7 +39,7 @@ export const IDCardForm = (props: PersonalDetailsProps) => {
               value="прв пат"
               {...register("reason", { required: language =='mkd'? 'Ова поле е задолжително.': 'Kjo fushë është e detyrueshme.' , })}
             />
-            <label htmlFor="first" style={{textAlign: 'justify'}}>Прв пат</label></div>
+            <label htmlFor="first" style={{textAlign: 'justify'}}>{language=='mkd'? 'Прв пат': 'Herën e parë'}</label></div>
            
 
             <div className="row-flex-start">
@@ -50,7 +50,7 @@ export const IDCardForm = (props: PersonalDetailsProps) => {
               {...register("reason", { required: language =='mkd'? 'Ова поле е задолжително.': 'Kjo fushë është e detyrueshme.' , })}
             />
             <label htmlFor="change" style={{textAlign: 'justify'}}>
-              Редовна замена
+            {language=='mkd'? 'Редовна замена': 'Zëvendësimi i rregullt'}
             </label>
             </div>
             
@@ -61,7 +61,8 @@ export const IDCardForm = (props: PersonalDetailsProps) => {
               value="промена на податоци (лични податоци, адреса и живеалиште)"
               {...register("reason", { required: language =='mkd'? 'Ова поле е задолжително.': 'Kjo fushë është e detyrueshme.' , })}
             />
-            <label htmlFor="copy" style={{textAlign: 'justify'}}>Промена на податоци (лични податоци, адреса и живеалиште)
+            <label htmlFor="copy" style={{textAlign: 'justify'}}>
+            {language=='mkd'? 'Промена на податоци (лични податоци, адреса и живеалиште)': 'Ndryshimi i të dhënave (të dhënat personale, adresa dhe vendbanimi)'}
             </label>
 
             </div>
@@ -74,7 +75,7 @@ export const IDCardForm = (props: PersonalDetailsProps) => {
               {...register("reason", { required: language =='mkd'? 'Ова поле е задолжително.': 'Kjo fushë është e detyrueshme.' ,})}
             />
             <label htmlFor="newPlace" style={{textAlign: 'justify'}}>
-              Дупликат лична карта (изгубена или украдена)
+            {language=='mkd'? 'Дупликат лична карта (изгубена или украдена)': 'ID dublikatë (e humbur ose e vjedhur)'}             
             </label>
             </div>
 
@@ -86,7 +87,8 @@ export const IDCardForm = (props: PersonalDetailsProps) => {
               {...register("reason", { required: language =='mkd'? 'Ова поле е задолжително.': 'Kjo fushë është e detyrueshme.' , })}
             />
             <label htmlFor="broken" style={{textAlign: 'justify'}}>
-              Предвремена замена заради оштетеност на личната карта
+            {language=='mkd'? 'Предвремена замена заради оштетеност на личната карта': 'Ndërrimi i parakohshëm për shkak të dëmtimit të kartës së identitetit'}
+              
             </label>
             </div>
             <ErrorMessage
@@ -98,32 +100,31 @@ export const IDCardForm = (props: PersonalDetailsProps) => {
 
           <fieldset className="cardLanguages">
             <label htmlFor="named-select">
-              Барам образецот да биде изготвен на еден од наведените јазици и
-              писмо:
+            {language=='mkd'? 'Барам образецот да биде изготвен на еден од наведените јазици и писмо:': 'Kërkoj që formulari të hartohet në një nga gjuhët dhe shkrimet e mëposhtme:'} 
             </label>
             <select id="named-select" {...register("cardLanguage")} className="select">
-              <option value={"турски"}>турски</option>
-              <option value={"влашки"}>влашки</option>
-              <option value={"српски"}>српски</option>
-              <option value={"ромски"}>ромски</option>
-              <option value={"босански"}>босански</option>
+              <option value={"турски"}>{language=='mkd'? 'Турски': 'Turqisht'}</option>
+              <option value={"влашки"}>{language=='mkd'? 'Влашки': 'Vllehët'}</option>
+              <option value={"српски"}>{language=='mkd'? 'Српски': 'Serb'}</option>
+              <option value={"ромски"}>{language=='mkd'? 'Ромски': 'Romët'}</option>
+              <option value={"босански"}>{language=='mkd'? 'Босански': 'Boshnjake'}</option>
             </select>
 
             <label htmlFor="language-select">
-              Барам податоците за личното име во образецот да бидат испишани
-              на еден од наведените јазици и писмо:
+            {language=='mkd'? 'Барам податоците за личното име во образецот да бидат испишани на еден од наведените јазици и писмо:': '"Kërkoj që të dhënat e emrit personal në formular të shkruhen në një nga gjuhët dhe shkrimet e mëposhtme:"'} 
+              
             </label>
             <select id="language-select" {...register("nameLanguage")} className="select">
-              <option value={"турски"}>турски</option>
-              <option value={"влашки"}>влашки</option>
-              <option value={"српски"}>српски</option>
-              <option value={"ромски"}>ромски</option>
-              <option value={"босански"}>босански</option>
+              <option value={"турски"}>{language=='mkd'? 'Турски': 'Turqisht'}</option>
+              <option value={"влашки"}>{language=='mkd'? 'Влашки': 'Vllehët'}</option>
+              <option value={"српски"}>{language=='mkd'? 'Српски': 'Serb'}</option>
+              <option value={"ромски"}>{language=='mkd'? 'Ромски': 'Romët'}</option>
+              <option value={"босански"}>{language=='mkd'? 'Босански': 'Boshnjake'}</option>
             </select>
           </fieldset>
 
           <fieldset className="reasons" >
-            <legend>Барам личната карта да биде издадена во:</legend>
+            <legend>{language=='mkd'? 'Барам личната карта да биде издадена во:': 'Kërkoj që të lëshohet letërnjoftimi:'}</legend>
 
             <div className="row-flex-start"> <input
               type="radio"
@@ -131,7 +132,7 @@ export const IDCardForm = (props: PersonalDetailsProps) => {
               value="редовна"
               {...register("procedure", { required: language =='mkd'? 'Ова поле е задолжително.': 'Kjo fushë është e detyrueshme.' , })}
             />
-            <label htmlFor="regularProcedure" style={{textAlign: 'justify'}}>Редовна постапка</label></div>
+            <label htmlFor="regularProcedure" style={{textAlign: 'justify'}}>{language=='mkd'? 'Редовна постапка': 'Procedurë e rregullt'}</label></div>
            
 
             <div className="row-flex-start">
@@ -142,7 +143,7 @@ export const IDCardForm = (props: PersonalDetailsProps) => {
               {...register("procedure", { required: language =='mkd'? 'Ова поле е задолжително.': 'Kjo fushë është e detyrueshme.' , })}
             />
             <label htmlFor="fastProcedure" style={{textAlign: 'justify'}}>
-              Итна постапка(во случај кога нема промена на живеалиште или адреса на стан)
+            {language=='mkd'? 'Итна постапка(во случај кога нема промена на живеалиште или адреса на стан)': 'Procedurë urgjente (në rast se nuk ka ndryshim të adresës së vendbanimit apo banesës)'}
             </label>
             </div>
             
@@ -163,7 +164,7 @@ export const IDCardForm = (props: PersonalDetailsProps) => {
             type="submit"
             sx={{ mt: 1, mr: 1,backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black'}}
           >
-            Понатаму
+            {language == 'mkd' ? 'Понатаму': 'Më tej'}
           </Button>
           </div>
         </form> 

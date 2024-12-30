@@ -12,12 +12,15 @@ import { IDCardForm } from '../IDCardFormComponent/IDCardForm';
 import { PersonalDetailsForm } from '../IDCardFormComponent/PersonalDetailsForm';
 import { IDCardDocument } from '../DocumentComponents/IDCardDocument';
 import { GeneralContext } from '../../context/general.context';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { CheckboxComponent } from '../CheckboxComponent/CheckboxComponent';
+import { PassportForm } from '../PassportFormComponent/PassportFormComponent';
+import { TabsComponent } from '../TabsComponent/TabsComponent';
 
 export default function StepperComponent() {
-  const {bgColor, language} = useContext(GeneralContext)
-  const [activeStep, setActiveStep] = React.useState(0);
+  const {bgColor, language,necessaryDocuments} = useContext(GeneralContext)
+  // const{idCard,passport,driverLicense}=necessaryDocuments
+  const [activeStep, setActiveStep] = useState(0);
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -59,34 +62,53 @@ export default function StepperComponent() {
          </StepContent>
        </Step>
        
-
-       <Step>
+        <Step>
          <StepLabel sx={{color: 'inherit'}}>
-         <span style={bgColor == true ? {color: 'black'} : {color:'white'}}>Втор чекор</span>
+         <span style={bgColor == true ? {color: 'black'} : {color:'white'}}>{language == 'mkd' ? 'Податоци за барањето': 'Informacion rreth aplikimit'}</span>
          </StepLabel>
          <StepContent >
            <Typography component={'div'}>
-           <IDCardForm handleNext={handleNext}/>
+            <TabsComponent handleNext={handleNext}/>
+           {/* {necessaryDocuments.idCard && (
+           <IDCardForm handleNext={handleNext}/>)}
+           {necessaryDocuments.passport && (<PassportForm handleNext={handleNext}/>)} */}
             </Typography>
          </StepContent>
        </Step>
        
 
+
+        {/* <Step>
+         <StepLabel sx={{color: 'inherit'}}>
+         <span style={bgColor == true ? {color: 'black'} : {color:'white'}}>{language == 'mkd' ? 'Податоци за барањето за патна исправа': 'Të dhënat e aplikimit për pasaportë'}</span>
+         </StepLabel>
+         <StepContent >
+           <Typography component={'div'}>
+            
+           
+            </Typography>
+         </StepContent>
+       </Step> */}
+       
+       
+       
+
       </Stepper>
-      {activeStep === 2 && (
-        <Paper square elevation={0} sx={{ p: 3 , backgroundColor:'transparent'}} className='paper'>
+      {activeStep==4 && ( 
+       <Paper square elevation={0} sx={{ p: 3 , backgroundColor:'transparent'}} className='paper'>
           <Typography component={'section'}>
             <div>
-              <p style={bgColor == true ? {color: 'black'} : {color:'white'}}>Сите чекори се завршени - Вашето барање е подготвено</p>
+              <p style={bgColor == true ? {color: 'black'} : {color:'white'}}>{language=='mkd'?'Сите чекори се завршени': 'Të gjithë hapat kanë përfunduar'}</p>
             </div>
             
             </Typography>
            <IDCardDocument />
           <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-            Ново барање
+          {language=='mkd'?'Ново барање': 'Kërkesë e re'}
+            
           </Button>
-        </Paper>
-      )}
+        </Paper> 
+       )}
       
     </Box>
     </div>
