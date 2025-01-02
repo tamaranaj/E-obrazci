@@ -84,12 +84,9 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
     const [idCardDocument, setIDCardDocument] = useState(contextDefaultValues.idCardDocument)
     const [passport, setPassport] = useState(contextDefaultValues.passport)
     const[driverLicense, setDriverLicense] = useState(contextDefaultValues.driverLicense)
-    
-    
     const updateDriverLicense = (formResults: DriverLicense)=>{
         setDriverLicense(formResults)
     }
-    
     const addNecessaryDocs = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNecessaryDocuments({
           ...necessaryDocuments,
