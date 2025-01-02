@@ -2,7 +2,11 @@ export interface Passport extends IDCardDocument{
     formLanguage: string
 
 }
-
+export interface DriverLicense{
+    reason: string,
+    nameLanguage: string,
+    procedure:string
+}
 
 
 export interface NecessaryDocuments{

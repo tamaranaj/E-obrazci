@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useState } from "react";
-import { IDCardDocument, NecessaryDocuments, PersonalDetailsID,Passport } from "../Types/interfaces";
+import { IDCardDocument, NecessaryDocuments, PersonalDetailsID,Passport, DriverLicense } from "../Types/interfaces";
 
 
 interface ContextDefault {
@@ -9,12 +9,14 @@ interface ContextDefault {
     language: string,
     necessaryDocuments: NecessaryDocuments,
     passport: Passport,
+    driverLicense: DriverLicense
     updatePersonalDetailsID(formResults: PersonalDetailsID): void,
     updateIDCardDocument(formResults: IDCardDocument): void,
     updatePassportDocument(formResults: Passport): void,
     changeBgColor: () => void,
     changeLanguage: () => void,
-    addNecessaryDocs: (event: React.ChangeEvent<HTMLInputElement>) => void
+    addNecessaryDocs: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    updateDriverLicense: (formResults: DriverLicense) => void
 
 }
 const contextDefaultValues: ContextDefault = {
@@ -54,12 +56,18 @@ const contextDefaultValues: ContextDefault = {
         formLanguage: '',
         procedure: ''
     },
+    driverLicense: {
+        reason: '',
+        nameLanguage: '',
+        procedure: ''
+    },
     updatePersonalDetailsID: ()=>{},
     updateIDCardDocument: ()=>{},
     updatePassportDocument: ()=>{},
     changeBgColor: () => {},
     addNecessaryDocs: () => {},
-    changeLanguage: ()=>{}
+    changeLanguage: ()=>{},
+    updateDriverLicense: ()=>{}
 }
 export const GeneralContext = createContext(contextDefaultValues)
 
@@ -75,6 +83,13 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
     const [necessaryDocuments, setNecessaryDocuments] = useState(contextDefaultValues.necessaryDocuments)
     const [idCardDocument, setIDCardDocument] = useState(contextDefaultValues.idCardDocument)
     const [passport, setPassport] = useState(contextDefaultValues.passport)
+    const[driverLicense, setDriverLicense] = useState(contextDefaultValues.driverLicense)
+    
+    
+    const updateDriverLicense = (formResults: DriverLicense)=>{
+        setDriverLicense(formResults)
+    }
+    
     const addNecessaryDocs = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNecessaryDocuments({
           ...necessaryDocuments,
@@ -106,7 +121,7 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
     
     return(
         <GeneralContext.Provider 
-        value={{personalDetailsID,idCardDocument,bgColor,passport,necessaryDocuments, language,updateIDCardDocument,updatePersonalDetailsID,changeBgColor,changeLanguage, addNecessaryDocs, updatePassportDocument  }}>
+        value={{personalDetailsID,idCardDocument,bgColor,passport,necessaryDocuments, language,driverLicense,updateDriverLicense,updateIDCardDocument,updatePersonalDetailsID,changeBgColor,changeLanguage, addNecessaryDocs, updatePassportDocument  }}>
             {children}
         </GeneralContext.Provider>
     )

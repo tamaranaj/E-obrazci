@@ -42,7 +42,7 @@ export const PassportForm = ({ handleNext }: PersonalDetailsProps) => {
               value="прв пат"
               {...register("reason", { required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.', })}
             />
-              <label htmlFor="first" style={{ textAlign: 'justify' }}>Прв пат</label></div>
+              <label htmlFor="first" style={{ textAlign: 'justify' }}>{language=='mkd'? 'Прв пат': 'Herën e parë'}</label></div>
 
 
             <div className="row-flex-start">
@@ -53,7 +53,7 @@ export const PassportForm = ({ handleNext }: PersonalDetailsProps) => {
                 {...register("reason", { required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.', })}
               />
               <label htmlFor="change" style={{ textAlign: 'justify' }}>
-                Редовна замена
+              {language=='mkd'? 'Редовна замена': 'Zëvendësimi i rregullt'}
               </label>
             </div>
 
@@ -64,7 +64,7 @@ export const PassportForm = ({ handleNext }: PersonalDetailsProps) => {
                 value="промена на податоци лични податоци"
                 {...register("reason", { required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.', })}
               />
-              <label htmlFor="copy" style={{ textAlign: 'justify' }}>Промена на лични податоци
+              <label htmlFor="copy" style={{ textAlign: 'justify' }}>{language=='mkd'? 'Промена на податоци (лични податоци, адреса и живеалиште)': 'Ndryshimi i të dhënave (të dhënat personale, adresa dhe vendbanimi)'}
               </label>
 
             </div>
@@ -77,7 +77,8 @@ export const PassportForm = ({ handleNext }: PersonalDetailsProps) => {
                 {...register("reason", { required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.', })}
               />
               <label htmlFor="newPlace" style={{ textAlign: 'justify' }}>
-                Замена поради други причини (исполнетост или друго)
+              {language=='mkd'? 'Замена поради други причини (исполнетост или друго)': 'Zëvendësimi për arsye të tjera (përmbushje ose ndryshe)'}
+                
               </label>
             </div>
 
@@ -89,15 +90,10 @@ export const PassportForm = ({ handleNext }: PersonalDetailsProps) => {
                 {...register("reason", { required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.', })}
               />
               <label htmlFor="broken" style={{ textAlign: 'justify' }}>
-                Предвремена замена заради оштетеност на пасошот
+              {language=='mkd'? 'Предвремена замена заради оштетеност на пасошот': 'Zëvendësimi i parakohshëm për shkak të dëmtimit të pasaportës'}
               </label>
             </div>
-            <ErrorMessage
-              errors={errors}
-              name="reason"
-              render={({ message }) => <span className='errorMessage'>{message}</span>}
-            />
-
+            
             <div className="row-flex-start">
               <input
                 type="radio"
@@ -106,7 +102,8 @@ export const PassportForm = ({ handleNext }: PersonalDetailsProps) => {
                 {...register("reason", { required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.', })}
               />
               <label htmlFor="shortTerm" style={{ textAlign: 'justify' }}>
-                Издавање на пасош со ограничен рок на важност
+              {language=='mkd'? 'Издавање на пасош со ограничен рок на важност': 'Lëshimi i një pasaporte me një periudhë të kufizuar vlefshmërie'}
+                
               </label>
             </div>
             <ErrorMessage
@@ -181,7 +178,7 @@ export const PassportForm = ({ handleNext }: PersonalDetailsProps) => {
             type="submit"
             sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
           >
-            Понатаму
+            {language == 'mkd' ? 'Понатаму': 'Më tej'}
           </Button>
         </div>
       </form>

@@ -9,12 +9,14 @@ import { GeneralContext } from '../../context/general.context';
 import { useContext, useState } from 'react';
 import { PassportForm } from '../PassportFormComponent/PassportFormComponent';
 import { IDCardForm } from '../IDCardFormComponent/IDCardForm';
+import { DriverLicenseForm } from '../DriverLicenseFormComponent/DriverLicenseForm';
 
 export const TabsComponent=({handleNext}: PersonalDetailsProps)=> {
   const [activeTab, setActiveTab] = useState('1');
   const{language, necessaryDocuments, bgColor} =useContext(GeneralContext)
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setActiveTab(newValue);
+    console.log(event)
   };
 
   return (
@@ -30,8 +32,10 @@ export const TabsComponent=({handleNext}: PersonalDetailsProps)=> {
         </Box>
         <TabPanel value="1"><IDCardForm handleNext={handleNext}/></TabPanel>
         <TabPanel value="2"><PassportForm handleNext={handleNext}/></TabPanel>
-        <TabPanel value="3">Item Three</TabPanel>
+        <TabPanel value="3"><DriverLicenseForm/></TabPanel>
       </TabContext>
+
+      <div><button onClick={handleNext}>Click</button></div>
     </Box>
   );
 }
