@@ -38,3 +38,8 @@ export interface IDCardDocument{
     nameLanguage: string ,
     procedure: string
 }
+
+export interface SharedComponentProps{
+    handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
+    state: string
+}

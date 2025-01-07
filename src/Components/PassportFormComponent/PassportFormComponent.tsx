@@ -1,187 +1,61 @@
-import { useForm } from "react-hook-form";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { GeneralContext } from "../../context/general.context";
 import "./Passport.css";
-import Button from "@mui/material/Button";
-import { ErrorMessage } from "@hookform/error-message";
-import { PersonalDetailsProps } from "../IDCardFormComponent/PersonalDetailsForm";
-import { Passport } from "../../Types/interfaces";
+import { BilingualNameComponent } from "../SharedComponents/BilingualNameComponent";
+import { FormDocLanguageComponent } from "../SharedComponents/FormDocLanguageComponents ";
+import { ProcedureComponent } from "../SharedComponents/ProcedureComponent";
+import { FormControl, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 
 
+export const PassportForm = () => {
 
-export const PassportForm = ({ handleNext }: PersonalDetailsProps) => {
-
-  const { updatePassportDocument, bgColor, language } = useContext(GeneralContext);
-  const createForm = useForm<Passport>({
-    criteriaMode: "all",
-  });
-  const { register, handleSubmit, formState: { errors } } = createForm;
-
-  const submitForm = (data: Passport) => {
-    console.log(data)
-    updatePassportDocument(data)
-    handleNext()
-  }
-
+   const { updatePassportDocument,bgColor, language, passport } = useContext(GeneralContext);
+ const[answered, setAnswered] = useState(false)
+     const checkRadio = (event: React.ChangeEvent<HTMLInputElement> )=>{
+         updatePassportDocument(event)
+         setAnswered(true)
+     }
   return (
 
-    <div className="cardDetailsContainer">
+    <div className="cardDetailsContainer" style={bgColor == true ? { color: 'black' } : { color: 'white' }}>
 
-      <form onSubmit={handleSubmit(submitForm)}
-        className="cardDetails"
-        style={bgColor == true ? { color: 'black' } : { color: 'white' }}
-      >
         <div className="grid">
 
-          <fieldset className="reasons" >
-            <legend>{language == 'mkd' ? 'Причина за барање:' : 'Arsyeja e kërkesës:'}</legend>
+        <fieldset className="reasons"  >
+        <legend>{language == 'mkd' ? 'Причина за барање:' : 'Arsyeja e kërkesës:'}</legend>
+        <FormControl>
+          
+          <RadioGroup
+            aria-labelledby="demo-controlled-radio-buttons-group"
+            name="reason"
+            value={passport.reason}
+            onChange={(event)=>checkRadio(event)}
+            >
+            <FormControlLabel value="1" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label={language=='mkd'? 'Прв пат': 'Herën e parë'}  />
 
-            <div className="row-flex-start"> <input
-              type="radio"
-              id="first"
-              value="прв пат"
-              {...register("reason", { required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.', })}
-            />
-              <label htmlFor="first" style={{ textAlign: 'justify' }}>{language=='mkd'? 'Прв пат': 'Herën e parë'}</label></div>
+            <FormControlLabel value="2" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Редовна замена': 'Zëvendësimi i rregullt'} />
 
+            <FormControlLabel value="3" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label={language=='mkd'? 'Промена на податоци (лични податоци, адреса и живеалиште)': 'Ndryshimi i të dhënave (të dhënat personale, adresa dhe vendbanimi)'}  />
 
-            <div className="row-flex-start">
-              <input
-                type="radio"
-                id="change"
-                value="редовна замена"
-                {...register("reason", { required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.', })}
-              />
-              <label htmlFor="change" style={{ textAlign: 'justify' }}>
-              {language=='mkd'? 'Редовна замена': 'Zëvendësimi i rregullt'}
-              </label>
-            </div>
+            <FormControlLabel value="4" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Замена поради други причини (исполнетост или друго)': 'Zëvendësimi për arsye të tjera (përmbushje ose ndryshe)'} />
 
-            <div className="row-flex-start">
-              <input
-                type="radio"
-                id="copy"
-                value="промена на податоци лични податоци"
-                {...register("reason", { required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.', })}
-              />
-              <label htmlFor="copy" style={{ textAlign: 'justify' }}>{language=='mkd'? 'Промена на податоци (лични податоци, адреса и живеалиште)': 'Ndryshimi i të dhënave (të dhënat personale, adresa dhe vendbanimi)'}
-              </label>
+            <FormControlLabel value="5" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Предвремена замена заради оштетеност на пасошот': 'Zëvendësimi i parakohshëm për shkak të dëmtimit të pasaportës'} />
 
-            </div>
+            <FormControlLabel value="6" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Предвремена замена заради оштетеност на пасошот': 'Zëvendësimi i parakohshëm për shkak të dëmtimit të pasaportës'} />
+          </RadioGroup>
+        </FormControl>
+          {!answered && <span className="errorMessage">{language == 'mkd'? 'Ова поле е задолжително.':"Kjo fushë është e nevojshme."}</span>}
+      </fieldset>
 
-            <div className="row-flex-start">
-              <input
-                type="radio"
-                id="newPlace"
-                value="замена поради други причини (исполнетост или друго)"
-                {...register("reason", { required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.', })}
-              />
-              <label htmlFor="newPlace" style={{ textAlign: 'justify' }}>
-              {language=='mkd'? 'Замена поради други причини (исполнетост или друго)': 'Zëvendësimi për arsye të tjera (përmbushje ose ndryshe)'}
-                
-              </label>
-            </div>
-
-            <div className="row-flex-start">
-              <input
-                type="radio"
-                id="broken"
-                value="предвремена замена заради оштетеност на пасошот"
-                {...register("reason", { required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.', })}
-              />
-              <label htmlFor="broken" style={{ textAlign: 'justify' }}>
-              {language=='mkd'? 'Предвремена замена заради оштетеност на пасошот': 'Zëvendësimi i parakohshëm për shkak të dëmtimit të pasaportës'}
-              </label>
-            </div>
+         
+          <ProcedureComponent handleChange={updatePassportDocument} state={passport.procedure}/>
+            <FormDocLanguageComponent handleChange={updatePassportDocument} state={passport.cardLanguage}/>
             
-            <div className="row-flex-start">
-              <input
-                type="radio"
-                id="shortTerm,"
-                value="издавање на пасош со ограничен рок на важност"
-                {...register("reason", { required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.', })}
-              />
-              <label htmlFor="shortTerm" style={{ textAlign: 'justify' }}>
-              {language=='mkd'? 'Издавање на пасош со ограничен рок на важност': 'Lëshimi i një pasaporte me një periudhë të kufizuar vlefshmërie'}
-                
-              </label>
-            </div>
-            <ErrorMessage
-              errors={errors}
-              name="reason"
-              render={({ message }) => <span className='errorMessage'>{message}</span>}
-            />
-          </fieldset>
-
-          <fieldset className="cardLanguages">
-            <label htmlFor="named-select">
-              {language == 'mkd' ? 'Барам образецот да биде изготвен на еден од наведените јазици и писмо:' : 'Kërkoj që formulari të hartohet në një nga gjuhët dhe shkrimet e mëposhtme:'}
-            </label>
-            <select id="named-select" {...register("cardLanguage")} className="select">
-              <option value={"турски"}>{language == 'mkd' ? 'Турски' : 'Turqisht'}</option>
-              <option value={"влашки"}>{language == 'mkd' ? 'Влашки' : 'Vllehët'}</option>
-              <option value={"српски"}>{language == 'mkd' ? 'Српски' : 'Serb'}</option>
-              <option value={"ромски"}>{language == 'mkd' ? 'Ромски' : 'Romët'}</option>
-              <option value={"босански"}>{language == 'mkd' ? 'Босански' : 'Boshnjake'}</option>
-            </select>
-
-            <label htmlFor="language-select">
-              {language == 'mkd' ? 'Барам податоците за личното име во образецот да бидат испишани на еден од наведените јазици и писмо:' : '"Kërkoj që të dhënat e emrit personal në formular të shkruhen në një nga gjuhët dhe shkrimet e mëposhtme:"'}
-            </label>
-            <select id="language-select" {...register("nameLanguage")} className="select">
-              <option value={"турски"}>{language == 'mkd' ? 'Турски' : 'Turqisht'}</option>
-              <option value={"влашки"}>{language == 'mkd' ? 'Влашки' : 'Vllehët'}</option>
-              <option value={"српски"}>{language == 'mkd' ? 'Српски' : 'Serb'}</option>
-              <option value={"ромски"}>{language == 'mkd' ? 'Ромски' : 'Romët'}</option>
-              <option value={"босански"}>{language == 'mkd' ? 'Босански' : 'Boshnjake'}</option>
-            </select>
-          </fieldset>
-
-          <fieldset className="reasons" >
-            <legend>{language == 'mkd' ? 'Барам патната исправа да биде издадена во:' : 'Kërkoj që dokumenti i udhëtimit të lëshohet në:'}</legend>
-
-            <div className="row-flex-start"> <input
-              type="radio"
-              id="regularProcedure"
-              value="редовна"
-              {...register("procedure", { required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.', })}
-            />
-              <label htmlFor="regularProcedure" style={{ textAlign: 'justify' }}>{language == 'mkd' ? 'Редовна постапка' : 'Procedurë e rregullt'}</label></div>
-
-
-            <div className="row-flex-start">
-              <input
-                type="radio"
-                id="fastProcedure"
-                value="итна"
-                {...register("procedure", { required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.', })}
-              />
-              <label htmlFor="fastProcedure" style={{ textAlign: 'justify' }}>
-                {language == 'mkd' ? 'Итна постапка' : 'Procedurë urgjente'}
-              </label>
-            </div>
-
-
-            <ErrorMessage
-              errors={errors}
-              name="procedure"
-              render={({ message }) => <span className='errorMessage'>{message}</span>}
-            />
-          </fieldset>
+            
+          <BilingualNameComponent handleChange={updatePassportDocument} state={passport.nameLanguage}/>
 
         </div>
-
-
-        <div className="button">
-          <Button
-            variant="contained"
-            type="submit"
-            sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
-          >
-            {language == 'mkd' ? 'Понатаму': 'Më tej'}
-          </Button>
-        </div>
-      </form>
+      
     </div>
 
 
