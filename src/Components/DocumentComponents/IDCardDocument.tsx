@@ -36,332 +36,398 @@ export const IDCardDocument = () => {
   // addNotoSerifFontBold(doc)
   doc.setFont("NotoSerif", "normal");
   
-  doc.setFontSize(9);
+  doc.setFontSize(8);
+ 
     doc.text('Образец бр.1', 185, 25, { align: 'right' });
-    doc.setFontSize(11);
+    // doc.setFontSize(11);
     
     // doc.setFont('NotoSerifBold', 'bold')
-    doc.text('ДО:', 25, 35,{align: 'left'})
-    doc.text('МИНИСТЕРСТВО ЗА ВНАТРЕШНИ РАБОТИ НА РЕПУБЛИКА СЕВЕРНА МАКЕДОНИЈА', 25, 40,{align: 'left'})
-    // Add subtitles
-    doc.setFontSize(10);
-    doc.text('БАРАЊЕ ЗА ИЗДАВАЊЕ НА ЛИЧНА КАРТА', 100, 47, { align: 'center' });
+    doc.text('ДО:', 25, 30,{align: 'left'})
+    doc.text('МИНИСТЕРСТВО ЗА ВНАТРЕШНИ РАБОТИ НА РЕПУБЛИКА СЕВЕРНА МАКЕДОНИЈА', 25, 35,{align: 'left'})
+    doc.text('БАРАЊЕ ЗА ИЗДАВАЊЕ НА ЛИЧНА КАРТА', 100, 43, { align: 'center' });
     doc.setLineWidth(0.5)
-    doc.line(25, 48, 185, 48); // Line for separator
-    doc.setLineWidth(0.1)
-    doc.setFontSize(10);
-    doc.text('ТИП-А', 25, 52,{align: 'left'})
-    doc.line(25, 53, 185, 53); // Line for separator
-
-    // Add section headers and text
-    doc.setFontSize(11);
+    doc.line(25, 44, 185, 44); 
     
-    doc.text('1. Причина за барање (да се заокружи еден од основните)', 25, 65, {align: 'left'});
-
-    doc.setFontSize(10);
-    doc.text('1.1  Прв пат', 30, 70, {align:'left'})
+    //bold react
     if(idCardDocument.reason==='прв пат'){
-      doc.roundedRect(29,67,7,4,2,3 )
+      doc.roundedRect(28,58.5,8,5,3,4 )
     }
-    doc.text('1.2  Замена поради истечен рок на важење', 30, 75, {align:'left'})
-    if(idCardDocument.reason==='замена поради истечен рок на важење'){
-      doc.roundedRect(29,72,7,4,2,3 )
+    if(idCardDocument.reason==='редовна замена'){
+      doc.roundedRect(28,63.5,8,5,3,4 )
     }
-    doc.text('1.3  Дупликат лична карта(изгубена, кражба или исчезнување', 30, 80, {align:'left'})
-    if(idCardDocument.reason==='дупликат лична карта(изгубена, кражба или исчезнување)'){
-      doc.roundedRect(29,77,7,4,2,3 )
+    if(idCardDocument.reason==='промена на податоци (лични податоци, адреса и живеалиште)'){
+      doc.roundedRect(28,68.5,8,5,3,4 )
     }
-    
-    doc.text('1.4  Предвремена поради оштетување, промена на лични податоци, промена на адреса', 30, 85, {align:'left'})
-    doc.text(' на живеење, промена на живеалиште и др.', 35,90,{align:'left'})
     if(idCardDocument.reason==='предвремена поради оштетување, промена на лични податоци, промена на адреса на живеење, промена на живеалиште и др.'){
-      doc.roundedRect(29,82,7,4,2,3 )
+      doc.roundedRect(28,73.5,8,5,3,4 )
     }
-    
-
-    doc.setFontSize(11);
-
-    doc.text('2. Податоци за поднесителот на барањето', 25,100,{align: 'left'})
-    doc.setFontSize(10);
-    doc.text('2.1', 30, 108, {align: 'left'})
-    doc.line(20, 110, 190, 110); // Line for separator
-    doc.line(20,110,20,135)
-    doc.line(190,110,190,135)
-    doc.line(105, 110,105, 135)
-    doc.line(20, 115, 190, 115); // 
-    doc.line(20, 135, 190, 135); // Line for separator
-    
-    doc.text('ИМЕ',55, 114 )  
-    doc.text('ПРЕЗИМЕ',137, 114 ) 
+    if(idCardDocument.reason==='предвремена замена заради оштетеност на личната карта'){
+      doc.roundedRect(28,78.5,8,5,3,4 )
+    }
+   
+    doc.setLineWidth(0.1)
     doc.setFontSize(9);
-    doc.text('1.македонски.јазик',22,129)
-    doc.line(55,129,100,129)
-    doc.text(personalDetailsID.firstName,58,128)
-    doc.line(60,134,75,134)
-    doc.line(144,129,159,129)
-    doc.text('1.македонски.јазик',107,124)
-    doc.line(140, 124, 185, 124 )
-    doc.text(personalDetailsID.lastName, 144,123)
+    doc.text('ТИП-А', 25, 48,{align: 'left'})
+    doc.line(25, 49, 185, 49); 
+
+    //ОДГОВОРИ
     doc.setFontSize(10);
-    doc.text('2.2', 30, 145, {align: 'left'})
-    doc.line(20, 146, 190, 146); // Line for separator
-    doc.line(20, 158, 190, 158)
-    doc.line(20, 171,190,171)
-    doc.line(20,146,20,171)
-    doc.line(190,146,190,171)
+    doc.text(personalDetailsID.firstName,58,112)
+    doc.text(personalDetailsID.lastName, 144,112)
+    
+    doc.text(personalDetailsID.fatherName, 60,173)
+    doc.text(personalDetailsID.motherName,145, 173)
+    doc.text(personalDetailsID.birth,120,185 )
+    doc.text(personalDetailsID.placeBirth,140,185 )
+    doc.text(personalDetailsID.socialNumber,120,193)
+    doc.text(personalDetailsID.address,90, 222)
+     if(personalDetailsID.marriedLastName){
+      doc.text(personalDetailsID.marriedLastName, 130, 159)
+    }
+    doc.text(personalDetailsID.previousAddress,90,215)
+    doc.text(personalDetailsID.citizenship,105,199)
+    if(personalDetailsID.parents[0].firstName){
+      doc.text(`${personalDetailsID.parents[0].firstName} ${personalDetailsID.parents[0].lastName}`, 32,243)
+      doc.text(`${personalDetailsID.parents[0].socialNumber}`, 85,243)
+      doc.text(`${personalDetailsID.parents[0].relation}`, 125,243)
+    }
+    if(personalDetailsID.parents[1].firstName){
+      doc.text(`${personalDetailsID.parents[1].firstName} ${personalDetailsID.parents[1].lastName}`, 32,252)
+      doc.text(`${personalDetailsID.parents[1].socialNumber}`, 85,252)
+      doc.text(`${personalDetailsID.parents[1].relation}`, 125,252)
+    }
+
+    // Причини за барање
+     doc.setFontSize(9);
+    doc.text('1.  Причина за барање (да се заокружи еден од основните)', 25, 57, {align: 'left'});
+    doc.text('1.1   прв пат', 30, 62, {align:'left'})
+    doc.text('1.2   редовна замена', 30, 67, {align:'left'})
+    doc.text('1.3   промена на податоци (лични податоци, адреса и живеалиште)', 30, 72, {align:'left'})
+    doc.text('1.4   дупликат лична карта (изгубена или украдена)', 30, 77, {align:'left'})
+    doc.text('1.5   предвремена замена заради оштетеност на личната карта', 30, 82, {align:'left'})
     doc.setFontSize(8);
-    doc.text('Барам образецот да биде изготвен на еден од наведените јазици и писмо',22,149 )
-    doc.text('1. турски', 22, 153)
-    doc.rect(36,151, 2,2)
+
+    //Лични податоци
+    doc.text('2. ПОДАТОЦИ ЗА ПОДНЕСИТЕЛОТ НА БАРАЊЕТО', 25,92,{align: 'left'})
+    doc.text('2.1', 30, 100, {align: 'left'})
+    doc.text('2.2', 30, 123, {align: 'left'})
+    doc.line(20, 101, 190, 101); 
+    doc.line(20,101,20,115)
+    doc.line(190,101,190,115)
+    doc.line(105, 101,105, 115)
+    doc.line(20, 105, 190, 105); 
+    doc.line(20, 115, 190, 115); 
+    doc.text('ИМЕ',55, 104 )  
+    doc.text('ПРЕЗИМЕ',137, 104 ) 
+    doc.text('1.македонски.јазик',22,113)
+    doc.line(55,113,100,113)
+    doc.text('1.македонски.јазик',107,113)
+    doc.line(140, 113, 185, 113 )
+    
+    
+
+    // second table
+    doc.line(20, 124, 190, 124); 
+    doc.line(20, 136, 190, 136)
+    doc.line(20, 148,190,148)
+    doc.line(20,124,20,148)
+    doc.line(190,124,190,148)
+    doc.text('Барам образецот да биде изготвен на еден од наведените јазици и писмо',22,127 )
+    doc.text('1. турски', 22, 131)
+    doc.rect(36,129, 2,2)
     if(idCardDocument.cardLanguage ==='турски'){
       doc.setFontSize(10)
-      doc.text('х',36, 153)
+      doc.text('х',37, 131)
       doc.setFontSize(8);
+      doc.setLineWidth(0.3)
+      doc.rect(36,129, 2,2)
+      doc.setLineWidth(0.1)
     }
-    doc.text('2. влашки', 40, 153)
-    doc.rect(55,151, 2,2)
+    doc.text('2. влашки', 40, 131)
+    doc.rect(55,129, 2,2)
     if(idCardDocument.cardLanguage ==='влашки'){
       doc.setFontSize(10)
-      doc.text('х',55, 153)
+      doc.text('х',55, 131)
       doc.setFontSize(8);
+      doc.setLineWidth(0.3)
+      doc.rect(55,129, 2,2)
+      doc.setLineWidth(0.1)
     }
-    doc.text('3. српски', 59, 153)
-    doc.rect(73,151, 2,2)
+    doc.text('3. српски', 59, 131)
+    doc.rect(73,129, 2,2)
     if(idCardDocument.cardLanguage ==='српски'){
       doc.setFontSize(10)
-      doc.text('х',73, 153)
+      doc.text('х',73, 131)
       doc.setFontSize(8);
+      doc.setLineWidth(0.3)
+      doc.rect(73,129, 2,2)
+      doc.setLineWidth(0.1)
     }
 
-    doc.text('4. ромски', 77, 153)
-    doc.rect(92,151, 2,2)
+    doc.text('4. ромски', 77, 131)
+    doc.rect(92,129, 2,2)
     if(idCardDocument.cardLanguage ==='ромски'){
       doc.setFontSize(10)
-      doc.text('х',92, 153)
+      doc.text('х',92, 131)
       doc.setFontSize(8);
+      doc.setLineWidth(0.3)
+      doc.rect(92,129, 2,2)
+      doc.setLineWidth(0.1)
     }
 
     
-    doc.text('5. босански', 96, 153)
-    doc.rect(113,151, 2,2)
+    doc.text('5. босански', 96, 131)
+    doc.rect(113,129, 2,2)
     if(idCardDocument.cardLanguage ==='босански'){
       doc.setFontSize(10)
-      doc.text('х',113, 153)
+      doc.text('х',113, 131)
       doc.setFontSize(8);
+      doc.setLineWidth(0.3)
+      doc.rect(113,129, 2,2)
+      doc.setLineWidth(0.1)
     }
 
-    doc.text('(се одбира еден од наведените јазици)', 117, 153)
+    doc.text('(се одбира еден од наведените јазици)', 117, 131)
 
 
-    doc.text('Барам податоците за личното име во образецот да бидат испишани на еден од наведените јазици и писмо', 22,161)
+    doc.text('Барам податоците за личното име во образецот да бидат испишани на еден од наведените јазици и писмо', 22,139)
 
-    doc.text('1. турски', 22, 165)
-    doc.rect(36,163, 2,2)
+    doc.text('1. турски', 22, 143)
+    doc.rect(36,141, 2,2)
     if(idCardDocument.nameLanguage ==='турски'){
       doc.setFontSize(10)
-      doc.text('х',36, 165)
+      doc.text('х',36, 143)
       doc.setFontSize(8);
+      doc.setLineWidth(0.3)
+      doc.rect(36,141, 2,2)
+      doc.setLineWidth(0.1)
     }
-    doc.text('2. влашки', 40, 165)
-    doc.rect(55,163, 2,2)
+    doc.text('2. влашки', 40, 143)
+    doc.rect(55,141, 2,2)
     if(idCardDocument.nameLanguage ==='влашки'){
       doc.setFontSize(10)
-      doc.text('х',55, 165)
+      doc.text('х',55, 143)
       doc.setFontSize(8);
+      doc.setLineWidth(0.3)
+      doc.rect(55,141, 2,2)
+      doc.setLineWidth(0.1)
     }
-    doc.text('3. српски', 59, 165)
-    doc.rect(73,163, 2,2)
+    doc.text('3. српски', 59, 143)
+    doc.rect(73,141, 2,2)
     if(idCardDocument.nameLanguage ==='српски'){
       doc.setFontSize(10)
-      doc.text('х',73, 165)
+      doc.text('х',73, 143)
       doc.setFontSize(8);
+      doc.setLineWidth(0.3)
+      doc.rect(73,141, 2,2)
+      doc.setLineWidth(0.1)
     }
 
-    doc.text('4. ромски', 77, 165)
-    doc.rect(92,163, 2,2)
+    doc.text('4. ромски', 77, 143)
+    doc.rect(92,141, 2,2)
     if(idCardDocument.nameLanguage ==='ромски'){
       doc.setFontSize(10)
-      doc.text('х',92, 165)
+      doc.text('х',92, 143)
       doc.setFontSize(8);
+      doc.setLineWidth(0.3)
+      doc.rect(92,141, 2,2)
+      doc.setLineWidth(0.1)
     }
 
     
-    doc.text('5. босански', 96, 165)
-    doc.rect(113,163, 2,2)
+    doc.text('5. босански', 96, 143)
+    doc.rect(113,141, 2,2)
     if(idCardDocument.nameLanguage ==='босански'){
       doc.setFontSize(10)
-      doc.text('х',113, 165)
+      doc.text('х',113, 143)
       doc.setFontSize(8);
+      doc.setLineWidth(0.3)
+      doc.rect(113,141, 2,2)
+      doc.setLineWidth(0.1)
     }
 
-    doc.text('(се одбира еден од наведените јазици)', 117, 165)
+    doc.text('(се одбира еден од наведените јазици)', 117, 143)
 
 
-    //TABELA 3
+    //treta tabela
 
-    doc.line(20, 181, 190, 181); // Line for separator
-    doc.line(20, 190, 190, 190)
-    doc.line(20, 195,190,195)
-    doc.line(20,204,190,204)
-    doc.line(20,214,190,214)
-    doc.line(20,227,190,227)
-    doc.line(20,232,190,232)
-    doc.line(20,237,190,237)
-    doc.line(20,242,190,242)
-    doc.line(20,181,20,242)
-    doc.line(190,181,190,242)
+    doc.line(20, 153, 190, 153);
+    doc.line(20, 162, 190, 162)
+    doc.line(20, 167,190,167)
+    doc.line(20,176,190,176)
+    doc.line(20,188,190,188)
+    doc.line(20,196,190,196)
+    doc.line(20,201,190,201)
+    doc.line(20,206,190,206)
+    doc.line(20,217,190,217)
+    doc.line(20,224,190,224)
+    doc.line(20,153,20,224)
+    doc.line(190,153,190,224)
+
     //tekst tabela 3
-    doc.setFontSize(10)
-    doc.text('ЗА ОМАЖЕНИ-ОЖЕНЕТИ ', 22, 185)
-    doc.setFontSize(8)
-    doc.text('(презиме пред склучување на брак)', 68, 185)
-    if(personalDetailsID.marriedLastName){
-      doc.setFontSize(10)
-      doc.text(personalDetailsID.marriedLastName, 130, 188)
-      doc.setFontSize(8)
-    }
-    doc.line(120,189,185,189)
-    doc.setFontSize(10)
-    doc.text('ИМЕ НА РОДИТЕЛИТЕ', 80, 194)
-    doc.text('ДЕН,МЕСЕЦ И ГОДИНА НА РАЃАЊЕ', 22,208)
-    doc.text('МЕСТО НА РАЃАЊЕ ',22,217)
-    doc.text('МАТИЧЕН БРОЈ', 22,231)
-    doc.text('ПОЛ', 22,236)
-    doc.text('ЖИВЕАЛИШТЕ И АДРЕСА', 22,241)
-    doc.line(90,213,185,213)
-    doc.text(personalDetailsID.birth,120,212 )
-    doc.text(personalDetailsID.placeBirth,120,225 )
-    doc.text(personalDetailsID.socialNumber,90,231)
-    doc.text(personalDetailsID.address,90, 241)
-    if(personalDetailsID.gender === 'машки'){
-      doc.text('Х', 79.5,235.5)
-    }else{
-      doc.text('Х', 120.5,235.5)
-    }
-    doc.setFontSize(8)
-    doc.text('(лице родено во странство ја запишува и државата)',57,217)
-    doc.text('машки', 67,235.5)
-    doc.text('женски', 107,235.5)
-  
-    doc.rect(79,233,3,3)
-    doc.rect(120,233,3,3)
-    doc.line(90,226,185,226)
     
-    doc.text('Татко', 22, 198)
-    doc.setFontSize(10)
-    doc.text(personalDetailsID.fatherName, 60,202)
-    doc.text(personalDetailsID.motherName,145, 202)
-    doc.setFontSize(8)
-    doc.line(40,203,100,203)
-    doc.line(105,195,105,204)
-    doc.text('Мајка', 107, 198)
-    doc.line(125,203,185,203)
-
+    doc.text('ЗА ОМАЖЕНИ-ОЖЕНЕТИ ', 22, 157)
+    doc.text('(презиме пред склучување на бракот)', 58, 157)
+    doc.line(120,160,185,160)
+    doc.text('ИМЕ НА РОДИТЕЛИТЕ', 90, 166)  
+    doc.text('Татко', 22, 170)
+    doc.line(40,174,100,174)
+    doc.line(105,167,105,176)
+    doc.text('Мајка', 107, 170)
+    doc.line(125,174,185,174)
+    doc.text('ДЕН,МЕСЕЦ,ГОДИНА НА РАЃАЊЕ И МЕСТО НА РАЃАЊЕ', 22,179.5)
+    doc.line(100,186,185,186)
+    doc.text('МАТИЧЕН БРОЈ', 22,191)
+    doc.line(100,194,185,194)
+    doc.text('ДРЖАВЈАНСТВО', 22,199)
+    doc.line(100,200,185,200)
+    doc.text('ПОЛ', 22,204)
+    doc.text('машки', 67,204.5)
+    doc.text('женски', 107,204.5)
+    doc.rect(79,202,3,3)
+    doc.rect(120,202,3,3)
+    if(personalDetailsID.gender === 'машки'){
+      doc.text('Х', 79.5,204.5)
+      doc.setLineWidth(0.5)
+      doc.rect(79,202,3,3)
+      doc.setLineWidth(0.1)
+    }else{
+      doc.text('Х', 120.5,204.5)
+      doc.setLineWidth(0.5)
+      doc.rect(120,202,3,3)
+      doc.setLineWidth(0.1)
+    }
+   
+    doc.text('ПРЕТХОДНО ЖИВЕАЛИШТЕ И АДРЕСА', 22,209)
+   
+    doc.line(80,216,185,216)
+    doc.text('НОВО ЖИВЕАЛИШТЕ И АДРЕСА', 22,223)
+    doc.line(80,223,185,223)
+  
+   
     
     //Soglasnost od roditeli
-    doc.setFontSize(9.5)
-    doc.text('3.СОГЛАСНОСТ ОД РОДИТЕЛИТЕ-СТАРАТЕЛОТ ЗА ИЗДАВАЊЕ НА ЛИЧНА КАРТА НА ЛИЦЕ ОД 15-18',22,250,{align:'justify'})
-    doc.text('ГОДИНИ РОДИТЕЛИ СТАРАТЕЛИ',22,255)
-
+    doc.text('3.СОГЛАСНОСТ ОД РОДИТЕЛИТЕ-СТАРАТЕЛОТ ЗА ИЗДАВАЊЕ НА ЛИЧНА КАРТА НА ЛИЦЕ ОД 15-18 ГОДИНИ',22,230,{align:'justify'})
     //cetvrta tabela
-    doc.line(20,260,190,260)
-    doc.line(20,265,190,265)
+    doc.line(20,232,190,232) 
+    doc.line(20,237,190,237) 
+    doc.line(20,246,190,246) 
+    doc.line(20,255,190,255) 
+    doc.line(20,232,20,255)  
+    doc.line(30,232,30,255) 
+    doc.line(80,232,80,255) 
+    doc.line(120,232,120,255) 
+    doc.line(150,232,150,255) 
+    doc.line(190,232,190,255) 
+    doc.text(('Име и презиме'),42,236) 
+    doc.text('Матичен број', 88, 236) 
+    doc.text('Сродство', 127,236) 
+    doc.text('Потпис', 163,236) 
+    doc.text('1',24,243) 
+    doc.text('2',24,252) 
+
+    //PETTA TABELA
+    doc.text('4. ПОДАТОЦИ ОД ПРЕТХОДЕН ДОКУМЕНТ НА ПОДНОСИТЕЛОТ', 25, 263)
+    doc.line(20,264,190,264)
+    doc.line(20,269,190,269)
     doc.line(20,274,190,274)
-    doc.line(20,283,190,283)
-    doc.line(20,260,20,283)
-    doc.line(30,260,30,283)
-    doc.line(80,260,80,283)
-    doc.line(120,260,120,283)
-    doc.line(150,260,150,283)
-    doc.line(190,260,190,283)
-    doc.text(('Име и презиме'),42,264)
-    doc.text('Матичен број', 88, 264)
-    doc.text('Сродство', 127,264)
-    doc.text('Потпис', 163,264)
-    doc.text('1',24,271)
-    doc.text('2',24,280)
-    //vtora strana
-    doc.addPage()
-    //prva tabela
-    doc.text('4. ПОДАТОЦИ ОД ПРЕТХОДЕН ДОКУМЕНТ НА ПОДНОСИТЕЛОТ', 25, 25)
-    doc.line(20,32,190,32)
-    doc.line(20,37,190,37)
-    doc.line(20,32,20,37)
-    doc.line(190,32,190,37)
-    doc.line(20,42,190,42)
-    doc.line(20,47,190,47)
-    doc.line(20,52,190,52)
-    doc.line(20,42,20,52)
-    doc.line(190,42,190,52)
-    doc.text('4.1 ПРЕТХОДНО ЖИВЕАЛИШТЕ И АДРЕСА:', 22,36)
-    doc.text('4.2 БРОЈ НА ЛИЧНА КАРТА:', 22, 46 )
-    doc.text('4.3 ОРГАН КОЈ ЈА ИЗДАЛ:', 22, 51 )
-    doc.text('5. ПРИЛОГ КОН БАРАЊЕТО:',25, 109)
-    //potpisi
-
-    doc.setFontSize(9)
-    doc.text('Датум и место на поднесување',23,64)
-    doc.text('Потпис на подносителот',140,64)
-    doc.line(23,74,80,74)
-    doc.line(130,74,190,74)
-    doc.text('Потпис на службеното лице кое го примило барањето', 23, 94)
-    doc.text(personalDetailsID.phone, 70, 83)
-    doc.line(55, 84,180,84)
-    doc.line(112, 94,175,94)
-    doc.setFontSize(8)
-    doc.text('Податоци за контакт',23,84 )
+    doc.line(20,264,20,274)
+    doc.line(190,264,190,274)
+    doc.text('4.1 БРОЈ НА ЛИЧНА КАРТА:', 22, 268 )
+    doc.text('4.2 ОРГАН КОЈ ЈА ИЗДАЛ:', 22, 273 )
     
+    
+    //VTORA STRANA
+    doc.addPage()
+    doc.text('5. ПОСТАПКА ЗА ИЗДАВАЊЕ НА ЛИЧНА КАРТА',25, 25)
+    doc.setFontSize(9)
+    doc.text('Барам личната карта да биде издадена во',30, 33)
+    doc.text('1. Редовна постапка',25, 40)
+    doc.text('2. Итна постапка (во случај кога нема промена на живеалиште или адреса на стан)',25, 45)
+    if(idCardDocument.procedure === 'редовна'){
+      doc.setLineWidth(0.5)
+      doc.rect(165,37,3,3)
+      doc.text('Х', 165.5,39.5)
+      doc.setLineWidth(0.1)
+    }else{
+      doc.setLineWidth(0.5)
+      doc.text('Х', 165.5,44.5)
+      doc.rect(165,42,3,3)
+      doc.setLineWidth(0.1)
+    }
+    doc.rect(165,37,3,3)
+    doc.rect(165,42,3,3)
 
+   
+    //potpisi
+    doc.text('Датум и место на поднесување',23,54)
+    doc.text('Потпис на подносителот',140,54)
+    doc.line(23,62,80,62)
+    doc.line(130,62,190,62)
+    doc.text('Податоци за контакт',23,70 )
+    doc.line(60, 70,130,70)
+    doc.text('Потпис на службеното лице кое го примило барањето', 23, 79)
+    doc.line(115, 80,175,80)
+    doc.setFontSize(10)
+    doc.text(personalDetailsID.phone, 70, 69)
+    doc.setFontSize(8.5)
 
     //vtora tabela
-
-    doc.line(20, 114,190,114)
-    doc.line(20, 124,190,124)
-    doc.line(20, 134,190,134)
-    doc.line(20, 144,190,144)
-    doc.line(20, 154,190,154)
-    doc.line(20, 164,190,164)
-    doc.line(20, 174,190,174)
-    doc.line(20,114,20,174)
-    doc.line(190,114,190,174)
-    doc.line(30,114,30,174)
+    doc.text('6. ПРИЛОГ КОН БАРАЊЕТО:',25, 91)
+    doc.line(20, 99,191,99)
+    doc.line(20, 114,191,114)
+    doc.line(20, 120,191,120)
+    doc.line(20, 126,191,126)
+    doc.line(20, 132,191,132)
+    doc.line(20, 138,191,138)
+    doc.line(20, 153,191,153)
+    doc.line(20,99,20,153)
+    doc.line(191,99,191,153)
+    doc.line(30,99,30,153)
 
     //checkboxes
-    doc.rect(23,117,4,4)
-    doc.rect(23,127,4,4)
-    doc.rect(23,137,4,4)
-    doc.rect(23,147,4,4)
-    doc.rect(23,157,4,4)
-    doc.rect(23,167,4,4)
-    doc.setFontSize(8.5)
-    doc.text('Извод од матичната книга на родените/венчаните(*)',32,119)
-    doc.text('Доказ за ново место на живеење (доколку се бара замена на лична карта поради промена на',32,128)
-    doc.text('живеалиште-во постапка под реден број 1.4)',32,132)
-
-    doc.text('Проверка во Сл.Весник дека личната карта е огласена за неважечка(*)', 32, 139)
-    doc.text('Препис од матичната книга на родените за малолетно лице во постапката под реден број 1.1(*)', 32, 149)
-    doc.text('Доказ за промена на лично име(матична книга на венчани,решение за промена на лично име,и др.)', 32,159)
-
-    doc.text('Други документи неопходни за постапката',32,168)
-    doc.line(100, 168,185,168)
-    doc.line(32, 173,85,173)
-
-    doc.text('Доказите означени со ѕвезда(*) се смета дека се поднесени во прилог на барањето и истите Министерството', 23,182)
-    doc.text('за внатрешни работи ги прибавува по слижбена должност', 23,186)
+    doc.text('При поднесување на барањето се врши проверка на идентитетот на подносителот на барањето со увид',31,104)
+    doc.text('во лична карта или друг документ за лична идентификација што има фотографија, издаден од државен',31,108)
+    doc.text('орган',31,112)
+    doc.text('Извод од матичната книга на родените/венчаните(*) 1.1 и 1.3',31,118)
+    doc.text('Доказ за промена на личните податоци/живеалиштето/адреса-за 1.3 (*)',31,124)
+    doc.text('Доказ дека личната карта е огласена за неважечка - за 1.4 (*)',31,130)
+    doc.text('Изјава за изгубена или украдена лична карта - за 1.4 (*)', 31, 136)
+    doc.text('Други документи неопходни за постапката',31,143)
+    doc.line(100, 145,185,145)
+    doc.line(32, 151,85,151)
+    doc.text('Доказите означени со ѕвезда(*) се смета дека се поднесени во прилог на барањето и истите Министерството', 23,162)
+    doc.text('за внатрешни работи ги прибавува по слижбена должност', 23,166)
     doc.setLineWidth(0.5)
-    doc.line(23,191, 185,191)
+    doc.line(23,175, 185,175)
+
+    //RECT
+    doc.rect(23.5,102,3,3)
+    doc.rect(23.5,115.5,3,3)
+    doc.rect(23.5,121.5,3,3)
+    doc.rect(23.5,127.5,3,3)
+    doc.rect(23.5,133.5,3,3)
+    doc.rect(23.5,141,3,3)
+    doc.rect(23,187,3,3)
+    doc.setLineWidth(0.1)
+
     doc.setFontSize(9)
-    doc.text('УПАТСТВО ЗА ПОПОЛНУВАЊЕ НА БАРАЊЕТО ЗА ПРОМЕНА НА ЛИЧНА КАРТА:',25,199)
-    doc.setFontSize(8.5)
-    doc.text('•  Податоците од делот 2, ги пополнува поднесителот на барањето;',25,205)
-    doc.text('•  Делот од барањето во точка 2.2 се пополнува само кога подносителот бара личната карта да биде издадена',25,210)
-    doc.text('на еден од начините и јазиците наведени во овој дел;',28, 214 )
-    doc.text('•  Податоците од делот 3, ги пополнуваат родителите-старателите доколку барањето за издавање на лична',25,219)
-    doc.text('карта се однесува и за малолетното дете;',28, 223 )
-    doc.text('•  Податоците од делот 4, ги пополнува службеното лице;',25,228)
-    doc.text('•  Доколку во текот на постапката се појави потреба од прибавување на други документи, а Министерството,',25,233)
-    doc.text('не е во можност да ги прибави по службена должност, подносителот на барањето дополнително ќе биде',25,237)
-    doc.text('известен истите да ги приложи кон барањето.',25,241)
+    doc.text('7. СОГЛАСНОСТ ОД ПОДНОСИТЕЛОТ НА БАРАЊЕТО:',23, 182)
+    doc.text('Подносителот на барањето е согласен неговите/нивните лични податоци да се користат во постапката',27, 190)
+    doc.text('за остварување на правото пред надлежните органи за прибавување на СИТЕ документи означени со ',23, 195)
+    doc.text('ѕвезда(*) од делот 6 на ова барање.',23, 200)
+    doc.text('Потпис на подносителот',40,210)
+    doc.line(30,218,90,218)
+    doc.text('УПАТСТВО ЗА ПОПОЛНУВАЊЕ НА БАРАЊЕТО ЗА ПРОМЕНА НА ЛИЧНА КАРТА:',20,230)
+    doc.text('•  Податоците од делот 1,2,5 ги пополнува поднесителот на барањето;',18,237)
+    doc.text('•  Делот од барањето во точка 2.2 се пополнува само кога подносителот бара личната карта да биде издадена',18,244)
+    doc.text('на еден од начините и јазиците наведени во овој дел;',21, 248 )
+    doc.text('•  Податоците од делот 3, ги пополнуваат родителите-старателите доколку барањето за издавање на лична',18,254)
+    doc.text('карта се однесува и за малолетното дете;',21, 258 )
+    doc.text('•  Податоците од делот 4, ги пополнува службеното лице;',18,264)
+    doc.text('•  Доколку во текот на постапката се појави потреба од прибавување на други документи, а Министерството,',18,270)
+    doc.text('не е во можност да ги прибави по службена должност, подносителот на барањето дополнително ќе биде',21,274)
+    doc.text('известен истите да ги приложи кон барањето.',21,278)
     doc.save('example.pdf');
     
   }

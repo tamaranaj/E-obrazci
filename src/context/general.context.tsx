@@ -35,7 +35,7 @@ const contextDefaultValues: ContextDefault = {
         phone: '',  
         citizenship: '',
         previousAddress: '',
-       
+       parents:[]
     },
     idCardDocument:{
         reason:  '',
