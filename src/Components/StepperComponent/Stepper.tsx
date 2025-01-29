@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { PersonalDetailsForm } from '../IDCardFormComponent/PersonalDetailsForm';
-import { IDCardDocument } from '../DocumentComponents/IDCardDocument';
+import { DocumentComponent } from '../DocumentComponents/DocumentComponent';
 import { GeneralContext } from '../../context/general.context';
 import { useContext, useState } from 'react';
 import { CheckboxComponent } from '../CheckboxComponent/CheckboxComponent';
@@ -91,7 +91,7 @@ export default function StepperComponent() {
               </div>
 
             </Typography>
-            <IDCardDocument />
+            <DocumentComponent />
             <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
               {language == 'mkd' ? 'Ново барање' : 'Kërkesë e re'}
 

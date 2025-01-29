@@ -1,47 +1,13 @@
-import { useContext } from 'react';
-import { GeneralContext } from '../../context/general.context';
-import jsPDF from 'jspdf';
+import jsPDF from "jspdf";
+import { IDCardDocument, PersonalDetailsID } from "../../Types/interfaces";
 import { addNotoSerifFont } from "../../addNotoSerifFont";
-import { addNotoSerifFontBold } from '../../addNotoSerifFontBold';
-import Button from '@mui/material/Button';
-// import font from  './assets/';
-export interface DocumentProps{
 
-  props?: {reason: string,
-    firstName: string,
-    lastName: string,
-    cardLanguage: string,
-    nameLanguage: string,
-    marriedLastName: string,
-    fatherName:string,
-    motherName: string,
-    birth: string,
-    placeBirth: string,
-    socialNumber: string,
-    gender: string,
-    address: string,}
-  
-}
-
-
-// Create Document Component
-export const IDCardDocument = () => {
-  const{personalDetailsID,idCardDocument} = useContext(GeneralContext)
-
-  const generatePDF = () =>{
+export const generateIdCardDocument = (idCardDocument: IDCardDocument, personalDetailsID: PersonalDetailsID, date:string ) =>{
     const doc = new jsPDF()
-    // doc.text(`Name: ${props.firstName} ${props.lastName}`, 10, 10)
-  //  doc.setLanguage('ru-MO')
-  addNotoSerifFont(doc);
-  // addNotoSerifFontBold(doc)
-  doc.setFont("NotoSerif", "normal");
-  
-  doc.setFontSize(8);
- 
+    addNotoSerifFont(doc);
+    doc.setFont("NotoSerif", "normal");
+    doc.setFontSize(8);
     doc.text('Образец бр.1', 185, 25, { align: 'right' });
-    // doc.setFontSize(11);
-    
-    // doc.setFont('NotoSerifBold', 'bold')
     doc.text('ДО:', 25, 30,{align: 'left'})
     doc.text('МИНИСТЕРСТВО ЗА ВНАТРЕШНИ РАБОТИ НА РЕПУБЛИКА СЕВЕРНА МАКЕДОНИЈА', 25, 35,{align: 'left'})
     doc.text('БАРАЊЕ ЗА ИЗДАВАЊЕ НА ЛИЧНА КАРТА', 100, 43, { align: 'center' });
@@ -86,12 +52,12 @@ export const IDCardDocument = () => {
     }
     doc.text(personalDetailsID.previousAddress,90,215)
     doc.text(personalDetailsID.citizenship,105,199)
-    if(personalDetailsID.parents[0].firstName){
+    if(personalDetailsID.parents[0].firstName !== ''){
       doc.text(`${personalDetailsID.parents[0].firstName} ${personalDetailsID.parents[0].lastName}`, 32,243)
       doc.text(`${personalDetailsID.parents[0].socialNumber}`, 85,243)
       doc.text(`${personalDetailsID.parents[0].relation}`, 125,243)
     }
-    if(personalDetailsID.parents[1].firstName){
+    if(personalDetailsID.parents[1]){
       doc.text(`${personalDetailsID.parents[1].firstName} ${personalDetailsID.parents[1].lastName}`, 32,252)
       doc.text(`${personalDetailsID.parents[1].socialNumber}`, 85,252)
       doc.text(`${personalDetailsID.parents[1].relation}`, 125,252)
@@ -123,10 +89,8 @@ export const IDCardDocument = () => {
     doc.line(55,113,100,113)
     doc.text('1.македонски.јазик',107,113)
     doc.line(140, 113, 185, 113 )
-    
-    
 
-    // second table
+    // втора табела
     doc.line(20, 124, 190, 124); 
     doc.line(20, 136, 190, 136)
     doc.line(20, 148,190,148)
@@ -245,12 +209,9 @@ export const IDCardDocument = () => {
       doc.rect(113,141, 2,2)
       doc.setLineWidth(0.1)
     }
-
     doc.text('(се одбира еден од наведените јазици)', 117, 143)
 
-
-    //treta tabela
-
+    //трета табела
     doc.line(20, 153, 190, 153);
     doc.line(20, 162, 190, 162)
     doc.line(20, 167,190,167)
@@ -263,9 +224,7 @@ export const IDCardDocument = () => {
     doc.line(20,224,190,224)
     doc.line(20,153,20,224)
     doc.line(190,153,190,224)
-
-    //tekst tabela 3
-    
+    //текст 3-та табела
     doc.text('ЗА ОМАЖЕНИ-ОЖЕНЕТИ ', 22, 157)
     doc.text('(презиме пред склучување на бракот)', 58, 157)
     doc.line(120,160,185,160)
@@ -299,16 +258,14 @@ export const IDCardDocument = () => {
     }
    
     doc.text('ПРЕТХОДНО ЖИВЕАЛИШТЕ И АДРЕСА', 22,209)
-   
     doc.line(80,216,185,216)
     doc.text('НОВО ЖИВЕАЛИШТЕ И АДРЕСА', 22,223)
     doc.line(80,223,185,223)
   
    
     
-    //Soglasnost od roditeli
+    //Согласност од родители/старатели четврта табела
     doc.text('3.СОГЛАСНОСТ ОД РОДИТЕЛИТЕ-СТАРАТЕЛОТ ЗА ИЗДАВАЊЕ НА ЛИЧНА КАРТА НА ЛИЦЕ ОД 15-18 ГОДИНИ',22,230,{align:'justify'})
-    //cetvrta tabela
     doc.line(20,232,190,232) 
     doc.line(20,237,190,237) 
     doc.line(20,246,190,246) 
@@ -326,7 +283,7 @@ export const IDCardDocument = () => {
     doc.text('1',24,243) 
     doc.text('2',24,252) 
 
-    //PETTA TABELA
+    //петта табела
     doc.text('4. ПОДАТОЦИ ОД ПРЕТХОДЕН ДОКУМЕНТ НА ПОДНОСИТЕЛОТ', 25, 263)
     doc.line(20,264,190,264)
     doc.line(20,269,190,269)
@@ -337,7 +294,7 @@ export const IDCardDocument = () => {
     doc.text('4.2 ОРГАН КОЈ ЈА ИЗДАЛ:', 22, 273 )
     
     
-    //VTORA STRANA
+    //ВТОРА СТРАНА
     doc.addPage()
     doc.text('5. ПОСТАПКА ЗА ИЗДАВАЊЕ НА ЛИЧНА КАРТА',25, 25)
     doc.setFontSize(9)
@@ -357,10 +314,10 @@ export const IDCardDocument = () => {
     }
     doc.rect(165,37,3,3)
     doc.rect(165,42,3,3)
-
    
-    //potpisi
+    //ПОТПИСИ
     doc.text('Датум и место на поднесување',23,54)
+    doc.text(date, 30,61)
     doc.text('Потпис на подносителот',140,54)
     doc.line(23,62,80,62)
     doc.line(130,62,190,62)
@@ -371,8 +328,7 @@ export const IDCardDocument = () => {
     doc.setFontSize(10)
     doc.text(personalDetailsID.phone, 70, 69)
     doc.setFontSize(8.5)
-
-    //vtora tabela
+    //прва табела
     doc.text('6. ПРИЛОГ КОН БАРАЊЕТО:',25, 91)
     doc.line(20, 99,191,99)
     doc.line(20, 114,191,114)
@@ -384,7 +340,6 @@ export const IDCardDocument = () => {
     doc.line(20,99,20,153)
     doc.line(191,99,191,153)
     doc.line(30,99,30,153)
-
     //checkboxes
     doc.text('При поднесување на барањето се врши проверка на идентитетот на подносителот на барањето со увид',31,104)
     doc.text('во лична карта или друг документ за лична идентификација што има фотографија, издаден од државен',31,108)
@@ -400,7 +355,6 @@ export const IDCardDocument = () => {
     doc.text('за внатрешни работи ги прибавува по слижбена должност', 23,166)
     doc.setLineWidth(0.5)
     doc.line(23,175, 185,175)
-
     //RECT
     doc.rect(23.5,102,3,3)
     doc.rect(23.5,115.5,3,3)
@@ -410,7 +364,7 @@ export const IDCardDocument = () => {
     doc.rect(23.5,141,3,3)
     doc.rect(23,187,3,3)
     doc.setLineWidth(0.1)
-
+    //согласност од подносителот
     doc.setFontSize(9)
     doc.text('7. СОГЛАСНОСТ ОД ПОДНОСИТЕЛОТ НА БАРАЊЕТО:',23, 182)
     doc.text('Подносителот на барањето е согласен неговите/нивните лични податоци да се користат во постапката',27, 190)
@@ -418,6 +372,7 @@ export const IDCardDocument = () => {
     doc.text('ѕвезда(*) од делот 6 на ова барање.',23, 200)
     doc.text('Потпис на подносителот',40,210)
     doc.line(30,218,90,218)
+    //упатство
     doc.text('УПАТСТВО ЗА ПОПОЛНУВАЊЕ НА БАРАЊЕТО ЗА ПРОМЕНА НА ЛИЧНА КАРТА:',20,230)
     doc.text('•  Податоците од делот 1,2,5 ги пополнува поднесителот на барањето;',18,237)
     doc.text('•  Делот од барањето во точка 2.2 се пополнува само кога подносителот бара личната карта да биде издадена',18,244)
@@ -428,13 +383,6 @@ export const IDCardDocument = () => {
     doc.text('•  Доколку во текот на постапката се појави потреба од прибавување на други документи, а Министерството,',18,270)
     doc.text('не е во можност да ги прибави по службена должност, подносителот на барањето дополнително ќе биде',21,274)
     doc.text('известен истите да ги приложи кон барањето.',21,278)
-    doc.save('example.pdf');
+    doc.save('idCard.pdf');
     
   }
-  return(
-    <Button onClick={generatePDF} sx={{ mt: 1, mr: 1 }}>
-    Сними го барањето
-    </Button>
-   
-  )
-};
