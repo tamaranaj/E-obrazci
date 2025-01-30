@@ -134,12 +134,12 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
                     <input
                       className='input'
                       type="radio"
-                      id="married"
+                      id="noMarried"
                       name='married'
                       value="false"
                       onChange={(e) => { handleMarried(e.target.value) }}
                     />
-                    <label htmlFor="single" >{language == 'mkd' ? 'Не' : 'Nr'}</label>
+                    <label htmlFor="noMarried" >{language == 'mkd' ? 'Не' : 'Nr'}</label>
 
                   </div>
                 </div>
@@ -210,7 +210,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
 
 
             <div className="fieldsets" style={bgColor == true ? { color: 'black' } : { color: 'white' }}><label htmlFor="birthDate" >{language == 'mkd' ? 'Дата на раѓање:' : 'Data e lindjes:'}</label>
-              <div className="column">
+              <div className="column dateInput">
                 <input
                   type="date"
                   className='input'
@@ -272,8 +272,8 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
                 {...register("socialNumber", {
                   required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.',
                   pattern: {
-                    value: /[0-9]/,
-                    message: language == 'mkd' ? "Внесете го вашиот матичен број." : "Fut numrin tuaj të sigurimeve shoqërore.",
+                    value: /^[0-9]*$/,
+                    message: language == 'mkd' ? "Внесениот матичен број не е валиден." : "Numri i sigurimeve shoqërore i futur nuk është i vlefshëm.",
                   },
                   minLength: {
                     value: 13,
@@ -433,8 +433,8 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
               <input type="tel" className='input' id="phoneNumber" placeholder={language == 'mkd' ? 'Број за контакт (пр.071234567)' : 'Numri i kontaktit (p.sh. 071234567)'} {...register("phone", {
                 required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.',
                 pattern: {
-                  value: /[0-9]/,
-                  message: language == 'mkd' ? "Внесете го вашиот број за контакт." : "Fut numrin tuaj të kontaktit."
+                  value: /^[0-9]*$/,
+                  message: language == 'mkd' ? "Внесениот број за контакт не е валиден." : "Numri i kontaktit i futur nuk është i vlefshëm."
                 },
                 minLength: {
                   value: 9,
@@ -548,8 +548,8 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
                     <input type="text" placeholder={language == 'mkd' ? 'Матичен број' : 'Numri i identifikimit'}{...register(`parents.${index}.socialNumber`, {
                   required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.',
                   pattern: {
-                    value: /[0-9]/,
-                    message: language == 'mkd' ? "Внесете го матичниот број на родителот/старателот." : "Shkruani numrin ID të prindit/kujdestarit.",
+                    value: /^[0-9]*$/,
+                    message: language == 'mkd' ? "Внесениот матичен број не е валиден." : "Numri i sigurimeve shoqërore i futur nuk është i vlefshëm.",
                   },
                   minLength: {
                     value: 13,
@@ -562,7 +562,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
                 })} className='dynamicInput' />
                 <ErrorMessage
                 errors={errors}
-                name={`parents.${index}.socialNumber`}
+                name={`parents[${index}].socialNumber`}
                 render={({ messages }) =>
                   messages &&
                   Object.entries(messages).map(([type, message]) => (

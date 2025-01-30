@@ -7,7 +7,7 @@ import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { PersonalDetailsForm } from '../IDCardFormComponent/PersonalDetailsForm';
+import { PersonalDetailsForm } from '../PersonalDetailsFormComponent/PersonalDetailsForm';
 import { DocumentComponent } from '../DocumentComponents/DocumentComponent';
 import { GeneralContext } from '../../context/general.context';
 import { useContext, useState } from 'react';

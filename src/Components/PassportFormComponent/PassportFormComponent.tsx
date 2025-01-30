@@ -35,13 +35,14 @@ export const PassportForm = () => {
 
             <FormControlLabel value="2" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Редовна замена': 'Zëvendësimi i rregullt'} />
 
-            <FormControlLabel value="3" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label={language=='mkd'? 'Промена на податоци (лични податоци, адреса и живеалиште)': 'Ndryshimi i të dhënave (të dhënat personale, adresa dhe vendbanimi)'}  />
+            <FormControlLabel value="3" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label={language=='mkd'? 'Промена на лични податоци': 'Ndryshimi i të dhënave personale'}  />
 
             <FormControlLabel value="4" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Замена поради други причини (исполнетост или друго)': 'Zëvendësimi për arsye të tjera (përmbushje ose ndryshe)'} />
-
-            <FormControlLabel value="5" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Предвремена замена заради оштетеност на пасошот': 'Zëvendësimi i parakohshëm për shkak të dëmtimit të pasaportës'} />
+            <FormControlLabel value="5" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Дупликат пасош (изгубен,исчезнат или украден)': 'Pasaportë e kopjuar (e humbur, e humbur ose e vjedhur)'} />
 
             <FormControlLabel value="6" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Предвремена замена заради оштетеност на пасошот': 'Zëvendësimi i parakohshëm për shkak të dëmtimit të pasaportës'} />
+
+            <FormControlLabel value="7" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Издавање на пасош со ограничен рок на важење': 'Lëshimi i një pasaporte me një periudhë të kufizuar vlefshmërie'} />
           </RadioGroup>
         </FormControl>
           {!answered && <span className="errorMessage">{language == 'mkd'? 'Ова поле е задолжително.':"Kjo fushë është e nevojshme."}</span>}

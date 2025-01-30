@@ -20,18 +20,60 @@ export const generatePassportDocument = (personalInfo: PersonalDetailsID,passpor
     doc.text('1.  Причина за барање (се одбира еден од основните)', 25, 47, {align: 'left'});
     doc.text('1.1 прв пат', 27, 52, {align:'left'})
     doc.rect(47,49.5,3,3)
+    if(passport.reason ==='1'){
+      doc.text('X',47.5, 52)
+      doc.setLineWidth(0.3)
+      doc.rect(47,49.5, 3,3)
+      doc.setLineWidth(0.1)
+    }
     doc.text('1.2 редовна замена', 27, 57, {align:'left'})
     doc.rect(61,54.5,3,3)
+    if(passport.reason ==='2'){
+      doc.text('X',61.5, 57)
+      doc.setLineWidth(0.3)
+      doc.rect(61,54.5, 3,3)
+      doc.setLineWidth(0.1)
+    }
     doc.text('1.3 промена на лични податоци', 27, 62, {align:'left'})
     doc.rect(80,59.5,3,3)
+    if(passport.reason ==='3'){
+      doc.text('X',80.5, 62)
+      doc.setLineWidth(0.3)
+      doc.rect(80,59.5, 3,3)
+      doc.setLineWidth(0.1)
+    }
     doc.text('1.4 замена поради други причини (исполнетост или друго)', 27, 67, {align:'left'})
     doc.rect(124,64.5,3,3)
+    if(passport.reason ==='4'){
+      doc.text('X',124.5, 67)
+      doc.setLineWidth(0.3)
+      doc.rect(124,64.5, 3,3)
+      doc.setLineWidth(0.1)
+    }
     doc.text('1.5 дупликат пасош (изгубен,исчезнат или украден)', 27, 72, {align:'left'})
     doc.rect(112,69.5,3,3)
+    if(passport.reason ==='5'){
+      doc.text('X',112.5, 72)
+      doc.setLineWidth(0.3)
+      doc.rect(112,69.5, 3,3)
+      doc.setLineWidth(0.1)
+    }
     doc.text('1.6 предвремена замена поради оштетеност на пасошот', 27, 77, {align:'left'})
     doc.rect(120,74.5,3,3)
+    if(passport.reason ==='6'){
+      doc.text('X',120.5, 77)
+      doc.setLineWidth(0.3)
+      doc.rect(120,74.5, 3,3)
+      doc.setLineWidth(0.1)
+    }
     doc.text('1.7 издавање на пасош со ограничен рок на важење', 27, 82, {align:'left'})
     doc.rect(112,79.5,3,3)
+    if(passport.reason ==='7'){
+      doc.text('X',112.5, 82)
+      doc.setLineWidth(0.3)
+      doc.rect(112,79.5, 3,3)
+      doc.setLineWidth(0.1)
+    }
 
     //ПОДАТОЦИ ЗА ПОДНЕСИТЕЛОТ НА БАРАЊЕТО
     doc.text('2. ПОДАТОЦИ ЗА ПОДНОСИТЕЛОТ НА БАРАЊЕТО', 25, 90, {align:'left'})

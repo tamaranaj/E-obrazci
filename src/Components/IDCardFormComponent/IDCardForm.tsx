@@ -30,15 +30,15 @@ export const IDCardForm = () => {
             value={idCardDocument.reason}
             onChange={(event)=>checkRadio(event)}
             >
-            <FormControlLabel value="прв пат" control={<Radio sx={bgColor == true ? {color: 'black', font:'20'}: {color: 'white', font: '20'}} />} label={language=='mkd'? 'Прв пат': 'Herën e parë'}  />
+            <FormControlLabel value="1" control={<Radio sx={bgColor == true ? {color: 'black', font:'20'}: {color: 'white', font: '20'}} />} label={language=='mkd'? 'Прв пат': 'Herën e parë'}  />
 
-            <FormControlLabel value="редовна замена" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Редовна замена': 'Zëvendësimi i rregullt'} />
+            <FormControlLabel value="2" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Редовна замена': 'Zëvendësimi i rregullt'} />
 
-            <FormControlLabel value="промена на податоци (лични податоци, адреса и живеалиште)" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Промена на податоци (лични податоци, адреса и живеалиште)': 'Ndryshimi i të dhënave (të dhënat personale, adresa dhe vendbanimi)'} />
+            <FormControlLabel value="3" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Промена на податоци (лични податоци, адреса и живеалиште)': 'Ndryshimi i të dhënave (të dhënat personale, adresa dhe vendbanimi)'} />
 
-            <FormControlLabel value="дупликат лична карта (изгубена или украдена)" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Дупликат лична карта (изгубена или украдена)': 'ID dublikatë (e humbur ose e vjedhur)'}  />
+            <FormControlLabel value="4" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Дупликат лична карта (изгубена или украдена)': 'ID dublikatë (e humbur ose e vjedhur)'}  />
 
-            <FormControlLabel value="предвремена замена заради оштетеност на личната карта" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Предвремена замена заради оштетеност на личната карта': 'Ndërrimi i parakohshëm për shkak të dëmtimit të kartës së identitetit'} />
+            <FormControlLabel value="5" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Предвремена замена заради оштетеност на личната карта': 'Ndërrimi i parakohshëm për shkak të dëmtimit të kartës së identitetit'} />
           </RadioGroup>
         </FormControl>
 

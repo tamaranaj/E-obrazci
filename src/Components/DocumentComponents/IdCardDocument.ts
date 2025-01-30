@@ -15,19 +15,19 @@ export const generateIdCardDocument = (idCardDocument: IDCardDocument, personalD
     doc.line(25, 44, 185, 44); 
     
     //bold react
-    if(idCardDocument.reason==='прв пат'){
+    if(idCardDocument.reason==='1'){
       doc.roundedRect(28,58.5,8,5,3,4 )
     }
-    if(idCardDocument.reason==='редовна замена'){
+    if(idCardDocument.reason==='2'){
       doc.roundedRect(28,63.5,8,5,3,4 )
     }
-    if(idCardDocument.reason==='промена на податоци (лични податоци, адреса и живеалиште)'){
+    if(idCardDocument.reason==='3'){
       doc.roundedRect(28,68.5,8,5,3,4 )
     }
-    if(idCardDocument.reason==='предвремена поради оштетување, промена на лични податоци, промена на адреса на живеење, промена на живеалиште и др.'){
+    if(idCardDocument.reason==='4'){
       doc.roundedRect(28,73.5,8,5,3,4 )
     }
-    if(idCardDocument.reason==='предвремена замена заради оштетеност на личната карта'){
+    if(idCardDocument.reason==='5'){
       doc.roundedRect(28,78.5,8,5,3,4 )
     }
    
