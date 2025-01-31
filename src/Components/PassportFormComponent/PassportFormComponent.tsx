@@ -58,6 +58,7 @@ export const PassportForm = () => {
             
             
             <select id="named-select" name="formLanguage" onChange={updatePassportDocument} className="select" value={passport.formLanguage}>
+              <option value={""}>{language=='mkd'? 'Ниту еден': 'Asnjë'}</option>
               <option value={"турски"}>{language=='mkd'? 'Турски': 'Turqisht'}</option>
               <option value={"влашки"}>{language=='mkd'? 'Влашки': 'Vllehët'}</option>
               <option value={"српски"}>{language=='mkd'? 'Српски': 'Serb'}</option>

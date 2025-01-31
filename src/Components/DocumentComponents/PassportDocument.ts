@@ -1,6 +1,7 @@
 import jsPDF from "jspdf";
 import { Passport, PersonalDetailsID } from "../../Types/interfaces";
 import { addArimoFontBold } from "../../addNotoSerifFontBold";
+import { checkFormLanguage, checkPassportCardLanguage, checkPassportNameLanguage } from "./checkLanguagesPassport";
 
 
 export const generatePassportDocument = (personalInfo: PersonalDetailsID,passport:Passport, date:string  )=>{
@@ -129,142 +130,46 @@ export const generatePassportDocument = (personalInfo: PersonalDetailsID,passpor
     doc.text('Барам образецот да биде изготвен на еден од наведените јазици и писмо',21,130 ) 
     doc.text('1.турски', 21, 135) 
     doc.rect(36,132, 3,3) 
-    if(passport.cardLanguage ==='турски'){
-      doc.text('X',36.5, 134.7) 
-      doc.setLineWidth(0.3)
-      doc.rect(36,132, 3,3) 
-      doc.setLineWidth(0.1)
-    }
     doc.text('2.влашки', 41, 135)
     doc.rect(57,132, 3,3)
-    if(passport.cardLanguage ==='влашки'){
-      doc.text('X',57.5, 134.7)
-      doc.setLineWidth(0.3)
-      doc.rect(57,132, 3,3)
-      doc.setLineWidth(0.1)
-    }
     doc.text('3.српски', 62, 135)
     doc.rect(77,132, 3,3)
-    if(passport.cardLanguage ==='српски'){
-      doc.text('X',77.5, 134.7)
-      doc.setLineWidth(0.3)
-      doc.rect(77,132, 3,3)
-      doc.setLineWidth(0.1)
-    }
-
     doc.text('4.ромски', 82, 135)
     doc.rect(98,132, 3,3)
-    if(passport.cardLanguage ==='ромски'){
-      doc.text('X',98.5, 134.7)
-      doc.setLineWidth(0.3)
-      doc.rect(98,132,  3,3)
-      doc.setLineWidth(0.1)
-    }
-
-    
     doc.text('5.босански', 102, 135)
     doc.rect(121,132,  3,3)
-    if(passport.cardLanguage ==='босански'){
-      doc.text('X',122.5, 134.7)
-      doc.setLineWidth(0.3)
-      doc.rect(121,132, 3,3)
-      doc.setLineWidth(0.1)
-    }
-
     doc.text('(се одбира еден од наведените јазици)', 125, 135)
-
+    checkPassportCardLanguage(doc,passport)
 
     doc.text('Барам податоците за личното име во образецот да бидат испишани на еден од наведените јазици и', 21,142)
     doc.text('писмо', 21,147)
-
     doc.text('1.турски', 21, 152)
     doc.rect(36,149, 3,3)
-    if(passport.nameLanguage ==='турски'){
-      doc.text('X',36.5, 151.7)
-      doc.setLineWidth(0.3)
-      doc.rect(36,149, 3,3)
-      doc.setLineWidth(0.1)
-    }
     doc.text('2.влашки', 41, 152)
     doc.rect(57,149, 3,3)
-    if(passport.nameLanguage ==='влашки'){
-      doc.text('X',57.5,  151.7)
-      doc.setLineWidth(0.3)
-      doc.rect(57,149, 3,3)
-      doc.setLineWidth(0.1)
-    }
     doc.text('3.српски', 62, 152)
     doc.rect(77,149, 3,3)
-    if(passport.nameLanguage ==='српски'){
-      doc.text('X',77.5,  151.7)
-      doc.setLineWidth(0.3)
-      doc.rect(77,149, 3,3)
-      doc.setLineWidth(0.1)
-    }
-
     doc.text('4.ромски', 82, 152)
     doc.rect(98,149, 3,3)
-    if(passport.nameLanguage ==='ромски'){
-      doc.text('X',98.5,  151.7)
-      doc.setLineWidth(0.3)
-      doc.rect(98,149,  3,3)
-      doc.setLineWidth(0.1)
-    }
-
-    
     doc.text('5.босански', 102, 152)
     doc.rect(121,149,  3,3)
-    if(passport.nameLanguage ==='босански'){
-      doc.text('X',121.5, 151.7)
-      doc.setLineWidth(0.3)
-      doc.rect(121,149, 3,3)
-      doc.setLineWidth(0.1)
-    }
     doc.text('(се одбира еден од наведените јазици)', 125, 152)
-
+    checkPassportNameLanguage(doc, passport)
+ 
     doc.text('Барам податоците во образецот да бидат испишани на еден од наведените јазици и писмо', 21,159)
     doc.text('1.турски', 21, 164)
     doc.rect(36,161, 3,3)
-    if(passport.formLanguage ==='турски'){
-      doc.text('X',36.5, 163.7)
-      doc.setLineWidth(0.3)
-      doc.rect(36,161, 3,3)
-      doc.setLineWidth(0.1)
-    }
     doc.text('2.влашки', 41, 164)
     doc.rect(57,161, 3,3)
-    if(passport.formLanguage ==='влашки'){
-      doc.text('X',57.5, 163.7)
-      doc.setLineWidth(0.3)
-      doc.rect(57,161, 3,3)
-      doc.setLineWidth(0.1)
-    }
     doc.text('3.српски', 62, 164)
     doc.rect(77,161, 3,3)
-    if(passport.formLanguage ==='српски'){
-      doc.text('X',77.5, 163.7)
-      doc.setLineWidth(0.3)
-      doc.rect(77,161, 3,3)
-      doc.setLineWidth(0.1)
-    }
     doc.text('4.ромски', 82, 164)
-    doc.rect(98,161, 3,3)
-    if(passport.formLanguage ==='ромски'){
-      doc.text('X',98.5, 163.7)
-      doc.setLineWidth(0.3)
-      doc.rect(98,161,  3,3)
-      doc.setLineWidth(0.1)
-    }    
+    doc.rect(98,161, 3,3) 
     doc.text('5.босански', 102, 164)
     doc.rect(121,161,  3,3)
-    if(passport.formLanguage ==='босански'){
-      doc.text('X',121.5, 163.7)
-      doc.setLineWidth(0.3)
-      doc.rect(121,161, 3,3)
-      doc.setLineWidth(0.1)
-    }
     doc.text('(се одбира еден од наведените јазици)', 125, 164)
-
+    checkFormLanguage(doc,passport)
+    
      //ТРЕТА ТАБЕЛА
      doc.line(20, 170, 190, 170);
      doc.text('ЗА ОМАЖЕНИ-ОЖЕНЕТИ(презиме пред склучување на бракот)', 21, 174)

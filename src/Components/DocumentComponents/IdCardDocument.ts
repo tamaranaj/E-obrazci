@@ -1,6 +1,7 @@
 import jsPDF from "jspdf";
 import { IDCardDocument, PersonalDetailsID } from "../../Types/interfaces";
 import { addNotoSerifFont } from "../../addNotoSerifFont";
+import { checkIdCardLanguage, checkIdCardNameLanguage } from "./checkLanguagesIdCard";
 
 export const generateIdCardDocument = (idCardDocument: IDCardDocument, personalDetailsID: PersonalDetailsID, date:string ) =>{
     const doc = new jsPDF()
@@ -99,118 +100,31 @@ export const generateIdCardDocument = (idCardDocument: IDCardDocument, personalD
     doc.text('Барам образецот да биде изготвен на еден од наведените јазици и писмо',22,127 )
     doc.text('1. турски', 22, 131)
     doc.rect(36,129, 2,2)
-    if(idCardDocument.cardLanguage ==='турски'){
-      doc.setFontSize(10)
-      doc.text('х',37, 131)
-      doc.setFontSize(8);
-      doc.setLineWidth(0.3)
-      doc.rect(36,129, 2,2)
-      doc.setLineWidth(0.1)
-    }
     doc.text('2. влашки', 40, 131)
     doc.rect(55,129, 2,2)
-    if(idCardDocument.cardLanguage ==='влашки'){
-      doc.setFontSize(10)
-      doc.text('х',55, 131)
-      doc.setFontSize(8);
-      doc.setLineWidth(0.3)
-      doc.rect(55,129, 2,2)
-      doc.setLineWidth(0.1)
-    }
     doc.text('3. српски', 59, 131)
     doc.rect(73,129, 2,2)
-    if(idCardDocument.cardLanguage ==='српски'){
-      doc.setFontSize(10)
-      doc.text('х',73, 131)
-      doc.setFontSize(8);
-      doc.setLineWidth(0.3)
-      doc.rect(73,129, 2,2)
-      doc.setLineWidth(0.1)
-    }
-
     doc.text('4. ромски', 77, 131)
     doc.rect(92,129, 2,2)
-    if(idCardDocument.cardLanguage ==='ромски'){
-      doc.setFontSize(10)
-      doc.text('х',92, 131)
-      doc.setFontSize(8);
-      doc.setLineWidth(0.3)
-      doc.rect(92,129, 2,2)
-      doc.setLineWidth(0.1)
-    }
-
-    
     doc.text('5. босански', 96, 131)
     doc.rect(113,129, 2,2)
-    if(idCardDocument.cardLanguage ==='босански'){
-      doc.setFontSize(10)
-      doc.text('х',113, 131)
-      doc.setFontSize(8);
-      doc.setLineWidth(0.3)
-      doc.rect(113,129, 2,2)
-      doc.setLineWidth(0.1)
-    }
-
     doc.text('(се одбира еден од наведените јазици)', 117, 131)
-
+    checkIdCardLanguage(doc,idCardDocument)
 
     doc.text('Барам податоците за личното име во образецот да бидат испишани на еден од наведените јазици и писмо', 22,139)
-
     doc.text('1. турски', 22, 143)
     doc.rect(36,141, 2,2)
-    if(idCardDocument.nameLanguage ==='турски'){
-      doc.setFontSize(10)
-      doc.text('х',36, 143)
-      doc.setFontSize(8);
-      doc.setLineWidth(0.3)
-      doc.rect(36,141, 2,2)
-      doc.setLineWidth(0.1)
-    }
     doc.text('2. влашки', 40, 143)
     doc.rect(55,141, 2,2)
-    if(idCardDocument.nameLanguage ==='влашки'){
-      doc.setFontSize(10)
-      doc.text('х',55, 143)
-      doc.setFontSize(8);
-      doc.setLineWidth(0.3)
-      doc.rect(55,141, 2,2)
-      doc.setLineWidth(0.1)
-    }
     doc.text('3. српски', 59, 143)
     doc.rect(73,141, 2,2)
-    if(idCardDocument.nameLanguage ==='српски'){
-      doc.setFontSize(10)
-      doc.text('х',73, 143)
-      doc.setFontSize(8);
-      doc.setLineWidth(0.3)
-      doc.rect(73,141, 2,2)
-      doc.setLineWidth(0.1)
-    }
-
     doc.text('4. ромски', 77, 143)
     doc.rect(92,141, 2,2)
-    if(idCardDocument.nameLanguage ==='ромски'){
-      doc.setFontSize(10)
-      doc.text('х',92, 143)
-      doc.setFontSize(8);
-      doc.setLineWidth(0.3)
-      doc.rect(92,141, 2,2)
-      doc.setLineWidth(0.1)
-    }
-
-    
     doc.text('5. босански', 96, 143)
     doc.rect(113,141, 2,2)
-    if(idCardDocument.nameLanguage ==='босански'){
-      doc.setFontSize(10)
-      doc.text('х',113, 143)
-      doc.setFontSize(8);
-      doc.setLineWidth(0.3)
-      doc.rect(113,141, 2,2)
-      doc.setLineWidth(0.1)
-    }
     doc.text('(се одбира еден од наведените јазици)', 117, 143)
-
+    checkIdCardNameLanguage(doc, idCardDocument)
+    
     //трета табела
     doc.line(20, 153, 190, 153);
     doc.line(20, 162, 190, 162)

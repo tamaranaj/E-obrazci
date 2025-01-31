@@ -13,6 +13,7 @@ export const BilingualNameComponent=({handleChange, state}: SharedComponentProps
               
            
             <select id="language-select" name="nameLanguage" onChange={handleChange} className="select" value={state}>
+                <option value={""}>{language=='mkd'? 'Ниту еден': 'Asnjë'}</option>
               <option value={"турски"}>{language=='mkd'? 'Турски': 'Turqisht'}</option>
               <option value={"влашки"}>{language=='mkd'? 'Влашки': 'Vllehët'}</option>
               <option value={"српски"}>{language=='mkd'? 'Српски': 'Serb'}</option>
