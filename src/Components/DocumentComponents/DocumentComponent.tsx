@@ -3,10 +3,11 @@ import { GeneralContext } from '../../context/general.context';
 import Button from '@mui/material/Button';
 import { generatePassportDocument } from './PassportDocument';
 import { generateIdCardDocument } from './IdCardDocument';
+import { generateDriverLicenseDocument } from './DriverLicenseDocument';
 
 
 export const DocumentComponent = () => {
-  const{personalDetailsID,idCardDocument,passport, necessaryDocuments,language} = useContext(GeneralContext)
+  const{personalDetailsID,idCardDocument,passport,driverLicense, necessaryDocuments,language} = useContext(GeneralContext)
   let date= `${new Date().getDate()} - ${new Date().getMonth() + 1} - ${new Date().getFullYear()}`
   const handleCreateDocuments = ()=>{
     if(necessaryDocuments.idCard===true){
@@ -14,6 +15,9 @@ export const DocumentComponent = () => {
     }
     if(necessaryDocuments.passport===true){
       generatePassportDocument(personalDetailsID,passport,date)
+    }
+    if(necessaryDocuments.driverLicense===true){
+      generateDriverLicenseDocument(personalDetailsID,driverLicense, date)
     }
   }
   
