@@ -14,7 +14,12 @@ export interface NecessaryDocuments{
     passport: boolean,
     driverLicense: boolean
 }
-
+export interface Parents{
+    firstName: string,
+    lastName:string,
+    socialNumber:string,
+    relation: string
+}
 export interface PersonalDetailsID{
     firstName: string,
     lastName: string ,
@@ -29,7 +34,7 @@ export interface PersonalDetailsID{
     phone: string ,
     citizenship: string,
     previousAddress: string,
-    
+    parents: Parents[]
 }
 
 export interface IDCardDocument{
@@ -37,4 +42,9 @@ export interface IDCardDocument{
     cardLanguage: string ,
     nameLanguage: string ,
     procedure: string
+}
+
+export interface SharedComponentProps{
+    handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
+    state: string
 }

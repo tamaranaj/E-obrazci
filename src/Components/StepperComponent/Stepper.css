@@ -8,4 +8,9 @@
     justify-content: flex-start;
     max-width: 100%;
     align-items: center;
+    margin: 0px 50px 50px 50px;
+}
+.description{
+    font-size: 0.7em;
+    color:#1976D2;
 }

@@ -7,7 +7,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
 import { GeneralContext } from '../../context/general.context';
 import { useContext } from 'react';
-import { PersonalDetailsProps } from '../IDCardFormComponent/PersonalDetailsForm';
+import { PersonalDetailsProps } from '../PersonalDetailsFormComponent/PersonalDetailsForm';
 import Button from '@mui/material/Button';
 
 export const CheckboxComponent = ({handleNext}: PersonalDetailsProps )=> {
