@@ -4,7 +4,7 @@ import { addArimoFontBold } from "../../addNotoSerifFontBold";
 import { checkFormLanguage, checkPassportCardLanguage, checkPassportNameLanguage } from "./checkLanguagesPassport";
 
 
-export const generatePassportDocument = (personalInfo: PersonalDetailsID,passport:Passport, date:string  )=>{
+export const generatePassportDocumentMKD = (personalInfo: PersonalDetailsID,passport:Passport, date:string  )=>{
 
     const doc = new jsPDF()
     addArimoFontBold(doc);

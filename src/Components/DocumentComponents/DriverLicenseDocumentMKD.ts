@@ -2,7 +2,7 @@ import jsPDF from "jspdf";
 import { addArimoFontBold } from "../../addNotoSerifFontBold";
 import { DriverLicense, PersonalDetailsID } from "../../Types/interfaces";
 import { addNotoSerifFont } from "../../addNotoSerifFont";
-export const generateDriverLicenseDocument = (personalInfo: PersonalDetailsID, driverLicense: DriverLicense, date:string)=>{
+export const generateDriverLicenseDocumentMKD = (personalInfo: PersonalDetailsID, driverLicense: DriverLicense, date:string)=>{
 
     const doc = new jsPDF()
     addArimoFontBold(doc)
@@ -64,8 +64,26 @@ export const generateDriverLicenseDocument = (personalInfo: PersonalDetailsID, d
     //tuka treba da dodadam koj grad posle datata
     doc.text(date, 22,257)
     doc.text(personalInfo.phone, 70,265)
-
-
+    if(driverLicense.procedure==='редовна'){
+        doc.text('X',70.2, 219.8)
+    }else{
+        doc.text('X',70.2, 224.8)
+    }
+    if(driverLicense.nameLanguage==='турски'){
+        doc.text('X', 90.2,151.8)
+    }
+    if(driverLicense.nameLanguage==='влашки'){
+        doc.text('X', 90.2,156.8)
+    }
+    if(driverLicense.nameLanguage==='српски'){
+        doc.text('X', 90.2,161.8)
+    }
+    if(driverLicense.nameLanguage==='ромски'){
+        doc.text('X', 90.2,166.8)
+    }
+    if(driverLicense.nameLanguage==='босански'){
+        doc.text('X', 90.2,171.8)
+    }
 
     doc.setFontSize(10);
     doc.text('1. ПРИЧИНА ЗА ПОДНЕСУВАЊЕ НА БАРАЊЕТО', 23,40)      

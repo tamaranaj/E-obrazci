@@ -1,5 +1,5 @@
 import jsPDF from "jspdf";
-import { IDCardDocument } from "../../Types/interfaces";
+import { IDCardDocument} from "../../Types/interfaces";
 
 export const checkIdCardNameLanguage=(doc:jsPDF, idCardDocument:IDCardDocument)=>{
 
