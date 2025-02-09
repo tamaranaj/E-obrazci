@@ -34,6 +34,7 @@ export interface PersonalDetailsID{
     phone: string ,
     citizenship: string,
     previousAddress: string,
+    city: string,
     parents: Parents[]
 }
 

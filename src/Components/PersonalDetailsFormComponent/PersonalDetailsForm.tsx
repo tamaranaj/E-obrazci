@@ -19,6 +19,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
     }
   })
   const [married, setMarried] = useState<boolean | undefined>(undefined)
+  const[errorMarried, setErrorMarried] = useState(false)
   const [child, setChild] = useState<boolean | undefined>(undefined)
   const handleChild = (value: string) => {
     if (value == 'true') {
@@ -36,7 +37,10 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
     }
   }
   const submitForm = (data: PersonalDetailsID) => {
-    if (married === undefined) return
+    if (married === undefined){
+      setErrorMarried(true)
+      return
+    } 
     if (necessaryDocuments.driverLicense == false && child == undefined) return
     console.log(data)
     updatePersonalDetailsID(data);
@@ -116,7 +120,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
             <div className="fieldsets">
               <fieldset >
                 <legend >{language == 'mkd' ? 'Дали сте во брак?' : 'Je i martuar?'}</legend>
-                <div className="column">
+                <div className="marriage">
                   <div className="row">
                     <input
                       className='input'
@@ -142,12 +146,13 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
                     <label htmlFor="noMarried" >{language == 'mkd' ? 'Не' : 'Nr'}</label>
 
                   </div>
+                  {errorMarried && <span className='errorMessage'>{language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.'}</span>}
                 </div>
               </fieldset>
 
               <fieldset >
                 <legend >{language == 'mkd' ? 'Пол:' : 'Gjinia:'}</legend>
-                <div className="column">
+                <div className="gender">
                   <div className="row">
                     <input
                       type="radio"
@@ -427,6 +432,29 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
               />
             </div>
 
+            <div className="column">
+              <input type="text" className='input' id="city" placeholder={language == 'mkd' ? 'Град/Општина' : 'Qyteti/Bashkia'} {...register("city", {
+                required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.',
+                pattern: {
+                  value: /[а-шА-Шa-zA-Z]/g,
+                  message: language == 'mkd' ? 'Внесете го вашиот град/општина на живеење.' : 'Shkruani qytetin/komunën tuaj të banimit.'
+                },
+                minLength: {
+                  value: 3,
+                  message: language == 'mkd' ? 'Градот/општината не може да биде пократок од 3 карактери.' : 'Qyteti/bashkia nuk mund të jetë më e shkurtër se 3 karaktere.'
+                }
+              })} />
+              <ErrorMessage
+                errors={errors}
+                name="city"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <span key={type} className='errorMessage'>{message}</span>
+                  ))
+                }
+              />
+            </div>
 
 
             <div className="column">
@@ -622,6 +650,8 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
             >{language == 'mkd' ? 'Додај родител/старател' : 'Shto një prind/kujdestar'}</Button>
           </section>
         )}
+
+             
 
 
         <div>
