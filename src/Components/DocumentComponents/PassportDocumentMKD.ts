@@ -1,6 +1,6 @@
 import jsPDF from "jspdf";
 import { Passport, PersonalDetailsID } from "../../Types/interfaces";
-import { addArimoFontBold } from "../../addNotoSerifFontBold";
+import { addArimoFontBold } from "../../addArimoFontBold";
 import { checkFormLanguage, checkPassportCardLanguage, checkPassportNameLanguage } from "./checkLanguagesPassport";
 
 

@@ -1,5 +1,5 @@
 import jsPDF from "jspdf";
-import { addArimoFontBold } from "../../addNotoSerifFontBold";
+import { addArimoFontBold } from "../../addArimoFontBold";
 import { DriverLicense, PersonalDetailsID } from "../../Types/interfaces";
 import { addNotoSerifFont } from "../../addNotoSerifFont";
 export const generateDriverLicenseDocumentMKD = (personalInfo: PersonalDetailsID, driverLicense: DriverLicense, date:string)=>{

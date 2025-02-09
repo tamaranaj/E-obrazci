@@ -4,17 +4,14 @@ import Button from '@mui/material/Button';
 import { generatePassportDocumentMKD } from './PassportDocumentMKD';
 import { generateIdCardDocumentMKD } from './IdCardDocumentMKD';
 import { generateDriverLicenseDocumentMKD } from './DriverLicenseDocumentMKD';
-import { generateIDCardALB } from './IdCardDocumentALB';
 
 
 export const DocumentComponent = () => {
   const{personalDetailsID,idCardDocument,passport,driverLicense, necessaryDocuments,language} = useContext(GeneralContext)
   let date= `${new Date().getDate()} - ${new Date().getMonth() + 1} - ${new Date().getFullYear()}`
   const handleCreateDocuments = ()=>{
-    if(necessaryDocuments.idCard===true && language==='mkd'){
+    if(necessaryDocuments.idCard===true){
       generateIdCardDocumentMKD(idCardDocument,personalDetailsID,date)
-    }else if(necessaryDocuments.idCard===true && language==='alb'){
-      generateIDCardALB(idCardDocument, personalDetailsID, date)
     }
     if(necessaryDocuments.passport===true){
       generatePassportDocumentMKD(personalDetailsID,passport,date)
