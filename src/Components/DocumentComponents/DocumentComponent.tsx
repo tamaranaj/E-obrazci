@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import { generatePassportDocumentMKD } from './PassportDocumentMKD';
 import { generateIdCardDocumentMKD } from './IdCardDocumentMKD';
 import { generateDriverLicenseDocumentMKD } from './DriverLicenseDocumentMKD';
+import { generatePassportDocumentALB } from './PassportDocumentALB';
 
 
 export const DocumentComponent = () => {
@@ -13,8 +14,10 @@ export const DocumentComponent = () => {
     if(necessaryDocuments.idCard===true){
       generateIdCardDocumentMKD(idCardDocument,personalDetailsID,date)
     }
-    if(necessaryDocuments.passport===true){
+    if(necessaryDocuments.passport===true && language==='mkd'){
       generatePassportDocumentMKD(personalDetailsID,passport,date)
+    }else if(necessaryDocuments.passport===true && language==='alb'){
+      generatePassportDocumentALB(personalDetailsID, passport)
     }
     if(necessaryDocuments.driverLicense===true){
       generateDriverLicenseDocumentMKD(personalDetailsID,driverLicense, date)
