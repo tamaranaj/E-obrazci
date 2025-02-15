@@ -1,4 +1,4 @@
-import jsPDF, { TableConfig } from "jspdf";
+import jsPDF from "jspdf";
 import { addNotoSerifFont } from "../../addNotoSerifFont";
 import { addArimoFontBold } from "../../addArimoFontBold";
 import { PersonalDetailsID, DriverLicense } from "../../Types/interfaces";
@@ -15,7 +15,6 @@ const doc = new jsPDF()
     doc.text('ДО: МИНИСТЕРСТВО ЗА ВНАТРЕШНИ РАБОТИ НА РЕПУБЛИКА СЕВЕРНА МАКЕДОНИЈА', 20, 20,{align: 'left'})
     doc.text('DERI TE: MINISTRISË SË PUNËVE TË BRENDSHME TË REPUBLIKËS SË MAQEDONISË SË VERUIT', 20, 25,{align: 'left'})
     doc.setFontSize(9);
-
     doc.setLineWidth(0.5)
     doc.line(15, 35, 195, 35); 
     doc.line(15, 137, 195, 137); 
@@ -55,8 +54,6 @@ const doc = new jsPDF()
     doc.setLineWidth(0.1)
     doc.text('(се избира постапката на која се однесува барањето) / (zgjidhet procedura e cila ka të bëjë me kërkesën)', 24,44)
     doc.text('Барам возачката дозвола да биде издадена во: / Kërkoj që patentë shoferi të më lëshohet në:', 20,215)
-
-
     //BOLD
     doc.setFont('ArimoBold', 'bold');
     doc.setFontSize(10);
@@ -78,7 +75,6 @@ const doc = new jsPDF()
     doc.setFontSize(10);
     doc.text('1. ПРИЧИНА ЗА ПОДНЕСУВАЊЕ НА БАРАЊЕТО / ARSYEJA PËR PARASHTRIMIN E KËRKESËS', 20,40)
     doc.text('1.1  Издавање на возачка дозвола за прв пат / Dhënia e patentë shoferit herë të parë ;', 20, 49)
-   
     doc.text('1.2  Замена на странска со македонска возачка дозвола /', 20, 54)
     doc.text(' Ndërrim i patentë shoferit të huaj me patent shofer maqedonas ;', 26, 58)
     doc.text('1.3  Замена на возачка дозвола поради истек на рокот на важење / ', 20, 63)
@@ -98,14 +94,12 @@ const doc = new jsPDF()
     doc.text('1.11  Продолжување на важност на возачка дозвола според пријавеното престојувалиште, а по', 20, 127)
     doc.text('претходна најава за местото на поденсување на барањето / Vazhdim i afatit të patentë shofe-', 29, 131)
     doc.text('rit sipas vendoëndrimit, pas paralajmërimit paraprak për vendin e parashtrimit të kërkesës;', 29, 135)
-
     doc.text('2.ПОДАТОЦИ ЗА ПОДНЕСИТЕЛОТ НА БАРАЊЕТО:/TË DHËNA PËR PARASHTRUESIN E KËRKESËS:', 20, 142)
     doc.line(20,145,190,145)
     doc.text('ИМЕ / EMRI', 50, 149)
     doc.text('ПРЕЗИМЕ / MBIEMRI', 135, 149)
     doc.line(20,150,190,150)
     doc.line(25, 156,100,156)
-    
     doc.line(110, 156,185,156)
     doc.line(20,158,190,158)
     doc.text('Матичен број', 22, 162)
@@ -123,18 +117,15 @@ const doc = new jsPDF()
     doc.text('Vendbanim/Vendqëndrimi', 40, 192)
     doc.text('Место/Адреса', 137, 188)
     doc.text('Vendi/Adresa', 138, 192)
-
-    doc.line(25,198,100,198) // тука живеалиште
-    doc.line(110,198,185,198) //тука адреса
+    doc.line(25,198,100,198) 
+    doc.line(110,198,185,198) 
     doc.line(20,200,190,200)
-
     doc.line(20,145,20,200)
     doc.line(190,145,190,200)
     doc.line(105,145,105,158)
     doc.line(105,168,105,200)
     doc.text('3. ПОДАТОЦИ ЗА ИЗДАВАЊЕ НА ВОЗАЧКА ДОЗВОЛА: ', 25, 205)
     doc.text('PROCEDURA PËR DHËNIEN E PATENTË SHOFERIT:', 29, 210)
-
     doc.text('4. ПОДАТОЦИ ЗА ПРЕТХОДНА ВОЗАЧКА ДОЗВОЛА:', 25, 232)
     doc.text('TË DHËNA PËR PATENTË SHOFERIN E MËPARSHËM', 29, 237)
     doc.text('1. Редовна постапка / Procedurë të rrgullt', 29,220)
@@ -149,14 +140,12 @@ const doc = new jsPDF()
     doc.text('Nënshkrimi i parashtruesit', 149, 258)
     doc.line(140, 264, 190, 264)
     doc.line(20, 264, 80, 264)
-
-    
     doc.text('Податоци за контакт: / Të dhënat për kontakt:', 20, 270)
    doc.line(100, 271, 185, 271)
    doc.text('Потпис на службеното лице кое го примило барањето', 20, 275)
    doc.text('Nënshkrimi i personit zyrtar i cili e ka pranuar kërkesen', 20, 279)
    doc.line(115, 279, 185, 279)
-
+    //vtora strana
     doc.addPage()
     //bold
     doc.text('5.ПРИЛОГ КОН БАРАЊЕТО: / SHTOJCË NDAJ KËRKESËS:',20,20)
@@ -164,7 +153,6 @@ const doc = new jsPDF()
     doc.text('Доказите означени со ѕвезда(*) се смета дека се поднесени во прилог на барањето и истите Министерството', 18, 199)
   doc.text('за внатрешни работи ги прибавува по службена должност. / Dcshmit të nënviyuara yll(*) konsiderohen se janë', 18 , 202)
   doc.text('parashtruar me kërkesen dhe të njejtat Ministria për Punë të Brendshme i siguron sipas detyrës zyrtare.', 18, 205)
-
   doc.setLineWidth(0.5)
   doc.line(18,207,192,207)
   doc.setLineWidth(0.1)
@@ -175,15 +163,12 @@ const doc = new jsPDF()
   doc.text('ѕвезда(*) во делот 5 на ова барање. / Parashtruesi i kërkesës pajtohet të dhënat e tij/tyre personale të shfrityo-', 20, 223)
   doc.text('hen në procedurën për realiyimin e të drejtës para organeve kompetente për sigurimin e të GJITHA dokumenteve', 20, 226)
   doc.text('të nënviyuara me yll(*) nga pjesa 5 e kësaj kërkese.', 20, 229)
-
   doc.text('Потпис на подносителот', 27, 233)
   doc.text('Nënshkrimi i parashtruesit', 26, 236)
   doc.line(20, 243, 80, 243)
   doc.text('УПАТСТВО ЗА ПОПОЛНУВАЊЕ НА БАРАЊЕТО ЗА ИЗДАВАЊЕ НА ВОЗАЧКА ДОЗВОЛА:', 20, 248)
   doc.text('UDHËZIM PËR PLOTËSIMIN E KËRKESËS PËR DHËNIEN E PATENTË SHOFERIT:', 20, 252)
-
-
-
+    //normal font
     doc.setFont("NotoSerif", "normal")
     doc.setFontSize(8.7)
     doc.line(15,22,195,22)
@@ -253,6 +238,5 @@ const doc = new jsPDF()
     doc.text('оствари контакт со истиот (телефонски или електронски пат). Избраниот начин за контакт се наведува во делот',18,272)
     doc.text('"податоци за контакт". / Parashtruesi i kërkesës vetë e ygjedh mënyren se si Ministria për Punë Të Brendshme do të',18,276)
     doc.text('kontaktoj me të(telefon apo përmes rrugës elektronike).Mënyra e zgjedhur për kontakt në pjesën "të dhënat për kontakt".', 18, 280)
-    
     doc.save('driversLicense.pdf');
 }
