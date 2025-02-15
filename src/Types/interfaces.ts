@@ -48,3 +48,7 @@ export interface SharedComponentProps{
     handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
     state: string
 }
+export interface DocumentLanguage{
+    macedonian: boolean,
+    albanian: boolean
+}

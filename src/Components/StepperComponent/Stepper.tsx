@@ -50,6 +50,18 @@ export default function StepperComponent() {
 
           <Step >
             <StepLabel >
+              <span style={bgColor == true ? { color: 'black' } : { color: 'white' }}>{language == 'mkd' ? 'Изберете го јазикот на документот' : 'Zgjidhni gjuhën e dokumentit'}</span>
+            </StepLabel>
+            <StepContent >
+              <Typography component={'div'}>
+
+                <CheckboxComponent handleNext={handleNext} />
+              </Typography>
+            </StepContent>
+          </Step>
+
+          <Step >
+            <StepLabel >
               <span style={bgColor == true ? { color: 'black' } : { color: 'white' }}>{language == 'mkd' ? 'Податоци за поднесителот на барањето' : 'Informacion rreth aplikantit'}</span>
             </StepLabel>
             <StepContent >
