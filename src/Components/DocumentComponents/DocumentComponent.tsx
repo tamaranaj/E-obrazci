@@ -6,6 +6,7 @@ import { generateIdCardDocumentMKD } from './IdCardDocumentMKD';
 import { generateDriverLicenseDocumentMKD } from './DriverLicenseDocumentMKD';
 import { generateIDCardALB } from './IdCardDocumentALB';
 import { generatePassportDocumentALB } from './PassportDocumentALB';
+import { generateDriverLicenseALB } from './DriverLicenseDocumentALB';
 
 
 export const DocumentComponent = () => {
@@ -22,8 +23,10 @@ export const DocumentComponent = () => {
     }else if(necessaryDocuments.passport===true && language==='alb'){
       generatePassportDocumentALB(personalDetailsID, passport)
     }
-    if(necessaryDocuments.driverLicense===true){
+    if(necessaryDocuments.driverLicense===true && language==='mkd'){
       generateDriverLicenseDocumentMKD(personalDetailsID,driverLicense, date)
+    }else if(necessaryDocuments.driverLicense===true && language==='alb'){
+      generateDriverLicenseALB(driverLicense, personalDetailsID)
     }
   }
   
