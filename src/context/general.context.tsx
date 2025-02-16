@@ -17,8 +17,8 @@ interface ContextDefault {
     changeLanguage: () => void,
     addNecessaryDocs: (event: React.ChangeEvent<HTMLInputElement>) => void,
     updateDriverLicense: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
-    documentLanguage: DocumentLanguage,
-    addDocumentLanguage: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    documentLanguage: string,
+    updateDocumentLanguage: (value:string) => void,
     resetContext: () => void
 
 }
@@ -64,10 +64,7 @@ const contextDefaultValues: ContextDefault = {
         nameLanguage: '',
         procedure: ''
     },
-    documentLanguage:{
-        macedonian: false,
-        albanian:false
-    },
+    documentLanguage:'',
     updatePersonalDetailsID: ()=>{},
     updateIDCardDocument: ()=>{},
     updatePassportDocument: ()=>{},
@@ -75,7 +72,7 @@ const contextDefaultValues: ContextDefault = {
     addNecessaryDocs: () => {},
     changeLanguage: ()=>{},
     updateDriverLicense: ()=>{},
-    addDocumentLanguage: ()=>{},
+   updateDocumentLanguage: ()=>{},
     resetContext: () => {}
     
 }
@@ -109,11 +106,9 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
           [event.target.name]: event.target.checked,
         });
       };
-    const addDocumentLanguage = (event:React.ChangeEvent<HTMLInputElement>)=>{
-        setDocumentLanguage({
-            ...documentLanguage,
-            [event.target.name]: event.target.checked
-        })
+    const updateDocumentLanguage = (value:string)=>{
+        setDocumentLanguage(value)
+        
     }
     const changeLanguage = ()=> {
         language == 'mkd'? setLanguage('alb') : setLanguage('mkd')
@@ -155,7 +150,7 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
     
     return(
         <GeneralContext.Provider 
-        value={{personalDetailsID,idCardDocument,bgColor,passport,necessaryDocuments,language,driverLicense,documentLanguage,addDocumentLanguage,updateDriverLicense,updateIDCardDocument,updatePersonalDetailsID,changeBgColor,changeLanguage, addNecessaryDocs, updatePassportDocument,resetContext  }}>
+        value={{personalDetailsID,idCardDocument,bgColor,passport,necessaryDocuments,language,driverLicense,documentLanguage,updateDocumentLanguage,updateDriverLicense,updateIDCardDocument,updatePersonalDetailsID,changeBgColor,changeLanguage, addNecessaryDocs, updatePassportDocument,resetContext  }}>
             {children}
         </GeneralContext.Provider>
     )

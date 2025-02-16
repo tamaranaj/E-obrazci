@@ -14,6 +14,7 @@ import { useContext, useState } from 'react';
 import { CheckboxComponent } from '../CheckboxComponent/CheckboxComponent';
 import { TabContainer } from '../TabsComponent/TabContainer';
 import { check } from '../HelperFunc/checkAnswers';
+import { DocumentLanguageComponent } from '../DocumentLanguageComponent/DocumentLanguageComponent';
 
 export default function StepperComponent() {
   const { bgColor, language, necessaryDocuments, idCardDocument,passport,driverLicense,resetContext } = useContext(GeneralContext)
@@ -42,8 +43,8 @@ export default function StepperComponent() {
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
-
-                <CheckboxComponent handleNext={handleNext} />
+              <CheckboxComponent handleNext={handleNext} />
+              
               </Typography>
             </StepContent>
           </Step>
@@ -55,7 +56,7 @@ export default function StepperComponent() {
             <StepContent >
               <Typography component={'div'}>
 
-                <CheckboxComponent handleNext={handleNext} />
+              <DocumentLanguageComponent handleNext={handleNext} />
               </Typography>
             </StepContent>
           </Step>
