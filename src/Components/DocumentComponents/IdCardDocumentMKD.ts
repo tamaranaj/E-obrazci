@@ -3,7 +3,7 @@ import { IDCardDocument, PersonalDetailsID } from "../../Types/interfaces";
 import { addNotoSerifFont } from "../../addNotoSerifFont";
 import { checkIdCardLanguage, checkIdCardNameLanguage } from "./checkLanguagesIdCard";
 
-export const generateIdCardDocumentMKD = (idCardDocument: IDCardDocument, personalDetailsID: PersonalDetailsID, date:string ) =>{
+export const generateIdCardDocumentMKD = (idCardDocument: IDCardDocument, personalDetailsID: PersonalDetailsID ) =>{
     const doc = new jsPDF()
     addNotoSerifFont(doc);
     doc.setFont("NotoSerif", "normal");
@@ -231,7 +231,6 @@ export const generateIdCardDocumentMKD = (idCardDocument: IDCardDocument, person
    
     //ПОТПИСИ
     doc.text('Датум и место на поднесување',23,54)
-    doc.text(date, 30,61)
     doc.text('Потпис на подносителот',140,54)
     doc.line(23,62,80,62)
     doc.line(130,62,190,62)

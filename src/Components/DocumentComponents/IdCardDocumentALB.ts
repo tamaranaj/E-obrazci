@@ -3,7 +3,7 @@ import { IDCardDocument, PersonalDetailsID } from "../../Types/interfaces";
 import { addNotoSerifFont } from "../../addNotoSerifFont";
 import { addArimoFontBold } from "../../addArimoFontBold";
 
-export const generateIDCardALB = (idCardDocument:IDCardDocument, personalInfo: PersonalDetailsID, date: string )=>{
+export const generateIDCardALB = (idCardDocument:IDCardDocument, personalInfo: PersonalDetailsID )=>{
 
 
     const doc = new jsPDF()
@@ -181,7 +181,7 @@ export const generateIDCardALB = (idCardDocument:IDCardDocument, personalInfo: P
   doc.setFontSize(10)
   doc.text(personalInfo.previousAddress,97,166)
   doc.text(personalInfo.address,80,174)
-  doc.text(date,25,269)
+
 
     if(idCardDocument.procedure==='редовна'){
       doc.text('X',97.4,241.8)

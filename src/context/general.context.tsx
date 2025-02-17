@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useState } from "react";
-import { IDCardDocument, NecessaryDocuments, PersonalDetailsID,Passport, DriverLicense, DocumentLanguage } from "../Types/interfaces";
+import { IDCardDocument, NecessaryDocuments, PersonalDetailsID,Passport, DriverLicense } from "../Types/interfaces";
 
 
 interface ContextDefault {

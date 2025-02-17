@@ -4,7 +4,7 @@ import { addArimoFontBold } from "../../addArimoFontBold";
 import { checkFormLanguage, checkPassportCardLanguage, checkPassportNameLanguage } from "./checkLanguagesPassport";
 
 
-export const generatePassportDocumentMKD = (personalInfo: PersonalDetailsID,passport:Passport, date:string  )=>{
+export const generatePassportDocumentMKD = (personalInfo: PersonalDetailsID,passport:Passport)=>{
 
     const doc = new jsPDF()
     addArimoFontBold(doc);
@@ -270,7 +270,6 @@ export const generatePassportDocumentMKD = (personalInfo: PersonalDetailsID,pass
 
      //ПОТПИСИ
     doc.text('Датум и место на поднесување',23,45)
-    doc.text(date, 30,51)
     doc.text('Потпис на подносителот',133,45)
     doc.line(23,52,80,52)
     doc.line(125,52,180,52)

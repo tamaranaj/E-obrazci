@@ -2,7 +2,7 @@ import jsPDF from "jspdf";
 import { addArimoFontBold } from "../../addArimoFontBold";
 import { DriverLicense, PersonalDetailsID } from "../../Types/interfaces";
 import { addNotoSerifFont } from "../../addNotoSerifFont";
-export const generateDriverLicenseDocumentMKD = (personalInfo: PersonalDetailsID, driverLicense: DriverLicense, date:string)=>{
+export const generateDriverLicenseDocumentMKD = (personalInfo: PersonalDetailsID, driverLicense: DriverLicense)=>{
 
     const doc = new jsPDF()
     addArimoFontBold(doc)
@@ -61,8 +61,6 @@ export const generateDriverLicenseDocumentMKD = (personalInfo: PersonalDetailsID
     doc.text(personalInfo.placeBirth, 120,183)
     //ТУКА ТРЕБА ДА ДОДАДАМ ИСТО ВО КОЈ ГРАД ЖИВЕЕ ЛИЦЕТО НА Х-30 Y-297
     doc.text(personalInfo.address, 120,197)
-    //tuka treba da dodadam koj grad posle datata
-    doc.text(date, 22,257)
     doc.text(personalInfo.phone, 70,265)
     if(driverLicense.procedure==='редовна'){
         doc.text('X',70.2, 219.8)

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -7,9 +6,10 @@ import FormLabel from '@mui/material/FormLabel';
 import { PersonalDetailsProps } from '../PersonalDetailsFormComponent/PersonalDetailsForm';
 import Button from '@mui/material/Button';
 import { GeneralContext } from '../../context/general.context';
+import { useContext } from 'react';
 
 export const DocumentLanguageComponent = ({handleNext}: PersonalDetailsProps )=> {
-    const {documentLanguage,language,bgColor,updateDocumentLanguage} = React.useContext(GeneralContext)
+    const {documentLanguage,language,bgColor,updateDocumentLanguage} = useContext(GeneralContext)
  
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,8 +39,8 @@ export const DocumentLanguageComponent = ({handleNext}: PersonalDetailsProps )=>
           disabled = {documentLanguage===''}
           onClick={handleNext}
           sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black'}}
-        >Понатаму
-          {/* {language == 'mkd' ? 'Понатаму': 'Më tej'} */}
+        >
+          {language == 'mkd' ? 'Понатаму': 'Më tej'}
         </Button>
         </div>
     </>
