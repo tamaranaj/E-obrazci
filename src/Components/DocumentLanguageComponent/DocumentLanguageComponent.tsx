@@ -14,7 +14,7 @@ export const DocumentLanguageComponent = ({handleNext}: PersonalDetailsProps )=>
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     updateDocumentLanguage(event.target.value)
-    console.log(documentLanguage)
+    
   };
 
   return (

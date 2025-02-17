@@ -96,7 +96,7 @@ export default function StepperComponent() {
           </Step>
 
         </Stepper>
-        {activeStep == 3 && (
+        {activeStep == 4 && (
           <Paper square elevation={0} sx={{ p: 3, backgroundColor: 'transparent' }} className='paper'>
             <Typography component={'section'}>
               <div>

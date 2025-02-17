@@ -144,6 +144,7 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
         setIDCardDocument(contextDefaultValues.idCardDocument)
         setPassport(contextDefaultValues.passport)
         setDriverLicense(contextDefaultValues.driverLicense)
+        setDocumentLanguage(contextDefaultValues.documentLanguage)
 
     }
     

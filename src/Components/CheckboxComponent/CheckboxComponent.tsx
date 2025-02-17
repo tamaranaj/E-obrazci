@@ -17,7 +17,7 @@ export const CheckboxComponent = ({handleNext}: PersonalDetailsProps )=> {
   const error = [idCard, passport, driverLicense].filter((v) => v).length < 1;
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column'}}>
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard" required
         error={error}>
         <FormLabel component="legend" sx={bgColor ? {color: 'black'} : {color:'white'}}>{language == 'mkd'? 'Одберете документи кои ви се потребни': 'Zgjidhni dokumentet që ju nevojiten'}</FormLabel>
