@@ -14,6 +14,7 @@ import { useContext, useState } from 'react';
 import { CheckboxComponent } from '../CheckboxComponent/CheckboxComponent';
 import { TabContainer } from '../TabsComponent/TabContainer';
 import { check } from '../HelperFunc/checkAnswers';
+import { DocumentLanguageComponent } from '../DocumentLanguageComponent/DocumentLanguageComponent';
 
 export default function StepperComponent() {
   const { bgColor, language, necessaryDocuments, idCardDocument,passport,driverLicense,resetContext } = useContext(GeneralContext)
@@ -42,8 +43,20 @@ export default function StepperComponent() {
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
+              <CheckboxComponent handleNext={handleNext} />
+              
+              </Typography>
+            </StepContent>
+          </Step>
 
-                <CheckboxComponent handleNext={handleNext} />
+          <Step >
+            <StepLabel >
+              <span style={bgColor == true ? { color: 'black' } : { color: 'white' }}>{language == 'mkd' ? 'Изберете го јазикот на документот' : 'Zgjidhni gjuhën e dokumentit'}</span>
+            </StepLabel>
+            <StepContent >
+              <Typography component={'div'}>
+
+              <DocumentLanguageComponent handleNext={handleNext} />
               </Typography>
             </StepContent>
           </Step>
@@ -83,7 +96,7 @@ export default function StepperComponent() {
           </Step>
 
         </Stepper>
-        {activeStep == 3 && (
+        {activeStep == 4 && (
           <Paper square elevation={0} sx={{ p: 3, backgroundColor: 'transparent' }} className='paper'>
             <Typography component={'section'}>
               <div>

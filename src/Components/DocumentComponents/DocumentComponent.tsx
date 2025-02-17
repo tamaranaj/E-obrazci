@@ -10,22 +10,22 @@ import { generateDriverLicenseALB } from './DriverLicenseDocumentALB';
 
 
 export const DocumentComponent = () => {
-  const{personalDetailsID,idCardDocument,passport,driverLicense, necessaryDocuments,language} = useContext(GeneralContext)
+  const{personalDetailsID,idCardDocument,passport,driverLicense, necessaryDocuments,documentLanguage,language} = useContext(GeneralContext)
   let date= `${new Date().getDate()}.${new Date().getMonth() + 1}.${new Date().getFullYear()}`
   const handleCreateDocuments = ()=>{
-    if(necessaryDocuments.idCard===true && language==='mkd'){
+    if(necessaryDocuments.idCard===true && documentLanguage==='macedonian'){
       generateIdCardDocumentMKD(idCardDocument,personalDetailsID,date)
-    }else if(necessaryDocuments.idCard===true && language==='alb'){
+    }else if(necessaryDocuments.idCard===true && documentLanguage==='albanian'){
       generateIDCardALB(idCardDocument, personalDetailsID, date)
     }
-    if(necessaryDocuments.passport===true && language==='mkd'){
+    if(necessaryDocuments.passport===true && documentLanguage==='macedonian'){
       generatePassportDocumentMKD(personalDetailsID,passport,date)
-    }else if(necessaryDocuments.passport===true && language==='alb'){
+    }else if(necessaryDocuments.passport===true && documentLanguage==='albanian'){
       generatePassportDocumentALB(personalDetailsID, passport)
     }
-    if(necessaryDocuments.driverLicense===true && language==='mkd'){
+    if(necessaryDocuments.driverLicense===true && documentLanguage==='macedonian'){
       generateDriverLicenseDocumentMKD(personalDetailsID,driverLicense, date)
-    }else if(necessaryDocuments.driverLicense===true && language==='alb'){
+    }else if(necessaryDocuments.driverLicense===true && documentLanguage==='albanian'){
       generateDriverLicenseALB(driverLicense, personalDetailsID)
     }
   }

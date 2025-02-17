@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useState } from "react";
-import { IDCardDocument, NecessaryDocuments, PersonalDetailsID,Passport, DriverLicense } from "../Types/interfaces";
+import { IDCardDocument, NecessaryDocuments, PersonalDetailsID,Passport, DriverLicense, DocumentLanguage } from "../Types/interfaces";
 
 
 interface ContextDefault {
@@ -17,6 +17,8 @@ interface ContextDefault {
     changeLanguage: () => void,
     addNecessaryDocs: (event: React.ChangeEvent<HTMLInputElement>) => void,
     updateDriverLicense: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
+    documentLanguage: string,
+    updateDocumentLanguage: (value:string) => void,
     resetContext: () => void
 
 }
@@ -62,6 +64,7 @@ const contextDefaultValues: ContextDefault = {
         nameLanguage: '',
         procedure: ''
     },
+    documentLanguage:'',
     updatePersonalDetailsID: ()=>{},
     updateIDCardDocument: ()=>{},
     updatePassportDocument: ()=>{},
@@ -69,6 +72,7 @@ const contextDefaultValues: ContextDefault = {
     addNecessaryDocs: () => {},
     changeLanguage: ()=>{},
     updateDriverLicense: ()=>{},
+   updateDocumentLanguage: ()=>{},
     resetContext: () => {}
     
 }
@@ -83,6 +87,7 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
     const[personalDetailsID, setPersonalDetailsIDCard] = useState(contextDefaultValues.personalDetailsID)
     const [bgColor, setBgColor] = useState(contextDefaultValues.bgColor)
     const [language, setLanguage] = useState(contextDefaultValues.language)
+    const [documentLanguage, setDocumentLanguage] = useState(contextDefaultValues.documentLanguage)
     const [necessaryDocuments, setNecessaryDocuments] = useState(contextDefaultValues.necessaryDocuments)
     const [idCardDocument, setIDCardDocument] = useState(contextDefaultValues.idCardDocument)
     const [passport, setPassport] = useState(contextDefaultValues.passport)
@@ -101,6 +106,10 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
           [event.target.name]: event.target.checked,
         });
       };
+    const updateDocumentLanguage = (value:string)=>{
+        setDocumentLanguage(value)
+        
+    }
     const changeLanguage = ()=> {
         language == 'mkd'? setLanguage('alb') : setLanguage('mkd')
     }
@@ -135,13 +144,14 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
         setIDCardDocument(contextDefaultValues.idCardDocument)
         setPassport(contextDefaultValues.passport)
         setDriverLicense(contextDefaultValues.driverLicense)
+        setDocumentLanguage(contextDefaultValues.documentLanguage)
 
     }
     
     
     return(
         <GeneralContext.Provider 
-        value={{personalDetailsID,idCardDocument,bgColor,passport,necessaryDocuments,language,driverLicense,updateDriverLicense,updateIDCardDocument,updatePersonalDetailsID,changeBgColor,changeLanguage, addNecessaryDocs, updatePassportDocument,resetContext  }}>
+        value={{personalDetailsID,idCardDocument,bgColor,passport,necessaryDocuments,language,driverLicense,documentLanguage,updateDocumentLanguage,updateDriverLicense,updateIDCardDocument,updatePersonalDetailsID,changeBgColor,changeLanguage, addNecessaryDocs, updatePassportDocument,resetContext  }}>
             {children}
         </GeneralContext.Provider>
     )
