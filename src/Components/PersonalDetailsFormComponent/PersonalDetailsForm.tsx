@@ -4,30 +4,29 @@ import { useContext, useState } from 'react'
 import Button from '@mui/material/Button';
 import { GeneralContext } from '../../context/general.context';
 import { ErrorMessage } from "@hookform/error-message"
-import { PersonalDetailsID } from '../../Types/interfaces';
-export interface PersonalDetailsProps {
-  handleNext: () => void
-}
+import { PersonalDetailsID, StepperProps } from '../../Types/interfaces';
 
-export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
+
+
+export const PersonalDetailsForm = (props: StepperProps) => {
 
   const { updatePersonalDetailsID, bgColor, language, necessaryDocuments } = useContext(GeneralContext)
   const { register, handleSubmit, formState: { errors }, control } = useForm<PersonalDetailsID>({
-    criteriaMode: "all",
-    defaultValues: {
-      parents: [{ firstName: '', lastName: '', relation: '', socialNumber: '' }]
-    }
+    // criteriaMode: "all",
+    // defaultValues: { 
+    //   parents: [{ firstName: '', lastName: '', relation: '', socialNumber: '' }]
+    // }
   })
   const [married, setMarried] = useState<boolean | undefined>(undefined)
   const[errorMarried, setErrorMarried] = useState(false)
   const [child, setChild] = useState<boolean | undefined>(undefined)
-  const handleChild = (value: string) => {
-    if (value == 'true') {
-      setChild(true)
-    } else {
-      setChild(false)
-    }
-  }
+  // const handleChild = (value: string) => {
+  //   if (value == 'true') {
+  //     setChild(true)
+  //   } else {
+  //     setChild(false)
+  //   }
+  // }
 
   const handleMarried = (value: string) => {
     if (value == 'true') {
@@ -53,14 +52,14 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   }
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "parents"
-  })
+  // const { fields, append, remove } = useFieldArray({
+  //   control,
+  //   name: "parents"
+  // })
 
-  const handleAddParent = () => {
-    append({ firstName: '', lastName: '', relation: '', socialNumber: '' })
-  }
+  // const handleAddParent = () => {
+  //   append({ firstName: '', lastName: '', relation: '', socialNumber: '' })
+  // }
   return (
     <div className='personalDetailsFormContainer'>
       <form onSubmit={handleSubmit(submitForm)} className='personalDetailsForm' style={bgColor == true ? { color: 'black' } : { color: 'white' }}>
@@ -433,7 +432,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
             </div>
 
             <div className="column">
-              <input type="text" className='input' id="city" placeholder={language == 'mkd' ? 'Град/Општина' : 'Qyteti/Bashkia'} {...register("city", {
+              <input type="text" className='input' id="city" placeholder={language == 'mkd' ? 'Град' : 'Qyteti'} {...register("city", {
                 required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.',
                 pattern: {
                   value: /[а-шА-Шa-zA-Z]/g,
@@ -490,7 +489,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
           </section>
         </div>
 
-        {necessaryDocuments.driverLicense == false && (
+        {/* {necessaryDocuments.driverLicense == false && (
           <div >
             <fieldset className='childQuest' >
               <legend >{language == 'mkd' ? 'Дали поднесувате барање за вашето дете?' : 'Je i martuar?'}</legend>
@@ -523,10 +522,10 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
               </div>
             </fieldset>
           </div>
-        )}
+        )} */}
 
 
-        {child && (
+        {/* {child && (
           <section className='dynamicSection'>
             <div className='dynamicFieldsContainer'>
               {fields.map((field, index) => (
@@ -649,7 +648,7 @@ export const PersonalDetailsForm = (props: PersonalDetailsProps) => {
               onClick={handleAddParent}
             >{language == 'mkd' ? 'Додај родител/старател' : 'Shto një prind/kujdestar'}</Button>
           </section>
-        )}
+        )} */}
 
              
 

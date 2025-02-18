@@ -15,6 +15,8 @@ import { CheckboxComponent } from '../CheckboxComponent/CheckboxComponent';
 import { TabContainer } from '../TabsComponent/TabContainer';
 import { check } from '../HelperFunc/checkAnswers';
 import { DocumentLanguageComponent } from '../DocumentLanguageComponent/DocumentLanguageComponent';
+import { TestForm } from '../TestForm/TestFrom';
+import { ChildrenComponent } from '../ChildrenComponent/ChildrenComponent';
 
 export default function StepperComponent() {
   const { bgColor, language, necessaryDocuments, idCardDocument,passport,driverLicense,resetContext } = useContext(GeneralContext)
@@ -51,7 +53,7 @@ export default function StepperComponent() {
 
           <Step >
             <StepLabel >
-              <span style={bgColor == true ? { color: 'black' } : { color: 'white' }}>{language == 'mkd' ? 'Изберете го јазикот на документот' : 'Zgjidhni gjuhën e dokumentit'}</span>
+              <span style={bgColor == true ? { color: 'black' } : { color: 'white' }}>{language == 'mkd' ? 'Изберете на кој јазик да биде изготвено барањето' : 'Zgjidhni në cilën gjuhë duhet të përgatitet kërkesa'}</span>
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
@@ -61,19 +63,7 @@ export default function StepperComponent() {
             </StepContent>
           </Step>
 
-          <Step >
-            <StepLabel >
-              <span style={bgColor == true ? { color: 'black' } : { color: 'white' }}>{language == 'mkd' ? 'Податоци за поднесителот на барањето' : 'Informacion rreth aplikantit'}</span>
-            </StepLabel>
-            <StepContent >
-              <Typography component={'div'}>
-
-                <PersonalDetailsForm handleNext={handleNext} />
-
-              </Typography>
-            </StepContent>
-          </Step>
-
+          
           <Step>
             <StepLabel sx={{ color: 'inherit' }}>
               <span style={bgColor == true ? { color: 'black' } : { color: 'white' }}>{language == 'mkd' ? 'Податоци за барањето' : 'Informacion rreth aplikimit'}</span>
@@ -94,9 +84,34 @@ export default function StepperComponent() {
               </Typography>
             </StepContent>
           </Step>
+          <Step >
+            <StepLabel >
+              <span style={bgColor == true ? { color: 'black' } : { color: 'white' }}>{language == 'mkd' ? 'Податоци за поднесителот на барањето' : 'Informacion rreth aplikantit'}</span>
+            </StepLabel>
+            <StepContent >
+              <Typography component={'div'}>
+                <TestForm handleNext={handleNext}/>              
+              </Typography>
+            </StepContent>
+          </Step>
+
+          <Step >
+            <StepLabel >
+              <span style={bgColor == true ? { color: 'black' } : { color: 'white' }}>{language == 'mkd' ? 'Податоци за поднесителот на барањето' : 'Informacion rreth aplikantit'}</span>
+            </StepLabel>
+            <StepContent >
+              <Typography component={'div'}>
+
+                <ChildrenComponent handleNext={handleNext} />
+
+              </Typography>
+            </StepContent>
+          </Step>
+
+          
 
         </Stepper>
-        {activeStep == 4 && (
+        {activeStep == 5 && (
           <Paper square elevation={0} sx={{ p: 3, backgroundColor: 'transparent' }} className='paper'>
             <Typography component={'section'}>
               <div>

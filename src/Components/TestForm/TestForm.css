@@ -1,3 +1,16 @@
+.test{
+    display: flex;
+    flex-direction: column;
+}
+.flex{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 10px;
+}
+.fieldsetGroups{
+    width: 100%;
+}
 .personalDetailsFormContainer{
     display: flex;
     justify-content: flex-start;
@@ -158,3 +171,4 @@ label:hover{
         grid-template-columns: 1fr  ;
     }
 }
+

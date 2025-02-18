@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useState } from "react";
-import { IDCardDocument, NecessaryDocuments, PersonalDetailsID,Passport, DriverLicense } from "../Types/interfaces";
+import { IDCardDocument, NecessaryDocuments, PersonalDetailsID,Passport, DriverLicense, Children } from "../Types/interfaces";
 
 
 interface ContextDefault {
@@ -10,6 +10,8 @@ interface ContextDefault {
     necessaryDocuments: NecessaryDocuments,
     passport: Passport,
     driverLicense: DriverLicense,
+    child: Children,
+    terms: boolean | undefined,
     updatePersonalDetailsID(formResults: PersonalDetailsID): void,
     updateIDCardDocument:(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
     updatePassportDocument:(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
@@ -19,6 +21,8 @@ interface ContextDefault {
     updateDriverLicense: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
     documentLanguage: string,
     updateDocumentLanguage: (value:string) => void,
+    updateSetChild: (formValues: Children) => void,
+    updateSetTerms: (value: boolean) => void,
     resetContext: () => void
 
 }
@@ -38,7 +42,8 @@ const contextDefaultValues: ContextDefault = {
         citizenship: '',
         previousAddress: '',
         city: '',
-       parents:[]
+        email:'',
+        nationality:''
     },
     idCardDocument:{
         reason:  '',
@@ -66,6 +71,10 @@ const contextDefaultValues: ContextDefault = {
         procedure: ''
     },
     documentLanguage:'',
+    child: {
+        parents:[]
+    },
+    terms:undefined,
     updatePersonalDetailsID: ()=>{},
     updateIDCardDocument: ()=>{},
     updatePassportDocument: ()=>{},
@@ -74,7 +83,9 @@ const contextDefaultValues: ContextDefault = {
     changeLanguage: ()=>{},
     updateDriverLicense: ()=>{},
    updateDocumentLanguage: ()=>{},
-    resetContext: () => {}
+    resetContext: () => {},
+    updateSetChild: ()=>{},
+    updateSetTerms: ()=>{}
     
 }
 export const GeneralContext = createContext(contextDefaultValues)
@@ -84,7 +95,7 @@ interface GeneralContextProviderProps{
 }
 
 export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)=>{
-
+    
     const[personalDetailsID, setPersonalDetailsIDCard] = useState(contextDefaultValues.personalDetailsID)
     const [bgColor, setBgColor] = useState(contextDefaultValues.bgColor)
     const [language, setLanguage] = useState(contextDefaultValues.language)
@@ -93,6 +104,17 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
     const [idCardDocument, setIDCardDocument] = useState(contextDefaultValues.idCardDocument)
     const [passport, setPassport] = useState(contextDefaultValues.passport)
     const[driverLicense, setDriverLicense] = useState(contextDefaultValues.driverLicense)
+    const [child, setChild] = useState(contextDefaultValues.child)
+    const [terms, setTerms] = useState(contextDefaultValues.terms)
+
+    const updateSetTerms = (value: boolean)=>{
+        setTerms(value)
+    }
+
+    const updateSetChild = (formValues: Children)=>{
+        setChild(formValues)
+    }
+
     const updateDriverLicense = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> )=>{
         setDriverLicense({
             ...driverLicense,
@@ -152,7 +174,7 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
     
     return(
         <GeneralContext.Provider 
-        value={{personalDetailsID,idCardDocument,bgColor,passport,necessaryDocuments,language,driverLicense,documentLanguage,updateDocumentLanguage,updateDriverLicense,updateIDCardDocument,updatePersonalDetailsID,changeBgColor,changeLanguage, addNecessaryDocs, updatePassportDocument,resetContext  }}>
+        value={{personalDetailsID,idCardDocument,bgColor,passport,necessaryDocuments,language,driverLicense,documentLanguage,child,terms,updateSetTerms,updateSetChild,updateDocumentLanguage,updateDriverLicense,updateIDCardDocument,updatePersonalDetailsID,changeBgColor,changeLanguage, addNecessaryDocs, updatePassportDocument,resetContext  }}>
             {children}
         </GeneralContext.Provider>
     )

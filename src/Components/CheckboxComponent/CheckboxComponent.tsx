@@ -7,10 +7,10 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
 import { GeneralContext } from '../../context/general.context';
 import { useContext } from 'react';
-import { PersonalDetailsProps } from '../PersonalDetailsFormComponent/PersonalDetailsForm';
 import Button from '@mui/material/Button';
+import { StepperProps } from '../../Types/interfaces';
 
-export const CheckboxComponent = ({handleNext}: PersonalDetailsProps )=> {
+export const CheckboxComponent = ({handleNext}: StepperProps )=> {
 
     const{language, bgColor, necessaryDocuments, addNecessaryDocs} = useContext(GeneralContext)
   const { idCard, passport, driverLicense } = necessaryDocuments;
