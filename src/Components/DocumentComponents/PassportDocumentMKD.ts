@@ -1,10 +1,10 @@
 import jsPDF from "jspdf";
-import { Passport, PersonalDetailsID } from "../../Types/interfaces";
+import { Children, Passport, PersonalDetailsID } from "../../Types/interfaces";
 import { addArimoFontBold } from "../../addArimoFontBold";
 import { checkFormLanguage, checkPassportCardLanguage, checkPassportNameLanguage } from "./checkLanguagesPassport";
 
 
-export const generatePassportDocumentMKD = (personalInfo: PersonalDetailsID,passport:Passport)=>{
+export const generatePassportDocumentMKD = (personalInfo: PersonalDetailsID,passport:Passport,child:Children)=>{
 
     const doc = new jsPDF()
     addArimoFontBold(doc);
@@ -107,16 +107,19 @@ export const generatePassportDocumentMKD = (personalInfo: PersonalDetailsID,pass
      doc.text(personalInfo.citizenship,90,219)
      doc.text(personalInfo.fatherName,50,233)
      doc.text(personalInfo.motherName,135,233)
-     if(personalInfo.parents[0].firstName !== ''){
-      doc.text(`${personalInfo.parents[0].firstName} ${personalInfo.parents[0].lastName}`, 32,253)
-      doc.text(`${personalInfo.parents[0].socialNumber}`, 85,253)
-      doc.text(`${personalInfo.parents[0].relation}`, 125,253)
-    }
-    if(personalInfo.parents[1]){
-      doc.text(`${personalInfo.parents[1].firstName} ${personalInfo.parents[1].lastName}`, 32,258)
-      doc.text(`${personalInfo.parents[1].socialNumber}`, 85,258)
-      doc.text(`${personalInfo.parents[1].relation}`, 125,258)
-    }
+     if(child.parents.length){
+      if(child.parents[0]){
+        doc.text(`${child.parents[0].firstName} ${child.parents[0].lastName}`, 32,253)
+        doc.text(`${child.parents[0].socialNumber}`, 85,253)
+        doc.text(`${child.parents[0].relation}`, 125,253)
+      }
+      if(child.parents[1]){
+        doc.text(`${child.parents[1].firstName} ${child.parents[1].lastName}`, 32,258)
+        doc.text(`${child.parents[1].socialNumber}`, 85,258)
+        doc.text(`${child.parents[1].relation}`, 125,258)
+      }
+     }
+     
     doc.setFontSize(9)
     //ВТОРА ТАБЕЛА
     doc.text('2.2', 25, 122)
@@ -274,6 +277,11 @@ export const generatePassportDocumentMKD = (personalInfo: PersonalDetailsID,pass
     doc.line(23,52,80,52)
     doc.line(125,52,180,52)
     doc.text('Податоци за контакт',23,57 )
+    if(personalInfo.phone){
+      doc.text(personalInfo.phone, 63,57)
+    }else{
+      doc.text(personalInfo.email, 63,57)
+    }
     doc.line(58, 58,130,58)
     doc.text('Потпис на службеното лице кое го примило барањето', 23, 63)
     doc.line(115, 64,175,64)
@@ -329,6 +337,9 @@ export const generatePassportDocumentMKD = (personalInfo: PersonalDetailsID,pass
 
     //СОГЛАСТОСТ ОД ПОДНОСИТЕЛОТ
     doc.text('7. СОГЛАСНОСТ ОД ПОДНОСИТЕЛОТ НА БАРАЊЕТО:',22, 160)
+    doc.setFontSize(11)
+    doc.text('X',21,166)
+    doc.setFontSize(9)
     doc.rect(21,163,3,3)
     doc.text('Подносителот на барањето е согласен неговите/нивните лични податоци да се користат во постапката',25, 166)
     doc.text('за остварување на правото пред надлежните органи за прибавување на СИТЕ документи означени со ',21, 171)

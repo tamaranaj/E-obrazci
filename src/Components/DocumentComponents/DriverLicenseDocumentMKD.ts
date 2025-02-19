@@ -59,9 +59,14 @@ export const generateDriverLicenseDocumentMKD = (personalInfo: PersonalDetailsID
     doc.text(personalInfo.socialNumber, 120,159)
     doc.text(personalInfo.birth, 30,183)
     doc.text(personalInfo.placeBirth, 120,183)
-    //ТУКА ТРЕБА ДА ДОДАДАМ ИСТО ВО КОЈ ГРАД ЖИВЕЕ ЛИЦЕТО НА Х-30 Y-297
+    doc.text(personalInfo.city,30,197)
     doc.text(personalInfo.address, 120,197)
-    doc.text(personalInfo.phone, 70,265)
+    if(personalInfo.phone){
+        doc.text(personalInfo.phone, 70,265)
+    }else{
+        doc.text(personalInfo.email, 70,265)
+    }
+    
     if(driverLicense.procedure==='редовна'){
         doc.text('X',70.2, 219.8)
     }else{
@@ -239,6 +244,8 @@ export const generateDriverLicenseDocumentMKD = (personalInfo: PersonalDetailsID
     doc.line(17.6, 184, 190,184)
     doc.rect(17.6,196,4,4)
     doc.setLineWidth(0.1)
+    doc.setFontSize(12)
+    doc.text('X',18,199.5)
     doc.setFontSize(10)
     doc.text('Подносителот на барањето е согласен неговите лични податоци да се користат во постапката',23, 199)
     doc.text('за остварување на правото пред надлежните органи за прибавување на СИТЕ',17.6, 204)

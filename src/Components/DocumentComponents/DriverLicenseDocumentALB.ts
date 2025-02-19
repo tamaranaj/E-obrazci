@@ -71,7 +71,12 @@ const doc = new jsPDF()
     }else{
         doc.text('X', 106.8,225.5)
     }
-    doc.text(personalInfo.phone, 110,270)
+    if(personalInfo.phone){
+        doc.text(personalInfo.phone, 110,270)
+    }else{
+        doc.text(personalInfo.email, 110,270)
+    }
+    
     doc.setFontSize(10);
     doc.text('1. ПРИЧИНА ЗА ПОДНЕСУВАЊЕ НА БАРАЊЕТО / ARSYEJA PËR PARASHTRIMIN E KËRKESËS', 20,40)
     doc.text('1.1  Издавање на возачка дозвола за прв пат / Dhënia e patentë shoferit herë të parë ;', 20, 49)
@@ -149,6 +154,8 @@ const doc = new jsPDF()
     doc.addPage()
     //bold
     doc.text('5.ПРИЛОГ КОН БАРАЊЕТО: / SHTOJCË NDAJ KËRKESËS:',20,20)
+    doc.setFontSize(12)
+    doc.text('X',20.5,216.5)
     doc.setFontSize(9)
     doc.text('Доказите означени со ѕвезда(*) се смета дека се поднесени во прилог на барањето и истите Министерството', 18, 199)
   doc.text('за внатрешни работи ги прибавува по службена должност. / Dcshmit të nënviyuara yll(*) konsiderohen se janë', 18 , 202)

@@ -1,9 +1,9 @@
 import jsPDF from "jspdf";
-import { IDCardDocument, PersonalDetailsID } from "../../Types/interfaces";
+import { Children, IDCardDocument, PersonalDetailsID } from "../../Types/interfaces";
 import { addNotoSerifFont } from "../../addNotoSerifFont";
 import { addArimoFontBold } from "../../addArimoFontBold";
 
-export const generateIDCardALB = (idCardDocument:IDCardDocument, personalInfo: PersonalDetailsID )=>{
+export const generateIDCardALB = (idCardDocument:IDCardDocument, personalInfo: PersonalDetailsID,child:Children )=>{
 
 
     const doc = new jsPDF()
@@ -179,7 +179,10 @@ export const generateIDCardALB = (idCardDocument:IDCardDocument, personalInfo: P
       doc.text('X',145.7,157.5)
   }
   doc.setFontSize(10)
-  doc.text(personalInfo.previousAddress,97,166)
+  if(personalInfo.previousAddress){
+    doc.text(personalInfo.previousAddress,97,166)
+  }
+  
   doc.text(personalInfo.address,80,174)
 
 
@@ -188,16 +191,16 @@ export const generateIDCardALB = (idCardDocument:IDCardDocument, personalInfo: P
     }else{
       doc.text('X',97.4,246.8)
     }
-
-    if(personalInfo.parents[0]){
-      doc.text(`${personalInfo.parents[0].firstName} ${personalInfo.parents[0].lastName}`, 31,200)
-      doc.text(personalInfo.parents[0].socialNumber,81,200)
-      doc.text(personalInfo.parents[0].relation,131,200)
+    
+    if(child.parents[0]){
+      doc.text(`${child.parents[0].firstName} ${child.parents[0].lastName}`, 31,200)
+      doc.text(child.parents[0].socialNumber,81,200)
+      doc.text(child.parents[0].relation,131,200)
     }
-    if(personalInfo.parents[1]){
-      doc.text(`${personalInfo.parents[1].firstName} ${personalInfo.parents[1].lastName}`, 31,205)
-      doc.text(personalInfo.parents[1].socialNumber,81,205)
-      doc.text(personalInfo.parents[1].relation,131,205)
+    if(child.parents[1]){
+      doc.text(`${child.parents[1].firstName} ${child.parents[1].lastName}`, 31,205)
+      doc.text(child.parents[1].socialNumber,81,205)
+      doc.text(child.parents[1].relation,131,205)
     }
 
     
@@ -205,11 +208,18 @@ export const generateIDCardALB = (idCardDocument:IDCardDocument, personalInfo: P
 
     doc.addPage()
     //BOLD FONT
+    doc.setFontSize(12)
+    doc.text('X',20.5,147.5)
     doc.setFontSize(9)
     doc.text('Податоци за контакт',20,20)
     doc.text('Të dhënat për kontakt',20,24)
     doc.line(58,24,110,24)
-    doc.text(personalInfo.phone,62, 23)
+    if(personalInfo.phone){
+      doc.text(personalInfo.phone,62, 23)
+    }else{
+      doc.text(personalInfo.email,62, 23)
+    }
+   
     doc.text('Потпис на службеното лице кое го примило барањето',20,29)
     doc.text('Nënshkrimi i personit zyrtar i cili e ka pranuar kërkesen',20,33)
     doc.line(108,33,160,33)
@@ -227,6 +237,7 @@ export const generateIDCardALB = (idCardDocument:IDCardDocument, personalInfo: P
 
     doc.text('7.СОГЛАСНОСТ ОД ПОДНОСИТЕЛОТ НА БАРАЊЕТО / PAJTUESHMËRI NGA PARASHTRUESI I KËRKESËS', 20,140)
     doc.rect(20,144,4,4)
+    
     doc.text('Подносителот на барањето е согласен неговите/нивните лични податоци да се корисатат во постапка-',25,147)
     doc.text('та за остварување на правото пред надлежните органи за прибавување на СИТЕ документи означени со',20,151)
     doc.text('ѕвезда(*) во делот 7 на ова барање.',20,155)
@@ -281,23 +292,21 @@ export const generateIDCardALB = (idCardDocument:IDCardDocument, personalInfo: P
     doc.text('•  Податоците од делот 1 И 2 ги пополнува поднесителот на барањето;',20,205)
     doc.text('Të dhënat nga pjesa 1 dhe 2 i plotëson parashtruesi i kërkesës;',23,209)
     doc.text('•  Податоците од делот 3 ги пополнуваат родителите старателот доколку барањето за издавање на лична',20,214)
-    doc.text('карта се однесува за лице од 15-18 години;',23,218)
-    doc.text('Të dhënat nga pjesa 3 i plotësojn prindërit-kujdestarët nëse për dhënien e letërnjoftimit i dedikohet personit',23,222)
-    doc.text('prej 15-18 vjet;',23,226)
-    doc.text('•  Податоците од делот 4 ги пополнува службеното лице;',20,231)
-    doc.text('Të dhënat nga pjesa 4 i plotëson personi zyrtar;',23,235)
-    doc.text('•  Подносителот на барањето самиот го избира начинот на кој Министерството за внатрешни работи ќе',20,240)
-    doc.text('може да оствари контакт со истиот (телефонски или електронски пат). Избраниот начин за контакт се',23,244)
-    doc.text('наведува во делот "податоци за контакт";',23,248)
-    doc.text('Parashtruesi i kërkesës vetë e ygjedh mënyren se si Ministria për Punë Të Brendshme do të kontaktoj me të',23,252)
-    doc.text('(me telefon apo përmes rrugës elektronike). Mënyra e zgjedhur për kontakt në pjesën "të dhënat për kontakt";',23,256)
-    doc.text('•  Доколку во текот на постапката се појави потреба од прибавување на документите наведени во делот',20,261)
-    doc.text('6 кои не се означени со ѕвезда(*), а Министерството за внатрешни работи, не е во можност да ги при-',23,265)
-    doc.text('бави по службена должност, подносителот на барањето дополнително ќе биде известен истите да ги ',23,269)
-    doc.text('приложи кон барањето',23,273)
-    doc.text('Nëse gjatë paraqitet nevoja për sigurimin e dokumenteve të cilat nuk janë nënvizuar në ojesen 5,parashtruesi',23,277)
-    doc.text('i kërkesës në mënyrë plotësuese do të informohet të njetat ti bashkangjet ndaj kërkesës;',23,281)
-
+    doc.text('карта се однесува за лице од 15-18 години; / Të dhënat nga pjesa 3 i plotësojn prindërit-kujdestarët nëse',23,218)
+    doc.text('për dhënien e letërnjoftimit i dedikohet personit prej 15-18 vjet;',23,222)
+    doc.text('•  Податоците од делот 4 ги пополнува службеното лице;/Të dhënat nga pjesa 4 i plotëson personi zyrtar;',20,227)
+    doc.text('•  Подносителот на барањето самиот го избира начинот на кој Министерството за внатрешни работи ќе',20,232)
+    doc.text('може да оствари контакт со истиот (телефонски или електронски пат). Избраниот начин за контакт се',23,236)
+    doc.text('наведува во делот "податоци за контакт";/ Parashtruesi i kërkesës vetë e ygjedh mënyren se si Ministria për',23,240)
+    doc.text('Punë Të Brendshme do të kontaktoj me të (me telefon apo përmes rrugës elektronike).Mënyra e zgjedhur për',23,244)
+    doc.text('kontakt në pjesën "të dhënat për kontakt";',23,248)
+    doc.text('•  Доколку во текот на постапката се појави потреба од прибавување на документите наведени во делот',20,253)
+    doc.text('6 кои не се означени со ѕвезда(*), а Министерството за внатрешни работи, не е во можност да ги при-',23,257)
+    doc.text('бави по службена должност, подносителот на барањето дополнително ќе биде известен истите да ги ',23,261)
+    doc.text('приложи кон барањето. /Nëse gjatë paraqitet nevoja për sigurimin e dokumenteve të cilat nuk janë nënvizuar',23,265)
+    doc.text('në ojesen 5,të cilat nuk janë të shënuara me yll(*) kurse Ministria për Punë Të Brendshme nuk ka mundësi ti',23,269)
+    doc.text('sigurojë sipas detyrës zyrtare,parashtruesi i kërkesës në mënyrë plotësuese do të informohet të njetat ti',23,273)
+    doc.text('bashkangjet ndaj kërkesës;',23,277)
     doc.save('idCard.pdf');
 
 }

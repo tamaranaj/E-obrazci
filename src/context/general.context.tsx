@@ -168,6 +168,8 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
         setPassport(contextDefaultValues.passport)
         setDriverLicense(contextDefaultValues.driverLicense)
         setDocumentLanguage(contextDefaultValues.documentLanguage)
+        setChild(contextDefaultValues.child)
+        setTerms(contextDefaultValues.terms)
 
     }
     

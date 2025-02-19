@@ -15,7 +15,7 @@ export const CheckboxComponent = ({handleNext}: StepperProps )=> {
     const{language, bgColor, necessaryDocuments, addNecessaryDocs,child} = useContext(GeneralContext)
   const { idCard, passport, driverLicense } = necessaryDocuments;
   const error = [idCard, passport, driverLicense].filter((v) => v).length < 1;
-
+console.log(child)
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column'}}>
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard" required
@@ -36,7 +36,7 @@ export const CheckboxComponent = ({handleNext}: StepperProps )=> {
             }
             label={language == 'mkd' ? 'Патна исправа' : 'Pasaporta'}
           />
-          {!child.parents.length && (<FormControlLabel
+          {!child.parents[0].firstName && (<FormControlLabel
           sx={bgColor ? {color: 'black'} : {color:'white'}}
             control={
               <Checkbox checked={driverLicense} onChange={addNecessaryDocs} name="driverLicense" />

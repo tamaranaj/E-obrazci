@@ -9,7 +9,7 @@ import { FormControl, RadioGroup, FormControlLabel, Radio } from "@mui/material"
 
 export const PassportForm = () => {
 
-   const { updatePassportDocument,bgColor, language, passport } = useContext(GeneralContext);
+   const { updatePassportDocument,bgColor, language, passport,documentLanguage } = useContext(GeneralContext);
  const[answered, setAnswered] = useState(false)
      const checkRadio = (event: React.ChangeEvent<HTMLInputElement> )=>{
          updatePassportDocument(event)
@@ -50,24 +50,26 @@ export const PassportForm = () => {
 
          
           <ProcedureComponent handleChange={updatePassportDocument} state={passport.procedure}/>
-          <FormDocLanguageComponent handleChange={updatePassportDocument} state={passport.cardLanguage}/>           
-          <BilingualNameComponent handleChange={updatePassportDocument} state={passport.nameLanguage}/>
-
-          <fieldset  style={bgColor == true ? {color: 'black'}: {color: 'white'}} className="reasons">
-            <legend>{language=='mkd'? 'Барам податоците во образецот да бидат испишани на еден од наведените јазици и писмо:': 'Kërkoj që formulari të hartohet në një nga gjuhët dhe shkrimet e mëposhtme:'} </legend>
+          {documentLanguage==='macedonian' && (<FormDocLanguageComponent handleChange={updatePassportDocument} state={passport.cardLanguage}/>)}
+          {documentLanguage==='macedonian' && (<BilingualNameComponent handleChange={updatePassportDocument} state={passport.nameLanguage}/>)}     
+          
+          {documentLanguage==='macedonian' && (<fieldset  style={bgColor == true ? {color: 'black'}: {color: 'white'}} className="reasons">
+            <legend>Барам податоците во образецот да бидат испишани на еден од наведените јазици и писмо:</legend>
             
             
             <select id="named-select" name="formLanguage" onChange={updatePassportDocument} className="select" value={passport.formLanguage}>
-              <option value={""}>{language=='mkd'? 'Ниту еден': 'Asnjë'}</option>
-              <option value={"турски"}>{language=='mkd'? 'Турски': 'Turqisht'}</option>
-              <option value={"влашки"}>{language=='mkd'? 'Влашки': 'Vllehët'}</option>
-              <option value={"српски"}>{language=='mkd'? 'Српски': 'Serb'}</option>
-              <option value={"ромски"}>{language=='mkd'? 'Ромски': 'Romët'}</option>
-              <option value={"босански"}>{language=='mkd'? 'Босански': 'Boshnjake'}</option>
+              <option value={""}>Ниту еден</option>
+              <option value={"турски"}>Tурски</option>
+              <option value={"влашки"}>Влашки</option>
+              <option value={"српски"}>Српски</option>
+              <option value={"ромски"}>Ромски</option>
+              <option value={"босански"}>Босански</option>
             </select>
 
-            <span className="description">{language == 'mkd'? 'Ова поле не е задолжително.':'Kjo fushë është fakultative.'}</span>
-        </fieldset>
+            <span className="description">Ова поле не е задолжително.</span>
+        </fieldset>)}     
+
+          
 
         </div>
       

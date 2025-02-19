@@ -1,10 +1,10 @@
 import jsPDF from "jspdf";
-import { Passport, PersonalDetailsID } from "../../Types/interfaces";
+import { Children, Passport, PersonalDetailsID } from "../../Types/interfaces";
 import { addArimoFontBold } from "../../addArimoFontBold";
 import { addNotoSerifFont } from "../../addNotoSerifFont";
 
 
-export const generatePassportDocumentALB = (personalInfo: PersonalDetailsID, passport: Passport) => {
+export const generatePassportDocumentALB = (personalInfo: PersonalDetailsID, passport: Passport,child:Children) => {
 
   const doc = new jsPDF()
   addNotoSerifFont(doc)
@@ -196,6 +196,7 @@ export const generatePassportDocumentALB = (personalInfo: PersonalDetailsID, pas
   doc.text(personalInfo.placeBirth, 127, 135)
   doc.text(personalInfo.socialNumber, 97, 140.5)
   doc.text(personalInfo.citizenship, 80, 162)
+  doc.text(personalInfo.nationality,150,149)
   doc.setFontSize(12)
   if (personalInfo.gender == 'машки') {
     doc.text('X', 75.5, 148.5)
@@ -211,22 +212,32 @@ export const generatePassportDocumentALB = (personalInfo: PersonalDetailsID, pas
   doc.setFontSize(10)
 
   doc.text(personalInfo.address, 80, 157)
+  if(child.parents.length){
+    if (child.parents[0]) {
+      doc.text(`${child.parents[0].firstName} ${child.parents[0].lastName}`, 31, 203)
+      doc.text(child.parents[0].socialNumber, 81, 203)
+      doc.text(child.parents[0].relation, 131, 203)
+    }
+    if (child.parents[1]) {
+      doc.text(`${child.parents[1].firstName} ${child.parents[1].lastName}`, 31, 208)
+      doc.text(child.parents[1].socialNumber, 81, 208)
+      doc.text(child.parents[1].relation, 131, 208)
+    }
+  }
 
-  if (personalInfo.parents[0]) {
-    doc.text(`${personalInfo.parents[0].firstName} ${personalInfo.parents[0].lastName}`, 31, 203)
-    doc.text(personalInfo.parents[0].socialNumber, 81, 203)
-    doc.text(personalInfo.parents[0].relation, 131, 203)
+  if(personalInfo.phone){
+    doc.text(personalInfo.phone, 65, 252)
+  }else{
+    doc.text(personalInfo.email, 65, 252)
   }
-  if (personalInfo.parents[1]) {
-    doc.text(`${personalInfo.parents[1].firstName} ${personalInfo.parents[1].lastName}`, 31, 208)
-    doc.text(personalInfo.parents[1].socialNumber, 81, 208)
-    doc.text(personalInfo.parents[1].relation, 131, 208)
-  }
-  doc.text(personalInfo.phone, 65, 252)
+  
 
   //VTORA STRANA
 
   doc.addPage()
+  doc.setFontSize(12)
+    doc.text('X',20.5,155.5)
+
   doc.setFontSize(9)
   doc.text('6.ПРИЛОГ КОН БАРАЊЕТО: / SHTOJCË NDAJ KËRKESËS:', 20, 20)
   doc.text('Доказите означени со ѕвезда(*) се смета дека се поднесени во прилог на барањето и истите Министе-', 23, 132)

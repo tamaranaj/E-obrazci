@@ -13,15 +13,16 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 export const ChildrenComponent = ({ handleNext }: StepperProps) => {
   const [value, setValue] = useState('no');
+  const [haveChild, setHaveChild] = useState<boolean>(false);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let value = (event.target as HTMLInputElement).value
     if(value == 'yes'){
       setValue(value);
-      setChild(true);
+      setHaveChild(true);
       handleAddParent()
     }else{
       setValue('no')
-      setChild(false);
+      setHaveChild(false);
       remove(0);
       remove(1);
     }
@@ -43,7 +44,7 @@ export const ChildrenComponent = ({ handleNext }: StepperProps) => {
       ],
     },
   });
-  const [child, setChild] = useState<boolean>(false);
+  
   const { fields, append, remove } = useFieldArray({
     control,
     name: "parents",
@@ -65,7 +66,7 @@ export const ChildrenComponent = ({ handleNext }: StepperProps) => {
     }else if(index === 1 && !fields.at(0)){
       
       remove(1)
-      setChild(false)
+      setHaveChild(false)
       setValue('no')
       
     }
@@ -75,7 +76,7 @@ export const ChildrenComponent = ({ handleNext }: StepperProps) => {
     }else if(index === 0 && !fields.at(1)){
       
       remove(0)
-      setChild(false)
+      setHaveChild(false)
       setValue('no')
       
     }
@@ -100,7 +101,7 @@ export const ChildrenComponent = ({ handleNext }: StepperProps) => {
       </RadioGroup>
     </FormControl>
 
-        {child && (
+        {haveChild && (
           <section className="dynamicSection">
             <div className="dynamicFieldsContainer">
               {fields.map((field, index) => (
