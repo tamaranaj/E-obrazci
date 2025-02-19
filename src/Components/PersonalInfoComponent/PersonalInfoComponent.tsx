@@ -1,4 +1,4 @@
-import './TestForm.css'
+import './PersonalInfoComponent.css'
 import { useForm } from 'react-hook-form'
 import { useContext, useState } from 'react'
 import Button from '@mui/material/Button';
@@ -7,9 +7,9 @@ import { ErrorMessage } from "@hookform/error-message"
 import { PersonalDetailsID, StepperProps } from '../../Types/interfaces';
 
 
-export const TestForm = (props: StepperProps) => {
+export const PersonalInfoComponent = (props: StepperProps) => {
  
-  const { updatePersonalDetailsID, bgColor, language, necessaryDocuments, documentLanguage, idCardDocument } = useContext(GeneralContext)
+  const { updatePersonalDetailsID,child, bgColor, language, necessaryDocuments, documentLanguage, idCardDocument } = useContext(GeneralContext)
   const { register, handleSubmit, formState: { errors } } = useForm<PersonalDetailsID>({
     criteriaMode: "all"
   })
@@ -51,11 +51,23 @@ export const TestForm = (props: StepperProps) => {
     props.handleNext()
   }
   const getFormattedDate = () => {
-    const date = new Date();
-    const year = date.getFullYear() - 18
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+
+    if(necessaryDocuments.idCard && child.parents.length)
+    {const date = new Date();
+      const year = date.getFullYear() - 15
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;}
+      else{
+        const date = new Date();
+      const year = date.getFullYear() - 18
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+      }
+
+    
+    
   }
 
   return (

@@ -12,7 +12,7 @@ import { StepperProps } from '../../Types/interfaces';
 
 export const CheckboxComponent = ({handleNext}: StepperProps )=> {
 
-    const{language, bgColor, necessaryDocuments, addNecessaryDocs} = useContext(GeneralContext)
+    const{language, bgColor, necessaryDocuments, addNecessaryDocs,child} = useContext(GeneralContext)
   const { idCard, passport, driverLicense } = necessaryDocuments;
   const error = [idCard, passport, driverLicense].filter((v) => v).length < 1;
 
@@ -36,13 +36,13 @@ export const CheckboxComponent = ({handleNext}: StepperProps )=> {
             }
             label={language == 'mkd' ? 'Патна исправа' : 'Pasaporta'}
           />
-          <FormControlLabel
+          {!child.parents.length && (<FormControlLabel
           sx={bgColor ? {color: 'black'} : {color:'white'}}
             control={
               <Checkbox checked={driverLicense} onChange={addNecessaryDocs} name="driverLicense" />
             }
             label={language == 'mkd' ? 'Возачка дозвола' : 'Patentë shoferi'}
-          />
+          />)}
         </FormGroup>
         <FormHelperText>{error && (language == 'mkd'?'За да продолжите морате да одберете најмалку 1 документ' : 'Për të vazhduar, duhet të zgjidhni të paktën 1 dokument')}</FormHelperText>
       </FormControl>

@@ -11,7 +11,7 @@ interface ContextDefault {
     passport: Passport,
     driverLicense: DriverLicense,
     child: Children,
-    terms: boolean | undefined,
+    terms: boolean,
     updatePersonalDetailsID(formResults: PersonalDetailsID): void,
     updateIDCardDocument:(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
     updatePassportDocument:(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
@@ -74,7 +74,7 @@ const contextDefaultValues: ContextDefault = {
     child: {
         parents:[]
     },
-    terms:undefined,
+    terms:true,
     updatePersonalDetailsID: ()=>{},
     updateIDCardDocument: ()=>{},
     updatePassportDocument: ()=>{},

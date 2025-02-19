@@ -28,8 +28,8 @@ export const DocumentLanguageComponent = ({handleNext}: StepperProps )=> {
         onChange={handleChange}
         sx={bgColor ? {color: 'black'} : {color:'white'}}
       >
-        <FormControlLabel value='macedonian' sx={bgColor ? {color: 'black'} : {color:'white'}}  control={<Radio  />} label="Македонски" />
-        <FormControlLabel value='albanian' sx={bgColor ? {color: 'black'} : {color:'white'}} control={<Radio/>} label="Албански" />
+        <FormControlLabel value='macedonian' sx={bgColor ? {color: 'black'} : {color:'white'}}  control={<Radio  />} label={language==='mkd'?"Македонски":"Maqedonase"} />
+        <FormControlLabel value='albanian' sx={bgColor ? {color: 'black'} : {color:'white'}} control={<Radio/>} label={language==='mkd'?"Албански":"Shqiptare"} />
       </RadioGroup>
     </FormControl>
     <div>
