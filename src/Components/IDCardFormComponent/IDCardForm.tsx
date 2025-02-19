@@ -8,7 +8,7 @@ import { FormControl, FormControlLabel, Radio, RadioGroup } from "@mui/material"
 
 export const IDCardForm = () => {
 
-  const { updateIDCardDocument, bgColor ,language, idCardDocument} = useContext(GeneralContext);
+  const { updateIDCardDocument, bgColor ,language, idCardDocument,documentLanguage} = useContext(GeneralContext);
  const[answered, setAnswered] = useState(false)
      const checkRadio = (event: React.ChangeEvent<HTMLInputElement> )=>{
          updateIDCardDocument(event)
@@ -46,8 +46,11 @@ export const IDCardForm = () => {
       </fieldset>            
           
           <ProcedureComponent handleChange={updateIDCardDocument} state={idCardDocument.procedure}/>
-            <FormDocLanguageComponent handleChange={updateIDCardDocument} state={idCardDocument.cardLanguage}/>
-            <BilingualNameComponent handleChange={updateIDCardDocument} state={idCardDocument.nameLanguage}/>        
+          {documentLanguage==='macedonian' && (<FormDocLanguageComponent handleChange={updateIDCardDocument} state={idCardDocument.cardLanguage}/>)}
+
+          {documentLanguage==='macedonian' && (<BilingualNameComponent handleChange={updateIDCardDocument} state={idCardDocument.nameLanguage}/>  )}
+            
+                  
           
 
           </div>
