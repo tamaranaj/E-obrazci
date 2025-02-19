@@ -1,9 +1,9 @@
 import jsPDF from "jspdf";
-import { IDCardDocument, PersonalDetailsID } from "../../Types/interfaces";
+import { Children, IDCardDocument, PersonalDetailsID } from "../../Types/interfaces";
 import { addNotoSerifFont } from "../../addNotoSerifFont";
 import { checkIdCardLanguage, checkIdCardNameLanguage } from "./checkLanguagesIdCard";
 
-export const generateIdCardDocumentMKD = (idCardDocument: IDCardDocument, personalDetailsID: PersonalDetailsID, date:string ) =>{
+export const generateIdCardDocumentMKD = (idCardDocument: IDCardDocument, personalDetailsID: PersonalDetailsID, child:Children ) =>{
     const doc = new jsPDF()
     addNotoSerifFont(doc);
     doc.setFont("NotoSerif", "normal");
@@ -51,18 +51,24 @@ export const generateIdCardDocumentMKD = (idCardDocument: IDCardDocument, person
      if(personalDetailsID.marriedLastName){
       doc.text(personalDetailsID.marriedLastName, 130, 159)
     }
-    doc.text(personalDetailsID.previousAddress,90,215)
+    if(personalDetailsID.previousAddress){
+      doc.text(personalDetailsID.previousAddress,90,215)
+    }
+  
     doc.text(personalDetailsID.citizenship,105,199)
-    if(personalDetailsID.parents[0].firstName !== ''){
-      doc.text(`${personalDetailsID.parents[0].firstName} ${personalDetailsID.parents[0].lastName}`, 32,243)
-      doc.text(`${personalDetailsID.parents[0].socialNumber}`, 85,243)
-      doc.text(`${personalDetailsID.parents[0].relation}`, 125,243)
+    if(child.parents.length){
+      if(child.parents[0]){
+        doc.text(`${child.parents[0].firstName} ${child.parents[0].lastName}`, 32,243)
+        doc.text(`${child.parents[0].socialNumber}`, 85,243)
+        doc.text(`${child.parents[0].relation}`, 125,243)
+      }
+      if(child.parents[1]){
+        doc.text(`${child.parents[1].firstName} ${child.parents[1].lastName}`, 32,252)
+        doc.text(`${child.parents[1].socialNumber}`, 85,252)
+        doc.text(`${child.parents[1].relation}`, 125,252)
+      }
     }
-    if(personalDetailsID.parents[1]){
-      doc.text(`${personalDetailsID.parents[1].firstName} ${personalDetailsID.parents[1].lastName}`, 32,252)
-      doc.text(`${personalDetailsID.parents[1].socialNumber}`, 85,252)
-      doc.text(`${personalDetailsID.parents[1].relation}`, 125,252)
-    }
+    
 
     // Причини за барање
      doc.setFontSize(9);
@@ -231,7 +237,6 @@ export const generateIdCardDocumentMKD = (idCardDocument: IDCardDocument, person
    
     //ПОТПИСИ
     doc.text('Датум и место на поднесување',23,54)
-    doc.text(date, 30,61)
     doc.text('Потпис на подносителот',140,54)
     doc.line(23,62,80,62)
     doc.line(130,62,190,62)
@@ -240,7 +245,12 @@ export const generateIdCardDocumentMKD = (idCardDocument: IDCardDocument, person
     doc.text('Потпис на службеното лице кое го примило барањето', 23, 79)
     doc.line(115, 80,175,80)
     doc.setFontSize(10)
-    doc.text(personalDetailsID.phone, 70, 69)
+    if(personalDetailsID.phone){
+      doc.text(personalDetailsID.phone, 70, 69)
+    }else{
+      doc.text(personalDetailsID.email, 70, 69)
+    }
+    
     doc.setFontSize(8.5)
     //прва табела
     doc.text('6. ПРИЛОГ КОН БАРАЊЕТО:',25, 91)
@@ -279,6 +289,8 @@ export const generateIdCardDocumentMKD = (idCardDocument: IDCardDocument, person
     doc.rect(23,187,3,3)
     doc.setLineWidth(0.1)
     //согласност од подносителот
+    doc.setFontSize(10)
+    doc.text("X", 23.2,189.8)
     doc.setFontSize(9)
     doc.text('7. СОГЛАСНОСТ ОД ПОДНОСИТЕЛОТ НА БАРАЊЕТО:',23, 182)
     doc.text('Подносителот на барањето е согласен неговите/нивните лични податоци да се користат во постапката',27, 190)

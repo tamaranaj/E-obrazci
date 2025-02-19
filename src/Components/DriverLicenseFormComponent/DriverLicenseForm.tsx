@@ -8,7 +8,7 @@ import { FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material'
 
 
 export const DriverLicenseForm = () => {
-    const { bgColor, language, driverLicense, updateDriverLicense } = useContext(GeneralContext)
+    const { bgColor, language, driverLicense, updateDriverLicense,documentLanguage } = useContext(GeneralContext)
     const [checked, setChecked] = useState(false)
     const checkRadio = (event: React.ChangeEvent<HTMLInputElement> )=>{
         updateDriverLicense(event)
@@ -57,8 +57,8 @@ export const DriverLicenseForm = () => {
       
         <ProcedureComponent handleChange={updateDriverLicense} state={driverLicense.procedure}/>
 
-        
-         <BilingualNameComponent handleChange={updateDriverLicense} state={driverLicense.nameLanguage}/>  
+        {documentLanguage==='macedonian' && (<BilingualNameComponent handleChange={updateDriverLicense} state={driverLicense.nameLanguage}/> )}
+          
         
                  
         </div>

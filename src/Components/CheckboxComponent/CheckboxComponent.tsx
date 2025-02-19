@@ -7,17 +7,17 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
 import { GeneralContext } from '../../context/general.context';
 import { useContext } from 'react';
-import { PersonalDetailsProps } from '../PersonalDetailsFormComponent/PersonalDetailsForm';
 import Button from '@mui/material/Button';
+import { StepperProps } from '../../Types/interfaces';
 
-export const CheckboxComponent = ({handleNext}: PersonalDetailsProps )=> {
+export const CheckboxComponent = ({handleNext}: StepperProps )=> {
 
-    const{language, bgColor, necessaryDocuments, addNecessaryDocs} = useContext(GeneralContext)
+    const{language, bgColor, necessaryDocuments, addNecessaryDocs,child} = useContext(GeneralContext)
   const { idCard, passport, driverLicense } = necessaryDocuments;
   const error = [idCard, passport, driverLicense].filter((v) => v).length < 1;
-
+console.log(child)
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column'}}>
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard" required
         error={error}>
         <FormLabel component="legend" sx={bgColor ? {color: 'black'} : {color:'white'}}>{language == 'mkd'? 'Одберете документи кои ви се потребни': 'Zgjidhni dokumentet që ju nevojiten'}</FormLabel>
@@ -36,13 +36,13 @@ export const CheckboxComponent = ({handleNext}: PersonalDetailsProps )=> {
             }
             label={language == 'mkd' ? 'Патна исправа' : 'Pasaporta'}
           />
-          <FormControlLabel
+          {!child.parents[0].firstName && (<FormControlLabel
           sx={bgColor ? {color: 'black'} : {color:'white'}}
             control={
               <Checkbox checked={driverLicense} onChange={addNecessaryDocs} name="driverLicense" />
             }
             label={language == 'mkd' ? 'Возачка дозвола' : 'Patentë shoferi'}
-          />
+          />)}
         </FormGroup>
         <FormHelperText>{error && (language == 'mkd'?'За да продолжите морате да одберете најмалку 1 документ' : 'Për të vazhduar, duhet të zgjidhni të paktën 1 dokument')}</FormHelperText>
       </FormControl>

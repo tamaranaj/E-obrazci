@@ -56,7 +56,7 @@ export const checkIdCardLanguage=(doc:jsPDF, idCardDocument:IDCardDocument)=>{
     }else{
         if(idCardDocument.cardLanguage ==='турски'){
             doc.setFontSize(10)
-            doc.text('х',37, 131)
+            doc.text('х',36, 131)
             doc.setFontSize(8);
             doc.setLineWidth(0.3)
             doc.rect(36,129, 2,2)
