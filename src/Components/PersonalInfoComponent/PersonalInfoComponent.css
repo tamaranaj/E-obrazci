@@ -1,3 +1,16 @@
+.test{
+    display: flex;
+    flex-direction: column;
+}
+.flex{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 10px;
+}
+.fieldsetGroups{
+    width: 100%;
+}
 .personalDetailsFormContainer{
     display: flex;
     justify-content: flex-start;
@@ -16,7 +29,7 @@
 }
 .gridWrapper{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     width: 100%;
 }
 
@@ -25,11 +38,17 @@
     color: red;
     margin: 0px
 }
-.column{
+.gender,.marriage{
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 95%;
+}
+.column{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 .dateInput{
     display: flex;
@@ -112,3 +131,44 @@ label:hover{
     flex-direction: column;
     align-items: center;
 }
+
+@media only screen and (max-width:560px) {
+
+    .flex{
+        flex-wrap: wrap;
+    }
+    .gridWrapper{
+        grid-template-columns: 100%;
+    }
+    
+    .column{
+        width: 100%;
+    }
+
+    
+    .fieldsets{
+        grid-template-columns: 1fr 1fr ;
+    }
+
+    .dynamicFields{
+        flex-direction: column;
+        justify-content: center;
+        margin: 10px;
+    }
+    .dynamicColumn{
+        gap: 10px;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .dynamicInput{
+        width: 100%;
+      
+    }
+
+}
+@media only screen and (max-width:300px) {
+    .fieldsets{
+        grid-template-columns: 1fr  ;
+    }
+}
+

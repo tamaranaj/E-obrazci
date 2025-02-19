@@ -34,9 +34,14 @@ export interface PersonalDetailsID{
     phone: string ,
     citizenship: string,
     previousAddress: string,
+    city: string,
+    email:string,
+    nationality:string
+    // parents: Parents[]
+}
+export interface Children{
     parents: Parents[]
 }
-
 export interface IDCardDocument{
     reason: string,
     cardLanguage: string ,
@@ -48,7 +53,6 @@ export interface SharedComponentProps{
     handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
     state: string
 }
-export interface DocumentLanguage{
-    macedonian: boolean,
-    albanian: boolean
-}
+export interface StepperProps {
+    handleNext: () => void
+  }
