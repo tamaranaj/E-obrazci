@@ -1,14 +1,7 @@
-import { useContext } from "react"
 import { SharedComponentProps } from "../../Types/interfaces"
-import { GeneralContext } from "../../context/general.context"
-
-
-export const FormDocLanguageComponent = ({handleChange, state}: SharedComponentProps)=>{
-
-    const{bgColor} = useContext(GeneralContext)
-    
+export const FormDocLanguageComponent = ({handleChange, state}: SharedComponentProps)=>{ 
     return (
-        <fieldset  style={bgColor == true ? {color: 'black'}: {color: 'white'}} className="reasons">
+        <fieldset  className="reasons">
             <legend>Барам образецот да биде изготвен на еден од наведените јазици и писмо:</legend>
             
             

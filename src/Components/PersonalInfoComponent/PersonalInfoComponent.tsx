@@ -9,7 +9,7 @@ import { PersonalDetailsID, StepperProps } from '../../Types/interfaces';
 
 export const PersonalInfoComponent = (props: StepperProps) => {
  
-  const { updatePersonalDetailsID,child, bgColor, language, necessaryDocuments, documentLanguage, idCardDocument } = useContext(GeneralContext)
+  const { updatePersonalDetailsID,child,language, necessaryDocuments, documentLanguage, idCardDocument } = useContext(GeneralContext)
   const { register, handleSubmit, formState: { errors } } = useForm<PersonalDetailsID>({
     criteriaMode: "all"
   })
@@ -72,7 +72,7 @@ export const PersonalInfoComponent = (props: StepperProps) => {
 
   return (
     
-      <form onSubmit={handleSubmit(submitForm)} className='personalDetailsForm' style={bgColor == true ? { color: 'black' } : { color: 'white' }}>
+      <form onSubmit={handleSubmit(submitForm)} className='personalDetailsForm'>
         <div className="gridWrapper">
             <div className='flex'>
             <section className='column'>
@@ -127,7 +127,8 @@ export const PersonalInfoComponent = (props: StepperProps) => {
             </div>
 
 
-            <div className="fieldsets" style={bgColor == true ? { color: 'black' } : { color: 'white' }}><label htmlFor="birthDate" >{language == 'mkd' ? 'Дата на раѓање:' : 'Data e lindjes:'}</label>
+            <div className="fieldsets">
+              <label htmlFor="birthDate" >{language == 'mkd' ? 'Дата на раѓање:' : 'Data e lindjes:'}</label>
               <div className="column dateInput">
                 <input
                   type="date"
@@ -211,10 +212,6 @@ export const PersonalInfoComponent = (props: StepperProps) => {
                 }
               />
             </div>
-
-            
-
-            
             </section>
 
             <section className='column'>

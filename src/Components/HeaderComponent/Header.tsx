@@ -5,18 +5,10 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useContext } from 'react';
 import { GeneralContext } from '../../context/general.context';
-import TungstenOutlinedIcon from '@mui/icons-material/TungstenOutlined';
-import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
-interface HeaderProps{
-    change: ()=> void
-   
-}
 
+export const Header = ()=>{
 
-
-export const Header = ({change}: HeaderProps)=>{
-
-    const{language,bgColor, changeLanguage} = useContext(GeneralContext)
+    const{language, changeLanguage} = useContext(GeneralContext)
     const handleChangeLanguage = () =>{
       changeLanguage()
     }
@@ -38,10 +30,6 @@ export const Header = ({change}: HeaderProps)=>{
          
         </Select>
         </FormControl>
-
-        <div style={{display: 'flex', alignItems: 'center'}}>
-        <button className='btn' onClick={change}>{bgColor ? <EmojiObjectsOutlinedIcon/> : <TungstenOutlinedIcon/>}</button>
-        </div>
             
         </header>
     )

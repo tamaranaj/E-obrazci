@@ -8,7 +8,7 @@ import FormControl from '@mui/material/FormControl';
 
 
 export const ProcedureComponent = ({handleChange, state}: SharedComponentProps)=>{
-    const{language, bgColor} = useContext(GeneralContext)
+    const{language} = useContext(GeneralContext)
     const[answered, setAnswered] = useState(false)
     const checkRadio = (event: React.ChangeEvent<HTMLInputElement> )=>{
         handleChange(event)
@@ -26,8 +26,8 @@ export const ProcedureComponent = ({handleChange, state}: SharedComponentProps)=
             value={state}
             onChange={(event)=>checkRadio(event)}
             >
-            <FormControlLabel value="редовна" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label={language=='mkd'? 'Редовна постапка': 'Procedurë e rregullt'}  />
-            <FormControlLabel value="итна" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Итна постапка': 'Procedurë urgjente'} />
+            <FormControlLabel value="редовна" control={<Radio/>} label={language=='mkd'? 'Редовна постапка': 'Procedurë e rregullt'}  />
+            <FormControlLabel value="итна" control={<Radio/>} label= {language=='mkd'? 'Итна постапка': 'Procedurë urgjente'} />
           </RadioGroup>
         </FormControl>
        {!answered && <span className="errorMessage">{language == 'mkd'? 'Ова поле е задолжително.':"Kjo fushë është e nevojshme."}</span>}
