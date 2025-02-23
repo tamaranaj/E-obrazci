@@ -20,11 +20,15 @@ import { ChildrenComponent } from '../ChildrenComponent/ChildrenComponent';
 export default function StepperComponent() {
   const { language, necessaryDocuments, idCardDocument,passport,driverLicense,resetContext } = useContext(GeneralContext)
   const [activeStep, setActiveStep] = useState(0);
+  const [child,setChild] = useState(false)
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     console.log(activeStep)
   };
 
+  const handleChild = (value:boolean)=>{
+    setChild(value)
+  }
   // const handleBack = () => {
   //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
   // };
@@ -36,9 +40,10 @@ export default function StepperComponent() {
 
   return (
     <div className='stepperContainer'>
-      <Box >
-
-        <Stepper activeStep={activeStep} orientation="vertical" >
+      
+      <div className='stepper'>
+        <Box >
+      <Stepper activeStep={activeStep} orientation="vertical" >
         <Step >
             <StepLabel >
               <span>{language == 'mkd' ? 'Изберете на кој јазик да биде изготвено барањето' : 'Zgjidhni në cilën gjuhë duhet të përgatitet kërkesa'}</span>
@@ -55,7 +60,7 @@ export default function StepperComponent() {
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
-                <ChildrenComponent handleNext={handleNext} />
+                <ChildrenComponent handleNext={handleNext} handleSetChild={handleChild} />
               </Typography>
             </StepContent>
           </Step>
@@ -65,7 +70,7 @@ export default function StepperComponent() {
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
-              <CheckboxComponent handleNext={handleNext} />
+              <CheckboxComponent handleNext={handleNext} child={child} />
               </Typography>
             </StepContent>
           </Step>
@@ -118,9 +123,12 @@ export default function StepperComponent() {
 
             </Button>
           </Paper>}
+          </Box>
+      </div>
+        
           
 
-      </Box>
+      
     </div>
 
 

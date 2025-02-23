@@ -8,10 +8,12 @@ import Checkbox from '@mui/material/Checkbox';
 import { GeneralContext } from '../../context/general.context';
 import { useContext } from 'react';
 import Button from '@mui/material/Button';
-import { StepperProps } from '../../Types/interfaces';
-
-export const CheckboxComponent = ({handleNext}: StepperProps )=> {
-  const{language, necessaryDocuments, addNecessaryDocs,child} = useContext(GeneralContext)
+export interface CheckboxComponentProps{
+  handleNext: ()=>void,
+  child: boolean
+}
+export const CheckboxComponent = ({handleNext,child}: CheckboxComponentProps )=> {
+  const{language, necessaryDocuments, addNecessaryDocs} = useContext(GeneralContext)
   const { idCard, passport, driverLicense } = necessaryDocuments;
   const error = [idCard, passport, driverLicense].filter((v) => v).length < 1;
 console.log(child)
@@ -33,7 +35,7 @@ console.log(child)
             }
             label={language == 'mkd' ? 'Патна исправа' : 'Pasaporta'}
           />
-          {!child.parents[0].firstName && (<FormControlLabel
+          {!child && (<FormControlLabel
             control={
               <Checkbox checked={driverLicense} onChange={addNecessaryDocs} name="driverLicense" />
             }

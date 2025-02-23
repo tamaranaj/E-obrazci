@@ -129,7 +129,7 @@ export const PersonalInfoComponent = (props: StepperProps) => {
 
             <div className="fieldsets">
               <label htmlFor="birthDate" >{language == 'mkd' ? 'Дата на раѓање:' : 'Data e lindjes:'}</label>
-              <div className="column dateInput">
+              <div className="column">
                 <input
                   type="date"
                   className='input'
