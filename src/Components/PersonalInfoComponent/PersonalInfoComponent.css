@@ -1,7 +1,3 @@
-.test{
-    display: flex;
-    flex-direction: column;
-}
 .flex{
     display: flex;
     flex-direction: row;
@@ -11,20 +7,14 @@
 .fieldsetGroups{
     width: 100%;
 }
-.personalDetailsFormContainer{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    width: 100%;
 
-   
-}
 .personalDetailsForm{
     display: flex;
     justify-content: center;
     flex-direction: column;
     gap: 20px;
     padding: 10px;
+    width: 100%;
     
 }
 .gridWrapper{
@@ -50,12 +40,7 @@
     align-items: center;
     width: 100%;
 }
-.dateInput{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
+
 .row{
     display: flex;
     justify-content: flex-start;
@@ -64,11 +49,9 @@
 }
 label{
     font-size: 1rem;
+    color:black
 }
-label:hover{
-    
-    text-shadow: 1px 1px 1px #8d8df8;
-}
+
 .input{
     height: 35px;
     border-radius: 4px;
@@ -93,44 +76,6 @@ label:hover{
     align-items: center;
 }
 
-.childQuest{
-    display: flex;
-}
-.row-center{
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    width: 100%;
-}
-.dynamicFields{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    margin: 20px;
-}
-.dynamicColumn{
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-}
-.dynamicInput{
-    width: 90%;
-    height: 35px;
-    border-radius: 4px;
-    padding: 12px 15px;
-    box-sizing: border-box;
-    border: 3px solid #ccc;
-    -webkit-transition: 0.5s;
-    transition: 0.5s;
-    outline: none;
-}
-.dinInputError{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 
 @media only screen and (max-width:560px) {
 
@@ -150,19 +95,11 @@ label:hover{
         grid-template-columns: 1fr 1fr ;
     }
 
-    .dynamicFields{
-        flex-direction: column;
-        justify-content: center;
-        margin: 10px;
-    }
-    .dynamicColumn{
-        gap: 10px;
-        width: 100%;
-        margin-bottom: 10px;
-    }
-    .dynamicInput{
-        width: 100%;
-      
+    .personalDetailsForm{
+        
+        padding: 0px;
+        width: 90%;
+        
     }
 
 }

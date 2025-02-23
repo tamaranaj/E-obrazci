@@ -1,17 +1,5 @@
 .header{
     display: flex;
     justify-content: end;
-    gap: 15px;
-    padding: 10px;
+    padding: 20px;
 }
-
-.btn{
-    padding: 5px;
-    background-color: #1976D2;
-    border-radius: 10%;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 4px 6px 0 #0b335c, 0 4px 10px 0 #7eb3e8;
-      text-shadow: 1px 1px 1px #000000;
-      color: white;
-  }

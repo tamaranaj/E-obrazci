@@ -5,7 +5,6 @@ import { IDCardDocument, NecessaryDocuments, PersonalDetailsID,Passport, DriverL
 interface ContextDefault {
     personalDetailsID: PersonalDetailsID
     idCardDocument: IDCardDocument
-    bgColor: boolean
     language: string,
     necessaryDocuments: NecessaryDocuments,
     passport: Passport,
@@ -15,7 +14,6 @@ interface ContextDefault {
     updatePersonalDetailsID(formResults: PersonalDetailsID): void,
     updateIDCardDocument:(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
     updatePassportDocument:(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
-    changeBgColor: () => void,
     changeLanguage: () => void,
     addNecessaryDocs: (event: React.ChangeEvent<HTMLInputElement>) => void,
     updateDriverLicense: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
@@ -51,7 +49,6 @@ const contextDefaultValues: ContextDefault = {
         nameLanguage: '',
         procedure: ''
     },
-    bgColor: true,
     language:'mkd',
     necessaryDocuments: {
         idCard: false,
@@ -78,11 +75,10 @@ const contextDefaultValues: ContextDefault = {
     updatePersonalDetailsID: ()=>{},
     updateIDCardDocument: ()=>{},
     updatePassportDocument: ()=>{},
-    changeBgColor: () => {},
     addNecessaryDocs: () => {},
     changeLanguage: ()=>{},
     updateDriverLicense: ()=>{},
-   updateDocumentLanguage: ()=>{},
+    updateDocumentLanguage: ()=>{},
     resetContext: () => {},
     updateSetChild: ()=>{},
     updateSetTerms: ()=>{}
@@ -97,7 +93,6 @@ interface GeneralContextProviderProps{
 export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)=>{
     
     const[personalDetailsID, setPersonalDetailsIDCard] = useState(contextDefaultValues.personalDetailsID)
-    const [bgColor, setBgColor] = useState(contextDefaultValues.bgColor)
     const [language, setLanguage] = useState(contextDefaultValues.language)
     const [documentLanguage, setDocumentLanguage] = useState(contextDefaultValues.documentLanguage)
     const [necessaryDocuments, setNecessaryDocuments] = useState(contextDefaultValues.necessaryDocuments)
@@ -135,12 +130,7 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
     }
     const changeLanguage = ()=> {
         language == 'mkd'? setLanguage('alb') : setLanguage('mkd')
-    }
-
-    const changeBgColor = ()=>{
-        setBgColor(!bgColor)
-    }
-    
+    }   
 
     function updatePersonalDetailsID(formResults: PersonalDetailsID){
         setPersonalDetailsIDCard(formResults)
@@ -176,7 +166,7 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
     
     return(
         <GeneralContext.Provider 
-        value={{personalDetailsID,idCardDocument,bgColor,passport,necessaryDocuments,language,driverLicense,documentLanguage,child,terms,updateSetTerms,updateSetChild,updateDocumentLanguage,updateDriverLicense,updateIDCardDocument,updatePersonalDetailsID,changeBgColor,changeLanguage, addNecessaryDocs, updatePassportDocument,resetContext  }}>
+        value={{personalDetailsID,idCardDocument,passport,necessaryDocuments,language,driverLicense,documentLanguage,child,terms,updateSetTerms,updateSetChild,updateDocumentLanguage,updateDriverLicense,updateIDCardDocument,updatePersonalDetailsID,changeLanguage, addNecessaryDocs, updatePassportDocument,resetContext  }}>
             {children}
         </GeneralContext.Provider>
     )

@@ -15,3 +15,17 @@
     color: red;
     font-size: 0.8rem;
 }
+
+.terms{
+    text-align:justify;
+}
+@media only screen and (max-width:560px) {
+    .termsCheckbox{
+        margin: 0px;
+        gap:0px; 
+        
+    }
+    .terms{
+        text-align:initial;
+    }
+}
