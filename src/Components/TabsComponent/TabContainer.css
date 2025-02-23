@@ -3,6 +3,7 @@ display: grid;
 grid-template-columns: 100%;
 gap: 30px;
 margin: 20px;
+color: black;
 }
 .flexContainer{
  display: flex;

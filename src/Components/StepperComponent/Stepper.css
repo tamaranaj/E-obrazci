@@ -2,6 +2,7 @@
     width:60%;
    display: flex;
    justify-content: center;
+   color: black;
 }
 .stepperContainer{
     display: flex;
