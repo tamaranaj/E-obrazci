@@ -18,13 +18,17 @@ import { PersonalInfoComponent } from '../PersonalInfoComponent/PersonalInfoComp
 import { ChildrenComponent } from '../ChildrenComponent/ChildrenComponent';
 
 export default function StepperComponent() {
-  const { bgColor, language, necessaryDocuments, idCardDocument,passport,driverLicense,resetContext } = useContext(GeneralContext)
+  const { language, necessaryDocuments, idCardDocument,passport,driverLicense,resetContext } = useContext(GeneralContext)
   const [activeStep, setActiveStep] = useState(0);
+  const [child,setChild] = useState(false)
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     console.log(activeStep)
   };
 
+  const handleChild = (value:boolean)=>{
+    setChild(value)
+  }
   // const handleBack = () => {
   //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
   // };
@@ -36,12 +40,13 @@ export default function StepperComponent() {
 
   return (
     <div className='stepperContainer'>
-      <Box >
-
-        <Stepper activeStep={activeStep} orientation="vertical" >
+      
+      <div className='stepper'>
+        <Box >
+      <Stepper activeStep={activeStep} orientation="vertical" >
         <Step >
             <StepLabel >
-              <span style={bgColor == true ? { color: 'black' } : { color: 'white' }}>{language == 'mkd' ? 'Изберете на кој јазик да биде изготвено барањето' : 'Zgjidhni në cilën gjuhë duhet të përgatitet kërkesa'}</span>
+              <span>{language == 'mkd' ? 'Изберете на кој јазик да биде изготвено барањето' : 'Zgjidhni në cilën gjuhë duhet të përgatitet kërkesa'}</span>
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
@@ -51,31 +56,28 @@ export default function StepperComponent() {
           </Step>
         <Step >
             <StepLabel >
-              <span style={bgColor == true ? { color: 'black' } : { color: 'white' }}>{language == 'mkd' ? 'Податоци за барањето' : 'Informacion rreth aplikimit'}</span>
+              <span>{language == 'mkd' ? 'Податоци за барањето' : 'Informacion rreth aplikimit'}</span>
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
-                <ChildrenComponent handleNext={handleNext} />
+                <ChildrenComponent handleNext={handleNext} handleSetChild={handleChild} />
               </Typography>
             </StepContent>
           </Step>
           <Step >
             <StepLabel >
-              <span style={bgColor == true ? { color: 'black' } : { color: 'white' }}>{language == 'mkd' ? 'Изберете документ' : 'Zgjidhni një dokument'}</span>
+              <span>{language == 'mkd' ? 'Изберете документ' : 'Zgjidhni një dokument'}</span>
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
-              <CheckboxComponent handleNext={handleNext} />
+              <CheckboxComponent handleNext={handleNext} child={child} />
               </Typography>
             </StepContent>
           </Step>
 
-          
-
-          
           <Step>
             <StepLabel sx={{ color: 'inherit' }}>
-              <span style={bgColor == true ? { color: 'black' } : { color: 'white' }}>{language == 'mkd' ? 'Податоци за барањето' : 'Informacion rreth aplikimit'}</span>
+              <span>{language == 'mkd' ? 'Податоци за барањето' : 'Informacion rreth aplikimit'}</span>
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
@@ -95,7 +97,7 @@ export default function StepperComponent() {
           </Step>
           <Step >
             <StepLabel >
-              <span style={bgColor == true ? { color: 'black' } : { color: 'white' }}>{language == 'mkd' ? 'Внесете лични податоци за подносителот на барањето' : 'Futni të dhënat personale rreth kërkuesit'}</span>
+              <span>{language == 'mkd' ? 'Внесете лични податоци за подносителот на барањето' : 'Futni të dhënat personale rreth kërkuesit'}</span>
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
@@ -111,7 +113,7 @@ export default function StepperComponent() {
           <Paper square elevation={0} sx={{ p: 3, backgroundColor: 'transparent' }} className='paper'>
             <Typography component={'section'}>
               <div>
-                <p style={bgColor == true ? { color: 'black' } : { color: 'white' }}>{language == 'mkd' ? 'Сите чекори се завршени' : 'Të gjithë hapat kanë përfunduar'}</p>
+                <p>{language == 'mkd' ? 'Сите чекори се завршени' : 'Të gjithë hapat kanë përfunduar'}</p>
               </div>
 
             </Typography>
@@ -121,9 +123,12 @@ export default function StepperComponent() {
 
             </Button>
           </Paper>}
+          </Box>
+      </div>
+        
           
 
-      </Box>
+      
     </div>
 
 

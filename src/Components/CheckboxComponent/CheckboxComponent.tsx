@@ -8,11 +8,12 @@ import Checkbox from '@mui/material/Checkbox';
 import { GeneralContext } from '../../context/general.context';
 import { useContext } from 'react';
 import Button from '@mui/material/Button';
-import { StepperProps } from '../../Types/interfaces';
-
-export const CheckboxComponent = ({handleNext}: StepperProps )=> {
-
-    const{language, bgColor, necessaryDocuments, addNecessaryDocs,child} = useContext(GeneralContext)
+export interface CheckboxComponentProps{
+  handleNext: ()=>void,
+  child: boolean
+}
+export const CheckboxComponent = ({handleNext,child}: CheckboxComponentProps )=> {
+  const{language, necessaryDocuments, addNecessaryDocs} = useContext(GeneralContext)
   const { idCard, passport, driverLicense } = necessaryDocuments;
   const error = [idCard, passport, driverLicense].filter((v) => v).length < 1;
 console.log(child)
@@ -20,24 +21,21 @@ console.log(child)
     <Box sx={{ display: 'flex', flexDirection: 'column'}}>
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard" required
         error={error}>
-        <FormLabel component="legend" sx={bgColor ? {color: 'black'} : {color:'white'}}>{language == 'mkd'? 'Одберете документи кои ви се потребни': 'Zgjidhni dokumentet që ju nevojiten'}</FormLabel>
+        <FormLabel component="legend">{language == 'mkd'? 'Одберете документи кои ви се потребни': 'Zgjidhni dokumentet që ju nevojiten'}</FormLabel>
         <FormGroup>
           <FormControlLabel
-            sx={bgColor ? {color: 'black'} : {color:'white'}}
             control={
               <Checkbox checked={idCard} onChange={addNecessaryDocs} name="idCard" />
             }
             label={language == 'mkd' ? 'Лична карта' : 'Karta e identitetit'}
           />
           <FormControlLabel
-          sx={bgColor ? {color: 'black'} : {color:'white'}}
             control={
               <Checkbox checked={passport} onChange={addNecessaryDocs} name="passport" />
             }
             label={language == 'mkd' ? 'Патна исправа' : 'Pasaporta'}
           />
-          {!child.parents[0].firstName && (<FormControlLabel
-          sx={bgColor ? {color: 'black'} : {color:'white'}}
+          {!child && (<FormControlLabel
             control={
               <Checkbox checked={driverLicense} onChange={addNecessaryDocs} name="driverLicense" />
             }

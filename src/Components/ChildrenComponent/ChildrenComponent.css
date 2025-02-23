@@ -1,8 +1,8 @@
 .childrenContainer{
     display: flex;
+    width: 100%;
     justify-content: center;
     align-items: center;
-    /* width: 95%; */
     margin: 20px;
 }
 
@@ -12,5 +12,69 @@
     align-items: center;
     flex-direction: column;
     gap: 20px;
-  width: 70%;
+  width: 100%;
+}
+.radioBtn{
+  display: flex;
+  justify-content: space-around;
+}
+.dynamicSection,.dynamicFieldsContainer{
+  width: 100%;
+}
+.dynamicFields{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px;
+  width: 100%;
+}
+.dynamicColumn{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+.dynamicInput{
+  width: 80%;
+  height: 35px;
+  border-radius: 4px;
+  padding: 12px 15px;
+  box-sizing: border-box;
+  border: 3px solid #ccc;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+}
+
+.dinInputError{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+@media only screen and (max-width:560px) {
+
+  .dynamicFields{
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px;
+}
+.dynamicColumn{
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.childrenForm{
+  width: 95%;
+}
+.dynamicInput{
+    width: 90%;
+  
+}
+
+.childrenContainer{
+  margin: 0px;
+  justify-content: flex-start;
+}
+
 }

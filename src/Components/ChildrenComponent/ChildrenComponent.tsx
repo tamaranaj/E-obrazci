@@ -1,4 +1,4 @@
-import { Children, StepperProps } from "../../Types/interfaces";
+import { Children } from "../../Types/interfaces";
 import './ChildrenComponent.css'
 import { useContext, useState } from "react";
 import Button from "@mui/material/Button";
@@ -11,18 +11,24 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-export const ChildrenComponent = ({ handleNext }: StepperProps) => {
+interface ChildrenComponentProps{
+  handleNext: ()=>void,
+  handleSetChild: (value:boolean)=>void
+}
+export const ChildrenComponent = ({ handleNext,handleSetChild }: ChildrenComponentProps) => {
   const [value, setValue] = useState('no');
   const [haveChild, setHaveChild] = useState<boolean>(false);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let value = (event.target as HTMLInputElement).value
     if(value == 'yes'){
       setValue(value);
+      handleSetChild(true)
       setHaveChild(true);
       handleAddParent()
     }else{
       setValue('no')
       setHaveChild(false);
+      handleSetChild(false)
       remove(0);
       remove(1);
     }
@@ -56,6 +62,7 @@ export const ChildrenComponent = ({ handleNext }: StepperProps) => {
 
   const submitForm = (data: Children) => {
     if(!terms) return
+    console.log(haveChild)
     updateSetChild(data);
     handleNext();
   };
@@ -63,23 +70,24 @@ export const ChildrenComponent = ({ handleNext }: StepperProps) => {
   const handleRemoveParent=(index: number)=>{
     if(index===1 && fields.at(0)){
       remove(1)
-    }else if(index === 1 && !fields.at(0)){
-      
-      remove(1)
-      setHaveChild(false)
-      setValue('no')
-      
-    }
-
-    if(index===0 && fields.at(1)){
-      remove(0)
     }else if(index === 0 && !fields.at(1)){
       
       remove(0)
       setHaveChild(false)
       setValue('no')
+      handleSetChild(false)
       
     }
+
+    if(index===0 && fields.at(1)){
+      remove(0)}
+    // }else if(index === 0 && !fields.at(1)){
+      
+    //   remove(0)
+    //   setHaveChild(false)
+    //   setValue('no')
+      
+    // }
 
   }
   return (
@@ -96,8 +104,12 @@ export const ChildrenComponent = ({ handleNext }: StepperProps) => {
         value={value}
         onChange={handleChange}
       >
+        <div className="radioBtn">
         <FormControlLabel value="yes" control={<Radio />} label={language == "mkd" ? "Да" : "Po"} />
         <FormControlLabel value="no" control={<Radio />} label={language == "mkd" ? "Не" : "Nr"} />
+
+        </div>
+        
       </RadioGroup>
     </FormControl>
 

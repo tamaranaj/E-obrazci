@@ -9,7 +9,7 @@ import { FormControl, RadioGroup, FormControlLabel, Radio } from "@mui/material"
 
 export const PassportForm = () => {
 
-   const { updatePassportDocument,bgColor, language, passport,documentLanguage } = useContext(GeneralContext);
+   const { updatePassportDocument, language, passport,documentLanguage } = useContext(GeneralContext);
  const[answered, setAnswered] = useState(false)
      const checkRadio = (event: React.ChangeEvent<HTMLInputElement> )=>{
          updatePassportDocument(event)
@@ -17,7 +17,7 @@ export const PassportForm = () => {
      }
   return (
 
-    <div className="cardDetailsContainer" style={bgColor == true ? { color: 'black' } : { color: 'white' }}>
+    <div className="cardDetailsContainer">
 
         <div className="grid">
 
@@ -31,18 +31,18 @@ export const PassportForm = () => {
             value={passport.reason}
             onChange={(event)=>checkRadio(event)}
             >
-            <FormControlLabel value="1" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label={language=='mkd'? 'Прв пат': 'Herën e parë'}  />
+            <FormControlLabel value="1" control={<Radio/>} label={language=='mkd'? 'Прв пат': 'Herën e parë'}  />
 
-            <FormControlLabel value="2" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Редовна замена': 'Zëvendësimi i rregullt'} />
+            <FormControlLabel value="2" control={<Radio/>} label= {language=='mkd'? 'Редовна замена': 'Zëvendësimi i rregullt'} />
 
-            <FormControlLabel value="3" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label={language=='mkd'? 'Промена на лични податоци': 'Ndryshimi i të dhënave personale'}  />
+            <FormControlLabel value="3" control={<Radio/>} label={language=='mkd'? 'Промена на лични податоци': 'Ndryshimi i të dhënave personale'}  />
 
-            <FormControlLabel value="4" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Замена поради други причини (исполнетост или друго)': 'Zëvendësimi për arsye të tjera (përmbushje ose ndryshe)'} />
-            <FormControlLabel value="5" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Дупликат пасош (изгубен,исчезнат или украден)': 'Pasaportë e kopjuar (e humbur, e humbur ose e vjedhur)'} />
+            <FormControlLabel value="4" control={<Radio/>} label= {language=='mkd'? 'Замена поради други причини (исполнетост или друго)': 'Zëvendësimi për arsye të tjera (përmbushje ose ndryshe)'} />
+            <FormControlLabel value="5" control={<Radio/>} label= {language=='mkd'? 'Дупликат пасош (изгубен,исчезнат или украден)': 'Pasaportë e kopjuar (e humbur, e humbur ose e vjedhur)'} />
 
-            <FormControlLabel value="6" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Предвремена замена заради оштетеност на пасошот': 'Zëvendësimi i parakohshëm për shkak të dëmtimit të pasaportës'} />
+            <FormControlLabel value="6" control={<Radio/>} label= {language=='mkd'? 'Предвремена замена заради оштетеност на пасошот': 'Zëvendësimi i parakohshëm për shkak të dëmtimit të pasaportës'} />
 
-            <FormControlLabel value="7" control={<Radio sx={bgColor == true ? {color: 'black'}: {color: 'white'}} />} label= {language=='mkd'? 'Издавање на пасош со ограничен рок на важење': 'Lëshimi i një pasaporte me një periudhë të kufizuar vlefshmërie'} />
+            <FormControlLabel value="7" control={<Radio/>} label= {language=='mkd'? 'Издавање на пасош со ограничен рок на важење': 'Lëshimi i një pasaporte me një periudhë të kufizuar vlefshmërie'} />
           </RadioGroup>
         </FormControl>
           {!answered && <span className="errorMessage">{language == 'mkd'? 'Ова поле е задолжително.':"Kjo fushë është e nevojshme."}</span>}
@@ -53,7 +53,7 @@ export const PassportForm = () => {
           {documentLanguage==='macedonian' && (<FormDocLanguageComponent handleChange={updatePassportDocument} state={passport.cardLanguage}/>)}
           {documentLanguage==='macedonian' && (<BilingualNameComponent handleChange={updatePassportDocument} state={passport.nameLanguage}/>)}     
           
-          {documentLanguage==='macedonian' && (<fieldset  style={bgColor == true ? {color: 'black'}: {color: 'white'}} className="reasons">
+          {documentLanguage==='macedonian' && (<fieldset className="reasons">
             <legend>Барам податоците во образецот да бидат испишани на еден од наведените јазици и писмо:</legend>
             
             
@@ -67,9 +67,8 @@ export const PassportForm = () => {
             </select>
 
             <span className="description">Ова поле не е задолжително.</span>
-        </fieldset>)}     
-
-          
+            </fieldset>)
+          }     
 
         </div>
       
