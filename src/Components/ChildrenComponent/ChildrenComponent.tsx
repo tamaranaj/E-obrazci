@@ -81,14 +81,6 @@ export const ChildrenComponent = ({ handleNext,handleSetChild }: ChildrenCompone
 
     if(index===0 && fields.at(1)){
       remove(0)}
-    // }else if(index === 0 && !fields.at(1)){
-      
-    //   remove(0)
-    //   setHaveChild(false)
-    //   setValue('no')
-      
-    // }
-
   }
   return (
     <div className="childrenContainer">

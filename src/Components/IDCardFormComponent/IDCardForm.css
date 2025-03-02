@@ -38,7 +38,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 70%;
+    width: 100%;
     border: 3px solid #ccc;
 }
 
@@ -53,7 +53,7 @@
     transition: 0.5s;
     outline: none;
     color: black;
-    background-color: transparent;
+    background-color: white;
 }
 
 

@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { GeneralContext } from "../../context/general.context";
-import "./Passport.css";
 import { BilingualNameComponent } from "../SharedComponents/BilingualNameComponent";
 import { FormDocLanguageComponent } from "../SharedComponents/FormDocLanguageComponents ";
 import { ProcedureComponent } from "../SharedComponents/ProcedureComponent";
