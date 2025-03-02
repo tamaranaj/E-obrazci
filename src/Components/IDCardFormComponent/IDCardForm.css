@@ -1,6 +1,7 @@
 .cardDetailsContainer{
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
     width: 100%;
 }
@@ -52,6 +53,7 @@
     transition: 0.5s;
     outline: none;
     color: black;
+    background-color: transparent;
 }
 
 

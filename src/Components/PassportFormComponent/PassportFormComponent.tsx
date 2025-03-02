@@ -1,20 +1,27 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { GeneralContext } from "../../context/general.context";
 import "./Passport.css";
 import { BilingualNameComponent } from "../SharedComponents/BilingualNameComponent";
 import { FormDocLanguageComponent } from "../SharedComponents/FormDocLanguageComponents ";
 import { ProcedureComponent } from "../SharedComponents/ProcedureComponent";
-import { FormControl, RadioGroup, FormControlLabel, Radio } from "@mui/material";
+import { FormControl, RadioGroup, FormControlLabel, Radio, Button } from "@mui/material";
+import { TabsComponentChildrenProps } from "../TabsComponent/TabContainer";
 
+export const PassportForm = ({tabsProps}: TabsComponentChildrenProps) => {
 
-export const PassportForm = () => {
-
-   const { updatePassportDocument, language, passport,documentLanguage } = useContext(GeneralContext);
- const[answered, setAnswered] = useState(false)
+   const { updatePassportDocument, language, passport,documentLanguage, tabs } = useContext(GeneralContext);
+ const index = tabs.indexOf('passport')
      const checkRadio = (event: React.ChangeEvent<HTMLInputElement> )=>{
          updatePassportDocument(event)
-         setAnswered(true)
      }
+
+     const handleNext  = ()=>{
+      if(passport.reason ==='' || passport.procedure === ''){
+        return
+      }else{
+        tabsProps(index === 0? '2': '3')
+      }
+    }
   return (
 
     <div className="cardDetailsContainer">
@@ -45,11 +52,14 @@ export const PassportForm = () => {
             <FormControlLabel value="7" control={<Radio/>} label= {language=='mkd'? 'Издавање на пасош со ограничен рок на важење': 'Lëshimi i një pasaporte me një periudhë të kufizuar vlefshmërie'} />
           </RadioGroup>
         </FormControl>
-          {!answered && <span className="errorMessage">{language == 'mkd'? 'Ова поле е задолжително.':"Kjo fushë është e nevojshme."}</span>}
+          {passport.reason ==='' && <span className="errorMessage">{language == 'mkd'? 'Ова поле е задолжително.':"Kjo fushë është e nevojshme."}</span>}
       </fieldset>
 
-         
-          <ProcedureComponent handleChange={updatePassportDocument} state={passport.procedure}/>
+         <fieldset className="reasons">
+         <ProcedureComponent handleChange={updatePassportDocument} state={passport.procedure}/>
+         {passport.procedure ==='' && <span className="errorMessage">{language == 'mkd'? 'Ова поле е задолжително.':"Kjo fushë është e nevojshme."}</span>}
+         </fieldset>
+          
           {documentLanguage==='macedonian' && (<FormDocLanguageComponent handleChange={updatePassportDocument} state={passport.cardLanguage}/>)}
           {documentLanguage==='macedonian' && (<BilingualNameComponent handleChange={updatePassportDocument} state={passport.nameLanguage}/>)}     
           
@@ -71,7 +81,14 @@ export const PassportForm = () => {
           }     
 
         </div>
-      
+        {tabs.length > 1 && index+1!=tabs.length &&(<Button
+                    variant="contained"
+                    type='button'
+                    onClick={handleNext}
+                    sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
+                >
+                    {language==='mkd'? 'Следно': 'Tjetra'}
+                </Button>)}
     </div>
 
 
