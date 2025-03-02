@@ -63,9 +63,13 @@ label{
     -webkit-transition: 0.5s;
     transition: 0.5s;
     outline: none;
-    background-color:transparent;
+    background-color:white;
+    color: black;
+    
 }
-
+.input::placeholder{
+    color: rgb(76, 73, 73);
+}
 .input:focus, .dynamicInput:focus{
     border: 2px solid #1976D2;
 }
