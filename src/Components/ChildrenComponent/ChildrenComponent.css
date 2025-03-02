@@ -45,6 +45,8 @@
   -webkit-transition: 0.5s;
   transition: 0.5s;
   outline: none;
+  background-color: white;
+  color: black;
 }
 
 .dinInputError{

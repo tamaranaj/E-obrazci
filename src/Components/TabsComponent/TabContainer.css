@@ -12,8 +12,13 @@ color: black;
 }
 @media only screen and (max-width:560px) {
     .gridContainer{
-        margin: 0px;
-        } 
+    margin: 0px;
+    } 
+
+
+    .tabCont{
+    width: 100%;
+    }
 }
 .description{
     color:#1976D2;
