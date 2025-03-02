@@ -1,20 +1,27 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { GeneralContext } from "../../context/general.context";
 import "./IDCardForm.css";
 import { ProcedureComponent } from "../SharedComponents/ProcedureComponent";
 import { BilingualNameComponent } from "../SharedComponents/BilingualNameComponent";
 import { FormDocLanguageComponent } from "../SharedComponents/FormDocLanguageComponents ";
-import { FormControl, FormControlLabel, Radio, RadioGroup } from "@mui/material";
+import { Button, FormControl, FormControlLabel, Radio, RadioGroup } from "@mui/material";
+import { TabsComponentChildrenProps } from "../TabsComponent/TabContainer";
 
-export const IDCardForm = () => {
 
-  const { updateIDCardDocument,language, idCardDocument,documentLanguage} = useContext(GeneralContext);
- const[answered, setAnswered] = useState(false)
+export const IDCardForm = ({tabsProps}: TabsComponentChildrenProps) => {
+
+  const { updateIDCardDocument,language, idCardDocument,documentLanguage,tabs} = useContext(GeneralContext);
      const checkRadio = (event: React.ChangeEvent<HTMLInputElement> )=>{
          updateIDCardDocument(event)
-         setAnswered(true)
      }
-
+     const index = tabs.indexOf('idCard')
+      const handleNext  = ()=>{
+        if(idCardDocument.reason ==='' || idCardDocument.procedure === ''){
+          return
+        }else{
+          tabsProps(index === 0? '2': '3')
+        }
+      }
   return (
     
       <div className="cardDetailsContainer" >
@@ -42,10 +49,15 @@ export const IDCardForm = () => {
           </RadioGroup>
         </FormControl>
 
-        {!answered && <span className='errorMessage'>{language == 'mkd'? 'Ова поле е задолжително.':"Kjo fushë është e nevojshme."}</span>}
+        {idCardDocument.reason === '' && <span className='errorMessage'>{language == 'mkd'? 'Ова поле е задолжително.':"Kjo fushë është e nevojshme."}</span>}
       </fieldset>            
           
+          <fieldset className="reasons">
+            
           <ProcedureComponent handleChange={updateIDCardDocument} state={idCardDocument.procedure}/>
+          {idCardDocument.procedure === '' && <span className="errorMessage">{language == 'mkd'? 'Ова поле е задолжително.':"Kjo fushë është e nevojshme."}</span>}
+          </fieldset>
+          
           {documentLanguage==='macedonian' && (<FormDocLanguageComponent handleChange={updateIDCardDocument} state={idCardDocument.cardLanguage}/>)}
 
           {documentLanguage==='macedonian' && (<BilingualNameComponent handleChange={updateIDCardDocument} state={idCardDocument.nameLanguage}/>  )}
@@ -54,6 +66,15 @@ export const IDCardForm = () => {
           
 
           </div>
+          {tabs.length > 1 && index+1!=tabs.length &&(<Button
+                    variant="contained"
+                    type='button'
+                    onClick={handleNext}
+                    sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
+                >
+                    {language==='mkd'? 'Следно': 'Tjetra'}
+                </Button>)}
+          
       </div>
 
     

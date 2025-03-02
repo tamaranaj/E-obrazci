@@ -21,6 +21,7 @@ interface ContextDefault {
     updateDocumentLanguage: (value:string) => void,
     updateSetChild: (formValues: Children) => void,
     updateSetTerms: (value: boolean) => void,
+    tabs: string[],
     resetContext: () => void
 
 }
@@ -72,6 +73,7 @@ const contextDefaultValues: ContextDefault = {
         parents:[]
     },
     terms:true,
+    tabs:[],
     updatePersonalDetailsID: ()=>{},
     updateIDCardDocument: ()=>{},
     updatePassportDocument: ()=>{},
@@ -101,6 +103,7 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
     const[driverLicense, setDriverLicense] = useState(contextDefaultValues.driverLicense)
     const [child, setChild] = useState(contextDefaultValues.child)
     const [terms, setTerms] = useState(contextDefaultValues.terms)
+    const [tabs,setTabs] = useState(contextDefaultValues.tabs)
 
     const updateSetTerms = (value: boolean)=>{
         setTerms(value)
@@ -123,6 +126,17 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
           ...necessaryDocuments,
           [event.target.name]: event.target.checked,
         });
+        if(event.target.checked == true){
+            let check=tabs.includes(event.target.name)
+            if(!check){
+                setTabs([...tabs,event.target.name])
+            }
+            
+        }else{
+            const filterTabs = tabs.filter(item=>item!==event.target.name)
+            setTabs(filterTabs)
+        }
+        
       };
     const updateDocumentLanguage = (value:string)=>{
         setDocumentLanguage(value)
@@ -160,13 +174,14 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
         setDocumentLanguage(contextDefaultValues.documentLanguage)
         setChild(contextDefaultValues.child)
         setTerms(contextDefaultValues.terms)
+        setTabs(contextDefaultValues.tabs)
 
     }
     
     
     return(
         <GeneralContext.Provider 
-        value={{personalDetailsID,idCardDocument,passport,necessaryDocuments,language,driverLicense,documentLanguage,child,terms,updateSetTerms,updateSetChild,updateDocumentLanguage,updateDriverLicense,updateIDCardDocument,updatePersonalDetailsID,changeLanguage, addNecessaryDocs, updatePassportDocument,resetContext  }}>
+        value={{personalDetailsID,tabs,idCardDocument,passport,necessaryDocuments,language,driverLicense,documentLanguage,child,terms,updateSetTerms,updateSetChild,updateDocumentLanguage,updateDriverLicense,updateIDCardDocument,updatePersonalDetailsID,changeLanguage, addNecessaryDocs, updatePassportDocument,resetContext  }}>
             {children}
         </GeneralContext.Provider>
     )

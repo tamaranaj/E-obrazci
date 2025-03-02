@@ -29,10 +29,6 @@ export default function StepperComponent() {
   const handleChild = (value:boolean)=>{
     setChild(value)
   }
-  // const handleBack = () => {
-  //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  // };
-
   const handleReset = () => {
     setActiveStep(0);
     resetContext()
@@ -56,7 +52,7 @@ export default function StepperComponent() {
           </Step>
         <Step >
             <StepLabel >
-              <span>{language == 'mkd' ? 'Податоци за барањето' : 'Informacion rreth aplikimit'}</span>
+              <span>{language == 'mkd' ? 'Податоци за подносителот на барањето' : 'Informacion rreth aplikantit'}</span>
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
@@ -74,13 +70,13 @@ export default function StepperComponent() {
               </Typography>
             </StepContent>
           </Step>
-
+          
           <Step>
             <StepLabel sx={{ color: 'inherit' }}>
               <span>{language == 'mkd' ? 'Податоци за барањето' : 'Informacion rreth aplikimit'}</span>
             </StepLabel>
             <StepContent >
-              <Typography component={'div'}>
+              <Typography component={'div'} sx={{width: '90%', display:'flex',flexDirection: "column", alignItems:'center'}}>
                 <TabContainer />
                 <Button
                   variant="contained"
@@ -97,7 +93,7 @@ export default function StepperComponent() {
           </Step>
           <Step >
             <StepLabel >
-              <span>{language == 'mkd' ? 'Внесете лични податоци за подносителот на барањето' : 'Futni të dhënat personale rreth kërkuesit'}</span>
+              <span>{language == 'mkd' ? 'Лични податоци за подносителот на барањето' : 'Të dhënat personale për aplikantin'}</span>
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
@@ -124,13 +120,7 @@ export default function StepperComponent() {
             </Button>
           </Paper>}
           </Box>
-      </div>
-        
-          
-
-      
+      </div> 
     </div>
-
-
   );
 }

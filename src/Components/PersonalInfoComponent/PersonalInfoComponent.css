@@ -63,6 +63,7 @@ label{
     -webkit-transition: 0.5s;
     transition: 0.5s;
     outline: none;
+    background-color:transparent;
 }
 
 .input:focus, .dynamicInput:focus{

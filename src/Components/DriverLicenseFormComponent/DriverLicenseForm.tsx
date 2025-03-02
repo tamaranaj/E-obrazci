@@ -1,18 +1,27 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import './DriverLicenseForm.css'
 import { GeneralContext } from '../../context/general.context'
 import { BilingualNameComponent } from '../SharedComponents/BilingualNameComponent'
 import { ProcedureComponent } from '../SharedComponents/ProcedureComponent'
-import { FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material'
+import { Button, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material'
+import { TabsComponentChildrenProps } from '../TabsComponent/TabContainer'
 
-export const DriverLicenseForm = () => {
-    const { language, driverLicense, updateDriverLicense,documentLanguage } = useContext(GeneralContext)
-    const [checked, setChecked] = useState(false)
+
+export const DriverLicenseForm = ({tabsProps}: TabsComponentChildrenProps) => {
+    const { language, driverLicense, updateDriverLicense,documentLanguage,tabs } = useContext(GeneralContext)
+    const index = tabs.indexOf('driverLicense')
     const checkRadio = (event: React.ChangeEvent<HTMLInputElement> )=>{
         updateDriverLicense(event)
-        setChecked(true)
+  
     }
+    const handleNext  = ()=>{
+      if(driverLicense.reason ==='' || driverLicense.procedure ===''){
+        return
+      }else{
 
+        tabsProps(index === 0? '2': '3')
+      }
+    }
     return (
         <div className='dlWrapper'>
            <fieldset className="reasons"  >
@@ -49,15 +58,25 @@ export const DriverLicenseForm = () => {
           </RadioGroup>
         </FormControl>
 
-        {!checked && <span className='errorMessage'>{language == 'mkd'? 'Ова поле е задолжително.':"Kjo fushë është e nevojshme."}</span>}
+        {driverLicense.reason ==='' && <span className='errorMessage'>{language == 'mkd'? 'Ова поле е задолжително.':"Kjo fushë është e nevojshme."}</span>}
         </fieldset>
         
-      
-        <ProcedureComponent handleChange={updateDriverLicense} state={driverLicense.procedure}/>
+      <fieldset className="reasons">
+      <ProcedureComponent handleChange={updateDriverLicense} state={driverLicense.procedure}/>
+      {driverLicense.procedure ==='' && <span className="errorMessage">{language == 'mkd'? 'Ова поле е задолжително.':"Kjo fushë është e nevojshme."}</span>}
+      </fieldset>
+    
 
         {documentLanguage==='macedonian' && (<BilingualNameComponent handleChange={updateDriverLicense} state={driverLicense.nameLanguage}/> )}
           
-        
+        {tabs.length > 1 && index+1!=tabs.length &&(<Button
+                    variant="contained"
+                    type='button'
+                    onClick={handleNext}
+                    sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
+                >
+                    {language==='mkd'? 'Следно': 'Tjetra'}
+                </Button>)}
                  
         </div>
     )
