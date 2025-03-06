@@ -1,47 +1,29 @@
 import { useNavigate } from 'react-router-dom'
 import './Home.css'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { GeneralContext } from '../../context/general.context'
 import Button from '@mui/material/Button'
-import Checkbox from '@mui/material/Checkbox'
+
 
 export const Home = ()=>{
     const {language} = useContext(GeneralContext)
-    const [info, setInfo] = useState(false)
-    const [notChecked,setNotChecked] = useState(false)
     const navigate = useNavigate()
-    const navigation = (path:string)=>{
-        if(info){
-            navigate(path)
-        }else{
-            setNotChecked(true)
-        }
-        
+    const navigation = ()=>{
+        navigate('/е-образци')  
     }
 
-    const handleInfo=()=>{
-        setInfo(!info)
-    }
     return(
         <div className="homeContainer">
 
-            <h2>{language == 'mkd' ? 'Креирај образци за вадење на лични документи': "Krijoni shabllone për nxjerrjen e dokumenteve personale"}</h2>
+            <h2>{language == 'mkd' ? 'Креирај образци за аплицирање за лични документи': "Krijoni formularë aplikimi për dokumente personale"}</h2>
 
-            <div className='infoCheckbox'>
-                    <Checkbox
-                    sx={{width:'10%',marginRight: '10px' }}
-                    checked={info}
-                    onChange={handleInfo}
-                />
-                
-                {language==='mkd'? (<span className='info'>Оваа апликација НЕ користи колачиња. Целта на оваа апликација е да им се овозможи на граѓаните на Република Северна Македонија, електронски да пополнат и генерираат образец за аплицирање за лична карта, патна исправа или возачка дозвола во Министерството за внатрешни работи. Оваа апликација е самостоен проект и не е поддржан од Министерството за внатрешни работи или други државни органи. Корисникот на апликацијата треба да внимава бидејки идеата на оваа апликација може да биде искористена од трети лица кои би можеле да ги искористат или злоупотребат неговите лични податоци. Овие образци сеуште не се тестирани дали би биле прифатени од страна на полициските службеници при Министерството за внатешни работи.</span>
-                ) : (<span className='info'>Ky aplikacion nuk përdor cookie. Qëllimi i këtij aplikacioni është t'u mundësojë qytetarëve të Republikës së Maqedonisë së Veriut që në mënyrë elektronike të plotësojnë dhe gjenerojnë formularin e aplikimit për letërnjoftim, dokument udhëtimi ose patentë shofer në Ministrinë e Punëve të Brendshme. Kjo aplikacion është vetëm një projekt dhe nuk mbështetet nga Ministria për punë të brendshme ose organe të tjera shtetërore. Komisariati i aplikacionit duhet të përdoret si ideja e kësaj aplikacioni për t'u shfrytëzuar nga të tretat persona të cilët mund t'i përdorin ose të keqpërdorin të dhënat personale. Këto forma nuk janë të testuara, nëse do të jenë të lidhura nga ana e departamentit të policisë në Departamentin e Punëve të Brendshme.
+            <div className='infoCheckbox'>               
+                {language==='mkd'? (<span className='info'>Оваа апликација НЕ користи колачиња и НЕ користи надворешни сервиси или сервери за запишување/обработка на вашите личните податоци. Внесените лични податоци не го напуштаат вашиот компјутер. Генерирањето на образците се извршува во прелистувачот на вашиот компјутер. Внимавајте на можни лажни сајтови кои ја копираат оваа апликација и би можеле да ги искористат и злоупотребат вашите лични податоци. Оваа апликација е самостоен проект и не е поддржан од Министерството за внатрешни работи или други државни органи. Не гарантираме дека овие образци би биле прифатени од страна на полициските службеници при Министерството за внатрешни работи.</span>
+                ) : (<span className='info'>Ky aplikacion NUK përdor cookie dhe NUK përdor shërbime ose serverë të jashtëm për të regjistruar/përpunuar të dhënat tuaja personale. Të dhënat personale të futura nuk largohen nga kompjuteri juaj. Gjenerimi i formularit kryhet në shfletuesin e kompjuterit tuaj.Kujdes nga faqet e mundshme false që kopjojnë këtë aplikacion dhe mund të përdorin dhe abuzojnë me të dhënat tuaja personale. Ky aplikacion është një projekt i pavarur dhe nuk mbështetet nga Ministria e Brendshme apo autoritete të tjera shtetërore. Ne nuk garantojmë se këto formularë do të pranohen nga punonjësit e policisë në Ministrinë e Brendshme.
                 </span>)}              
-            </div>
-            {notChecked && (language =='mkd'?<p className='error'>Ова е задолжително за да можете да продолжите со користење на апликацијата</p>: <p className='error'>Kjo është vetëm për të vazhduar me përdorimin e aplikacionit</p>)}
-            
+            </div>            
 
-            <Button variant="contained" sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black', width:'130px', height:'40px'}} onClick={()=>{navigation('/е-образци')}}>{language == 'mkd'? 'Започни': 'Filloni'} </Button>
+            <Button variant="contained" sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black', width:'130px', height:'40px'}} onClick={navigation}>{language == 'mkd'? 'Во ред': 'Në rregull'} </Button>
            
         </div>
     )
