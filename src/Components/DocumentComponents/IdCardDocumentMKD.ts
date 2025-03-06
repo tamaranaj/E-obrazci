@@ -309,6 +309,6 @@ export const generateIdCardDocumentMKD = (idCardDocument: IDCardDocument, person
     doc.text('•  Доколку во текот на постапката се појави потреба од прибавување на други документи, а Министерството,',18,270)
     doc.text('не е во можност да ги прибави по службена должност, подносителот на барањето дополнително ќе биде',21,274)
     doc.text('известен истите да ги приложи кон барањето.',21,278)
-    doc.save('idCard.pdf');
+    doc.save(`${personalDetailsID.firstName}${personalDetailsID.lastName}IdCard.pdf`);
     
   }

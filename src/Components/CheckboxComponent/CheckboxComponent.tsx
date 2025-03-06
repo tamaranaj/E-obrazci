@@ -10,13 +10,13 @@ import { useContext } from 'react';
 import Button from '@mui/material/Button';
 export interface CheckboxComponentProps{
   handleNext: ()=>void,
-  child: boolean
+  
 }
-export const CheckboxComponent = ({handleNext,child}: CheckboxComponentProps )=> {
-  const{language, necessaryDocuments, addNecessaryDocs} = useContext(GeneralContext)
+export const CheckboxComponent = ({handleNext}: CheckboxComponentProps )=> {
+  const{language, necessaryDocuments, haveChild,addNecessaryDocs} = useContext(GeneralContext)
   const { idCard, passport, driverLicense } = necessaryDocuments;
   const error = [idCard, passport, driverLicense].filter((v) => v).length < 1;
-console.log(child)
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column'}}>
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard" required
@@ -35,7 +35,7 @@ console.log(child)
             }
             label={language == 'mkd' ? 'Патна исправа' : 'Pasaporta'}
           />
-          {!child && (<FormControlLabel
+          {!haveChild && (<FormControlLabel
             control={
               <Checkbox checked={driverLicense} onChange={addNecessaryDocs} name="driverLicense" />
             }
