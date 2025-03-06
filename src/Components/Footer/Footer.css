@@ -3,6 +3,7 @@
     position: relative;
     height: 50px;
    width: 100%;
+   margin-top: 30px ;
 
 }
 
@@ -19,8 +20,12 @@
 .links{
     display: flex;
     align-items: center;
-    gap:5px;
+    gap:10px;
     font-size: 0.9em;
     color: black;
+    a, a:link , a:visited ,a:hover ,a:active {
+        color: black;
+       
+    }
   
 }
