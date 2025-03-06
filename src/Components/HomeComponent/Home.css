@@ -22,3 +22,9 @@
 .info{
     text-align: justify;
 }
+@media screen and (max-width:700px) {
+    .infoCheckbox{
+        width: 90%;
+        
+    }
+}
