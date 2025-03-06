@@ -333,5 +333,5 @@ export const generatePassportDocumentALB = (personalInfo: PersonalDetailsID, pas
   doc.text('ti bashkangjet ndaj kërkesës; ', 23, 285)
 
 
-  doc.save('passport.pdf');
+  doc.save(`${personalInfo.firstName}${personalInfo.lastName}Passport.pdf`);
 }

@@ -74,6 +74,7 @@ export const PersonalInfoComponent = (props: StepperProps) => {
     
       <form onSubmit={handleSubmit(submitForm)} className='personalDetailsForm'>
         <div className="gridWrapper">
+          {language === 'mkd' && (<p className='error'>Пополнете ја формата користејќи кирилично писмо</p>)}
             <div className='flex'>
             <section className='column'>
             <div className="column">

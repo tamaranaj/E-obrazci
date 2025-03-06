@@ -307,6 +307,6 @@ export const generateIDCardALB = (idCardDocument:IDCardDocument, personalInfo: P
     doc.text('në ojesen 5,të cilat nuk janë të shënuara me yll(*) kurse Ministria për Punë Të Brendshme nuk ka mundësi ti',23,269)
     doc.text('sigurojë sipas detyrës zyrtare,parashtruesi i kërkesës në mënyrë plotësuese do të informohet të njetat ti',23,273)
     doc.text('bashkangjet ndaj kërkesës;',23,277)
-    doc.save('idCard.pdf');
+    doc.save(`${personalInfo.firstName}${personalInfo.lastName}IdCard.pdf`);
 
 }

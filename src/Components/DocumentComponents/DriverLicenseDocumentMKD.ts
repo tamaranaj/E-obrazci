@@ -252,5 +252,5 @@ export const generateDriverLicenseDocumentMKD = (personalInfo: PersonalDetailsID
     doc.text('документи означени со ѕвезда(*) од делот 5 на ова барање.',17.6, 209)
     doc.text('Потпис на подносителот',27,218)
     doc.line(20,230,80,230)
-    doc.save('driverLicense.pdf');
+    doc.save(`${personalInfo.firstName}${personalInfo.lastName}DriversLicense.pdf`);
 }

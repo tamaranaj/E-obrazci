@@ -20,15 +20,11 @@ import { ChildrenComponent } from '../ChildrenComponent/ChildrenComponent';
 export default function StepperComponent() {
   const { language, necessaryDocuments, idCardDocument,passport,driverLicense,resetContext } = useContext(GeneralContext)
   const [activeStep, setActiveStep] = useState(0);
-  const [child,setChild] = useState(false)
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     console.log(activeStep)
   };
 
-  const handleChild = (value:boolean)=>{
-    setChild(value)
-  }
   const handleReset = () => {
     setActiveStep(0);
     resetContext()
@@ -56,7 +52,7 @@ export default function StepperComponent() {
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
-                <ChildrenComponent handleNext={handleNext} handleSetChild={handleChild} />
+                <ChildrenComponent handleNext={handleNext} />
               </Typography>
             </StepContent>
           </Step>
@@ -66,7 +62,7 @@ export default function StepperComponent() {
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
-              <CheckboxComponent handleNext={handleNext} child={child} />
+              <CheckboxComponent handleNext={handleNext} />
               </Typography>
             </StepContent>
           </Step>
