@@ -363,5 +363,5 @@ export const generatePassportDocumentMKD = (personalInfo: PersonalDetailsID,pass
     doc.text('кои не се означени со ѕвезда(*), а Министерството за внатрешни работи, не е во можност да ги прибави',21,268)
     doc.text('по службена должност, подносителот на барањето дополнително ќе биде известен истите да ги приложи',21,273)
     doc.text('кон барањето.',21,278)
-    doc.save('passport.pdf');
+    doc.save(`${personalInfo.firstName}${personalInfo.lastName}Passport.pdf`);
 }

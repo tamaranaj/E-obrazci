@@ -13,24 +13,22 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 interface ChildrenComponentProps{
   handleNext: ()=>void,
-  handleSetChild: (value:boolean)=>void
 }
-export const ChildrenComponent = ({ handleNext,handleSetChild }: ChildrenComponentProps) => {
+export const ChildrenComponent = ({ handleNext }: ChildrenComponentProps) => {
   const [value, setValue] = useState('no');
-  const [haveChild, setHaveChild] = useState<boolean>(false);
+  const {haveChild, handleHaveChild} = useContext(GeneralContext)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let value = (event.target as HTMLInputElement).value
     if(value == 'yes'){
       setValue(value);
-      handleSetChild(true)
-      setHaveChild(true);
-      handleAddParent()
+      handleHaveChild(true)
+      // handleAddParent()
     }else{
       setValue('no')
-      setHaveChild(false);
-      handleSetChild(false)
-      remove(0);
+      handleHaveChild(false)
       remove(1);
+      remove(0);
+      
     }
     
   };
@@ -73,9 +71,8 @@ export const ChildrenComponent = ({ handleNext,handleSetChild }: ChildrenCompone
     }else if(index === 0 && !fields.at(1)){
       
       remove(0)
-      setHaveChild(false)
       setValue('no')
-      handleSetChild(false)
+      handleHaveChild(false)
       
     }
 
@@ -107,6 +104,7 @@ export const ChildrenComponent = ({ handleNext,handleSetChild }: ChildrenCompone
 
         {haveChild && (
           <section className="dynamicSection">
+            {language === 'mkd' && (<p className="error">Пополнете ја формата користејќи кирилично писмо</p>)}
             <div className="dynamicFieldsContainer">
               {fields.map((field, index) => (
                 <div key={field.id} className="dynamicFields">

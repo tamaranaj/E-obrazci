@@ -22,7 +22,9 @@ interface ContextDefault {
     updateSetChild: (formValues: Children) => void,
     updateSetTerms: (value: boolean) => void,
     tabs: string[],
-    resetContext: () => void
+    resetContext: () => void, 
+    haveChild: boolean,
+    handleHaveChild: (value: boolean) => void
 
 }
 const contextDefaultValues: ContextDefault = {
@@ -74,6 +76,7 @@ const contextDefaultValues: ContextDefault = {
     },
     terms:true,
     tabs:[],
+    haveChild: false,
     updatePersonalDetailsID: ()=>{},
     updateIDCardDocument: ()=>{},
     updatePassportDocument: ()=>{},
@@ -83,7 +86,8 @@ const contextDefaultValues: ContextDefault = {
     updateDocumentLanguage: ()=>{},
     resetContext: () => {},
     updateSetChild: ()=>{},
-    updateSetTerms: ()=>{}
+    updateSetTerms: ()=>{},
+    handleHaveChild: () => {}
     
 }
 export const GeneralContext = createContext(contextDefaultValues)
@@ -104,6 +108,7 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
     const [child, setChild] = useState(contextDefaultValues.child)
     const [terms, setTerms] = useState(contextDefaultValues.terms)
     const [tabs,setTabs] = useState(contextDefaultValues.tabs)
+    const[haveChild, setHaveChild] = useState(contextDefaultValues.haveChild)
 
     const updateSetTerms = (value: boolean)=>{
         setTerms(value)
@@ -119,6 +124,10 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
             [event.target.name]: event.target.value
         })
 
+    }
+
+    const handleHaveChild = (value:boolean)=>{
+        setHaveChild(value)
     }
     
     const addNecessaryDocs = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -175,13 +184,14 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
         setChild(contextDefaultValues.child)
         setTerms(contextDefaultValues.terms)
         setTabs(contextDefaultValues.tabs)
+        setHaveChild(contextDefaultValues.haveChild)
 
     }
     
     
     return(
         <GeneralContext.Provider 
-        value={{personalDetailsID,tabs,idCardDocument,passport,necessaryDocuments,language,driverLicense,documentLanguage,child,terms,updateSetTerms,updateSetChild,updateDocumentLanguage,updateDriverLicense,updateIDCardDocument,updatePersonalDetailsID,changeLanguage, addNecessaryDocs, updatePassportDocument,resetContext  }}>
+        value={{personalDetailsID,tabs,haveChild,idCardDocument,passport,necessaryDocuments,language,driverLicense,documentLanguage,child,terms,updateSetTerms,updateSetChild,updateDocumentLanguage,updateDriverLicense,updateIDCardDocument,updatePersonalDetailsID,changeLanguage, addNecessaryDocs, updatePassportDocument,handleHaveChild,resetContext  }}>
             {children}
         </GeneralContext.Provider>
     )
