@@ -16,13 +16,12 @@ interface ChildrenComponentProps{
 }
 export const ChildrenComponent = ({ handleNext }: ChildrenComponentProps) => {
   const [value, setValue] = useState('no');
-  const {haveChild, handleHaveChild} = useContext(GeneralContext)
+  const {haveChild, handleHaveChild,documentLanguage} = useContext(GeneralContext)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let value = (event.target as HTMLInputElement).value
     if(value == 'yes'){
       setValue(value);
       handleHaveChild(true)
-      // handleAddParent()
     }else{
       setValue('no')
       handleHaveChild(false)
@@ -104,7 +103,7 @@ export const ChildrenComponent = ({ handleNext }: ChildrenComponentProps) => {
 
         {haveChild && (
           <section className="dynamicSection">
-            {language === 'mkd' && (<p className="error">Пополнете ја формата користејќи кирилично писмо</p>)}
+            {documentLanguage === 'macedonian' && (<p className="error">Пополнете ја формата користејќи кирилично писмо</p>)}
             <div className="dynamicFieldsContainer">
               {fields.map((field, index) => (
                 <div key={field.id} className="dynamicFields">
