@@ -169,7 +169,7 @@ export const generateIDCardALB = (idCardDocument:IDCardDocument, personalInfo: P
     }
     doc.text(personalInfo.fatherName, 50,128)
     doc.text(personalInfo.motherName, 135,128)
-    doc.text(`${personalInfo.birth},${personalInfo.placeBirth}`,110,136)
+    doc.text(`${personalInfo.birth}, ${personalInfo.placeBirth}`,110,136)
     doc.text(personalInfo.socialNumber,97,143)
     doc.text(personalInfo.citizenship,80,150)
     doc.setFontSize(11)

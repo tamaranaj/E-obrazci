@@ -15,14 +15,15 @@ export const Header = ()=>{
     return (
         <header className="header">
 
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 80 ,backgroundColor: 'white', borderRadius: '5px', color: 'black', margin: '2px'}}>
-        <InputLabel id="demo-simple-select-standard-label" >{language== 'mkd' ? "Јазик" : 'Gjuha'}</InputLabel>
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 80 ,backgroundColor: 'white', borderRadius: '5px', color: 'black', margin: '3px' }}>
+        <InputLabel id="demo-simple-select-standard-label" ><span>{language== 'mkd' ? "Јазик" : 'Gjuha'}</span></InputLabel>
+        
         <Select 
           labelId="demo-simple-select-standard-label"
           id="demo-simple-select-standard"
           value={language}
           onChange={handleChangeLanguage}
-          label="Age"
+          label="language"
         >
           
           <MenuItem value={'mkd'}>🇲🇰</MenuItem>
