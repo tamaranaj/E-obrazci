@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useState } from "react";
 import { IDCardDocument, NecessaryDocuments, PersonalDetailsID,Passport, DriverLicense, Children } from "../Types/interfaces";
+import { Dayjs } from "dayjs";
 
 
 interface ContextDefault {
@@ -24,7 +25,9 @@ interface ContextDefault {
     tabs: string[],
     resetContext: () => void, 
     haveChild: boolean,
-    handleHaveChild: (value: boolean) => void
+    handleHaveChild: (value: boolean) => void,
+    personalInfo: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void,
+    handleDate: (value: Dayjs | null) => void
 
 }
 const contextDefaultValues: ContextDefault = {
@@ -34,7 +37,7 @@ const contextDefaultValues: ContextDefault = {
         marriedLastName:'',
         fatherName: '',
         motherName: '',
-        birth: '',
+        birth: null,
         placeBirth: '',
         socialNumber: '',
         gender: '',
@@ -87,7 +90,9 @@ const contextDefaultValues: ContextDefault = {
     resetContext: () => {},
     updateSetChild: ()=>{},
     updateSetTerms: ()=>{},
-    handleHaveChild: () => {}
+    handleHaveChild: () => {},
+    personalInfo: ()=>{},
+    handleDate: () => {}
     
 }
 export const GeneralContext = createContext(contextDefaultValues)
@@ -159,6 +164,13 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
         setPersonalDetailsIDCard(formResults)
     }
 
+    const personalInfo=(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
+        setPersonalDetailsIDCard({
+            ...personalDetailsID,
+            [event.target.name]: event.target.value,
+          });
+    }
+
     function updatePassportDocument(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>){
         setPassport({
             ...passport,
@@ -167,6 +179,12 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
 
     }
 
+    const handleDate = (value: Dayjs | null)=>{
+        setPersonalDetailsIDCard({
+            ...personalDetailsID,
+            birth: value,
+          });
+    }
 
     function updateIDCardDocument(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>){
         setIDCardDocument({
@@ -191,7 +209,7 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
     
     return(
         <GeneralContext.Provider 
-        value={{personalDetailsID,tabs,haveChild,idCardDocument,passport,necessaryDocuments,language,driverLicense,documentLanguage,child,terms,updateSetTerms,updateSetChild,updateDocumentLanguage,updateDriverLicense,updateIDCardDocument,updatePersonalDetailsID,changeLanguage, addNecessaryDocs, updatePassportDocument,handleHaveChild,resetContext  }}>
+        value={{personalDetailsID,tabs,haveChild,idCardDocument,passport,necessaryDocuments,language,driverLicense,documentLanguage,child,terms,updateSetTerms,updateSetChild,updateDocumentLanguage,updateDriverLicense,updateIDCardDocument,updatePersonalDetailsID,changeLanguage, addNecessaryDocs, updatePassportDocument,handleHaveChild,personalInfo,handleDate,resetContext  }}>
             {children}
         </GeneralContext.Provider>
     )

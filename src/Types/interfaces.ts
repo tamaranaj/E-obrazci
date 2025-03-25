@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs"
+
 export interface Passport extends IDCardDocument{
     formLanguage: string
 
@@ -26,7 +28,7 @@ export interface PersonalDetailsID{
     marriedLastName: string ,
     fatherName: string,
     motherName: string ,
-    birth: string,
+    birth: Dayjs | null,
     placeBirth: string ,
     socialNumber: string,
     gender: string ,
@@ -56,3 +58,11 @@ export interface SharedComponentProps{
 export interface StepperProps {
     handleNext: () => void
   }
+
+  import { TextFieldProps } from "@mui/material/TextField";
+
+export type DatePickerInputProps = {
+  inputRef: React.Ref<HTMLInputElement>;
+  inputProps: React.InputHTMLAttributes<HTMLInputElement>;
+  // other props related to DatePicker integration
+} & TextFieldProps;
