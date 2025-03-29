@@ -3,9 +3,11 @@ import { GeneralContext } from "../../context/general.context";
 import TextField from "@mui/material/TextField";
 import { FormLabels } from "../HelperFunc/formLabels";
 import { FormPlaceholder } from "../HelperFunc/formPlaceholders";
-import { FormErrors } from "../HelperFunc/formErrors";
 import { useLocation } from "react-router-dom";
 import { DatePickerComponent } from "./DatePickerComponent";
+import { FormErrorsStates, PersonalDetailsID } from "../../Types/interfaces";
+import { FormErrors } from "../HelperFunc/formErrors";
+import { Dayjs } from "dayjs";
 
 interface TestComponentProps {
   labels: FormLabels;
@@ -31,13 +33,13 @@ export const TestComponent = ({
   const [married, setMarried] = useState<boolean | undefined>(undefined);
   const [email, setEmail] = useState<boolean | undefined>(undefined);
   const [phone, setPhone] = useState<boolean | undefined>(undefined);
-  const [areErrors, setAreErrors] = useState({
+  const [areErrors, setAreErrors] = useState<FormErrorsStates>({
     firstName: { invalid: false, required: false },
     lastName: { invalid: false, required: false },
     marriedLastName: { invalid: false, required: false },
     fatherName: { invalid: false, required: false },
     motherName: { invalid: false, required: false },
-    birth: false,
+    birth: { invalid: false, required: false },
     placeBirth: { invalid: false, required: false },
     socialNumber: { invalid: false, required: false },
     gender: { invalid: false, required: false },
@@ -70,29 +72,20 @@ export const TestComponent = ({
       setPhone(true);
     }
   };
-
-  // const getFormattedDate = () => {
-  //     if (necessaryDocuments.idCard && haveChild) {
-  //         const date = new Date();
-  //         const year = date.getFullYear() - 15;
-  //         const month = String(date.getMonth() + 1).padStart(2, "0");
-  //         const day = String(date.getDate()).padStart(2, "0");
-  //         return `${year}-${month}-${day}`;
-  //     } else if (necessaryDocuments.passport && haveChild) {
-  //         const date = new Date();
-  //         const year = date.getFullYear();
-  //         const month = String(date.getMonth() + 1).padStart(2, "0");
-  //         const day = String(date.getDate()).padStart(2, "0");
-  //         return `${year}-${month}-${day}`;
-  //     } else {
-  //         const date = new Date();
-  //         const year = date.getFullYear() - 18;
-  //         const month = String(date.getMonth() + 1).padStart(2, "0");
-  //         const day = String(date.getDate()).padStart(2, "0");
-  //         return `${year}-${month}-${day}`;
-  //     }
-  // };
-
+  const checkErrors = (prop:keyof PersonalDetailsID  )=>{
+    console.log( personalDetailsID[prop])
+    if(!personalDetailsID[prop] || personalDetailsID[prop]===''){
+      console.log(areErrors)
+    setAreErrors({
+          ...areErrors,
+          [prop]: { required: true, invalid:false },
+        });
+    }
+    // const hasRequiredProp = Object.values(personalDetailsID).some((value: string|null | Dayjs)=>{if()});
+    // return hasRequiredProp
+    //tuka treba da proveram dali nekoe properti nema vrednost i koe properti..ako nema treba vo areErrors da mu setiram za required true
+    //treba da vidam ako nekoe pole ne treba da se popolni da si produzuva, primer ako e setirano za phone, email moze da e prazno i obratno, isto i ako e masko mominsko da e dozvoleno da e prazno, a isto i za previous address da go proveri samo ako idCardDocument.reason === "3"
+  }
   const handleSetValue = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     pattern: RegExp
@@ -101,17 +94,25 @@ export const TestComponent = ({
     if (pattern.test(event.target.value)) {
       setAreErrors({
         ...areErrors,
-        [event.target.name]: { invalid: false },
+        [event.target.name]: { required: false, invalid:false},
       });
     } else {
       setAreErrors({
         ...areErrors,
-        [event.target.name]: { invalid: true },
+        [event.target.name]: { required: false,invalid: true },
       });
+     
+      
     }
   };
 
-  const submitForm = () => {
+  const submitForm = (event: React.FormEvent<HTMLFormElement> ) => {
+    event.preventDefault()
+    console.log(personalDetailsID)
+    let properties  = Object.keys(personalDetailsID)
+    properties.forEach(element => {
+      checkErrors(element as keyof PersonalDetailsID)
+    });
       if (gender && married === undefined){
         setErrorMarried(true)
         return
@@ -120,7 +121,7 @@ export const TestComponent = ({
         setErrorContact(true)
         return
       }
-    //   console.log(data)
+      console.log(personalDetailsID)
       setErrorContact(false)
       setErrorMarried(false)
     //   updatePersonalDetailsID(data);
@@ -128,7 +129,7 @@ export const TestComponent = ({
     }
 
   return (
-    <form className="personalDetailsForm">
+    <form className="personalDetailsForm" onSubmit={(event)=>submitForm(event)}>
       <div className="gridWrapper">
         {currentPath && (
           <p className="error">
@@ -147,13 +148,12 @@ export const TestComponent = ({
                 onChange={(event) => {
                   handleSetValue(event, /^[\p{L}]{2,12}$/u);
                 }}
-                required
                 placeholder={examples.firstName}
-                error={areErrors.firstName.required}
-                helperText={areErrors.firstName.required && errors.required}
+                error={areErrors.firstName.invalid}
+                helperText={areErrors.firstName.invalid && errors.invalid || areErrors.firstName.required && errors.required}
               />
-              {areErrors.firstName.invalid && (
-                <span className="errorMessage">{errors.invalid}</span>
+              {areErrors.firstName.required && (
+                <span className="errorMessage">{errors.required}</span>
               )}
             </div>
 
@@ -166,20 +166,20 @@ export const TestComponent = ({
                 onChange={(event) => {
                   handleSetValue(event, /^[\p{L}]{2,12}$/u);
                 }}
-                required
+                
                 placeholder={examples.lastName}
-                error={areErrors.lastName.required}
-                helperText={areErrors.lastName.required && errors.required}
+                error={areErrors.lastName.invalid}
+                helperText={areErrors.lastName.invalid && errors.invalid}
               />
-              {areErrors.lastName.invalid && (
-                <span className="errorMessage">{errors.invalid}</span>
+              {areErrors.lastName.required && (
+                <span className="errorMessage">{errors.required}</span>
               )}
             </div>
 
             <div className="fieldsets">
               <DatePickerComponent
                 pickerLabel={labels.birth}
-                hasError={areErrors.birth}
+                hasError={areErrors.birth.required}
                 errorMsg={errors.required}
               />
             </div>
@@ -193,13 +193,13 @@ export const TestComponent = ({
                 onChange={(event) => {
                   handleSetValue(event, /^[\p{L}]{2,20}$/u);
                 }}
-                required
+                
                 placeholder={examples.placeBirth}
-                error={areErrors.placeBirth.required}
-                helperText={areErrors.placeBirth.required && errors.required}
+                error={areErrors.placeBirth.invalid}
+                helperText={areErrors.placeBirth.invalid && errors.invalid}
               />
-              {areErrors.placeBirth.invalid && (
-                <span className="errorMessage">{errors.invalid}</span>
+              {areErrors.placeBirth.required && (
+                <span className="errorMessage">{errors.required}</span>
               )}
             </div>
 
@@ -212,13 +212,13 @@ export const TestComponent = ({
                 onChange={(event) => {
                   handleSetValue(event, /^[0-9]{13}$/);
                 }}
-                required
+                
                 placeholder={examples.socialNumber}
-                error={areErrors.socialNumber.required}
-                helperText={areErrors.socialNumber.required && errors.required}
+                error={areErrors.socialNumber.invalid}
+                helperText={areErrors.socialNumber.invalid && errors.invalid}
               />
-              {areErrors.socialNumber.invalid && (
-                <span className="errorMessage">{errors.invalid}</span>
+              {areErrors.socialNumber.required && (
+                <span className="errorMessage">{errors.required}</span>
               )}
             </div>
           </section>
@@ -233,13 +233,13 @@ export const TestComponent = ({
                 onChange={(event) => {
                   handleSetValue(event, /^[\p{L}]{2,20}$/u);
                 }}
-                required
+                
                 placeholder={examples.fatherName}
-                error={areErrors.fatherName.required}
-                helperText={areErrors.fatherName.required && errors.required}
+                error={areErrors.fatherName.invalid}
+                helperText={areErrors.fatherName.invalid && errors.invalid}
               />
-              {areErrors.fatherName.invalid && (
-                <span className="errorMessage">{errors.invalid}</span>
+              {areErrors.fatherName.required && (
+                <span className="errorMessage">{errors.required}</span>
               )}
             </div>
 
@@ -252,13 +252,13 @@ export const TestComponent = ({
                 onChange={(event) => {
                   handleSetValue(event, /^[\p{L}]{2,20}$/u);
                 }}
-                required
+                
                 placeholder={examples.motherName}
-                error={areErrors.motherName.required}
-                helperText={areErrors.motherName.required && errors.required}
+                error={areErrors.motherName.invalid}
+                helperText={areErrors.motherName.invalid && errors.invalid}
               />
-              {areErrors.motherName.invalid && (
-                <span className="errorMessage">{errors.invalid}</span>
+              {areErrors.motherName.required && (
+                <span className="errorMessage">{errors.required}</span>
               )}
             </div>
 
@@ -271,13 +271,13 @@ export const TestComponent = ({
                 onChange={(event) => {
                   handleSetValue(event, /^[\p{L}]{2,20}$/u);
                 }}
-                required
+                
                 placeholder={examples.address}
-                error={areErrors.address.required}
-                helperText={areErrors.address.required && errors.required}
+                error={areErrors.address.invalid}
+                helperText={areErrors.address.invalid && errors.invalid}
               />
-              {areErrors.address.invalid && (
-                <span className="errorMessage">{errors.invalid}</span>
+              {areErrors.address.required && (
+                <span className="errorMessage">{errors.required}</span>
               )}
             </div>
 
@@ -290,13 +290,13 @@ export const TestComponent = ({
                 onChange={(event) => {
                   handleSetValue(event, /^[\p{L}]{2,20}$/u);
                 }}
-                required
+                
                 placeholder={examples.city}
-                error={areErrors.city.required}
-                helperText={areErrors.city.required && errors.required}
+                error={areErrors.city.invalid}
+                helperText={areErrors.city.invalid && errors.invalid}
               />
-              {areErrors.city.invalid && (
-                <span className="errorMessage">{errors.invalid}</span>
+              {areErrors.city.required && (
+                <span className="errorMessage">{errors.required}</span>
               )}
             </div>
 
@@ -310,15 +310,15 @@ export const TestComponent = ({
                   onChange={(event) => {
                     handleSetValue(event, /^[\p{L}]{2,20}$/u);
                   }}
-                  required
+                  
                   placeholder={examples.previousAddress}
-                  error={areErrors.previousAddress.required}
+                  error={areErrors.previousAddress.invalid}
                   helperText={
-                    areErrors.previousAddress.required && errors.required
+                    areErrors.previousAddress.invalid && errors.invalid
                   }
                 />
-                {areErrors.previousAddress.invalid && (
-                  <span className="errorMessage">{errors.invalid}</span>
+                {areErrors.previousAddress.required && (
+                  <span className="errorMessage">{errors.required}</span>
                 )}
               </div>
             )}
@@ -332,13 +332,13 @@ export const TestComponent = ({
                 onChange={(event) => {
                   handleSetValue(event, /^[\p{L}]{2,20}$/u);
                 }}
-                required
+                
                 placeholder={examples.citizenship}
-                error={areErrors.citizenship.required}
-                helperText={areErrors.citizenship.required && errors.required}
+                error={areErrors.citizenship.invalid}
+                helperText={areErrors.citizenship.invalid && errors.invalid}
               />
-              {areErrors.citizenship.invalid && (
-                <span className="errorMessage">{errors.invalid}</span>
+              {areErrors.citizenship.required && (
+                <span className="errorMessage">{errors.required}</span>
               )}
             </div>
 
@@ -352,13 +352,13 @@ export const TestComponent = ({
                   onChange={(event) => {
                     handleSetValue(event, /^[\p{L}]{2,20}$/u);
                   }}
-                  required
+                  
                   placeholder={examples.nationality}
-                  error={areErrors.nationality.required}
-                  helperText={areErrors.nationality.required && errors.required}
+                  error={areErrors.nationality.invalid}
+                  helperText={areErrors.nationality.invalid && errors.invalid}
                 />
-                {areErrors.nationality.invalid && (
-                  <span className="errorMessage">{errors.invalid}</span>
+                {areErrors.nationality.required && (
+                  <span className="errorMessage">{errors.required}</span>
                 )}
               </div>
             )}
@@ -478,15 +478,15 @@ export const TestComponent = ({
                 onChange={(event) => {
                   handleSetValue(event, /^[\p{L}]{2,20}$/u);
                 }}
-                required
+                
                 placeholder={examples.marriedLastName}
-                error={areErrors.marriedLastName.required}
+                error={areErrors.marriedLastName.invalid}
                 helperText={
-                  areErrors.marriedLastName.required && errors.required
+                  areErrors.marriedLastName.invalid && errors.invalid
                 }
               />
-              {areErrors.marriedLastName.invalid && (
-                <span className="errorMessage">{errors.invalid}</span>
+              {areErrors.marriedLastName.required && (
+                <span className="errorMessage">{errors.required}</span>
               )}
             </div>
           )}
@@ -501,13 +501,13 @@ export const TestComponent = ({
                 onChange={(event) => {
                   handleSetValue(event, /^[0-9]*$/);
                 }}
-                required
+                
                 placeholder={examples.phoneNumber}
-                error={areErrors.phone.required}
-                helperText={areErrors.phone.required && errors.required}
+                error={areErrors.phone.invalid}
+                helperText={areErrors.phone.invalid && errors.invalid}
               />
-              {areErrors.phone.invalid && (
-                <span className="errorMessage">{errors.invalid}</span>
+              {areErrors.phone.required && (
+                <span className="errorMessage">{errors.required}</span>
               )}
             </div>
           )}

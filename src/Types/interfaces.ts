@@ -66,3 +66,29 @@ export type DatePickerInputProps = {
   inputProps: React.InputHTMLAttributes<HTMLInputElement>;
   // other props related to DatePicker integration
 } & TextFieldProps;
+
+
+export interface ErrorsTypes{
+    invalid: boolean
+    required: boolean
+}
+
+
+export interface FormErrorsStates{
+    firstName: ErrorsTypes,
+    lastName: ErrorsTypes,
+    marriedLastName: ErrorsTypes,
+    fatherName: ErrorsTypes,
+    motherName: ErrorsTypes,
+    birth: ErrorsTypes,
+    placeBirth: ErrorsTypes,
+    socialNumber: ErrorsTypes,
+    gender:ErrorsTypes,
+    address: ErrorsTypes,
+    phone: ErrorsTypes,
+    citizenship: ErrorsTypes,
+    previousAddress: ErrorsTypes,
+    city: ErrorsTypes,
+    email: ErrorsTypes,
+    nationality: ErrorsTypes,
+}
