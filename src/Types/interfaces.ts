@@ -60,6 +60,10 @@ export interface StepperProps {
   }
 
   import { TextFieldProps } from "@mui/material/TextField";
+import { StepperLabels } from "../Components/HelperFunc/stepperLabels"
+import { FormLabels } from "../Components/HelperFunc/formLabels"
+import { FormPlaceholder } from "../Components/HelperFunc/formPlaceholders"
+import { FormErrors } from "../Components/HelperFunc/formErrors"
 
 export type DatePickerInputProps = {
   inputRef: React.Ref<HTMLInputElement>;
@@ -91,4 +95,12 @@ export interface FormErrorsStates{
     city: ErrorsTypes,
     email: ErrorsTypes,
     nationality: ErrorsTypes,
+}
+
+
+export interface StepperComponentProps{
+    stepperLabels: StepperLabels,
+    formLabels: FormLabels,
+    formPlaceholders: FormPlaceholder,
+    formErrorsMessages: FormErrors
 }

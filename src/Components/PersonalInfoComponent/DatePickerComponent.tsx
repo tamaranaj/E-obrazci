@@ -5,47 +5,51 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useContext } from 'react';
 import { GeneralContext } from '../../context/general.context';
+import { FormErrorsStates } from '../../Types/interfaces';
 
 
 
 interface DatePickerComponentProps{
   pickerLabel: string,
   hasError: boolean,
-  errorMsg:string
+  errorMsg:string,
+  handleDateError:  (prop: keyof FormErrorsStates, value: boolean) => void
 }
 
 
 
-export const DatePickerComponent = ({pickerLabel, hasError, errorMsg}: DatePickerComponentProps)=>{
+export const DatePickerComponent = ({pickerLabel, hasError, errorMsg, handleDateError}: DatePickerComponentProps)=>{
   const {personalDetailsID,necessaryDocuments, haveChild, handleDate} = useContext(GeneralContext)
-  const getFormattedDate = () => {
-    if (necessaryDocuments.idCard && haveChild) {
-        const date = new Date();
-        const year = date.getFullYear() - 15;
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        return dayjs(`${day}-${month}-${year}`);
-    } else if (necessaryDocuments.passport && haveChild) {
-        const date = new Date();
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        return dayjs(`${day}-${month}-${year}`);
-    } else {
-        const date = new Date();
-        const year = date.getFullYear() - 18;
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        return dayjs(`${day}-${month}-${year}`);
-    }
+
+const getFormattedDate = (): Dayjs => {
+  const date = new Date();
+  let yearOffset = 0;
+  if (necessaryDocuments.idCard && haveChild) {
+    yearOffset = 15;
+  } else if (necessaryDocuments.passport && haveChild) {
+    yearOffset = 0;
+  } else {
+    yearOffset = 18;
+  }
+  let year = date.getFullYear() - yearOffset;
+  let month = String(date.getMonth() + 1).padStart(2, '0');
+  let day = String(date.getDate()).padStart(2, '0');
+  return dayjs(`${year}-${month}-${day}`);  
 };
   const min = dayjs('01-01-1930')
-
+  const max = getFormattedDate()
   const setDate = (value:Dayjs| null)=>{
-    handleDate(value)
+    if(value===null){
+      handleDate(value)
+      handleDateError('birth', true)
+    }else{
+      handleDate(value)
+      handleDateError('birth', false)
+    }
+    
   }
  return (
-  <div>
+  <div className='column'>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker']}>
         <DatePicker
@@ -55,7 +59,7 @@ export const DatePickerComponent = ({pickerLabel, hasError, errorMsg}: DatePicke
           name='birth'
           onChange={(value) => setDate(value)}
           format='DD/MM/YYYY'
-          maxDate={getFormattedDate()}
+          maxDate={max}
           minDate={min}
         
         />

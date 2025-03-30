@@ -18,12 +18,12 @@ export interface FormLabels{
     email: string,
     marriage: string,
     next: string,
+    back: string
 }
 type GenderFormsLabels = {
     label: string;
     male: string;
-    female: string;
-    ifFemale: string;
+    female: string,
     yes: string;
     no: string;
 }
@@ -47,34 +47,36 @@ export const mkdLabels: FormLabels = {
     previousAddress: 'Претходно живеалиште и адреса',
     citizenship: 'Државјанство',
     nationality: 'Национална припадност',
-    gender: {label: 'Пол:' , male: 'Машки',female:'Женски', ifFemale: 'Дали сте во брак?', yes:'Да',no:  'Не' },
+    gender: {label: 'Пол:' , male: 'Машки',female:'Женски', yes:'Да',no:  'Не' },
     contactBy:{how:'Како сакате да бидете контактирани:',email:'е-пошта', phone:'телефонски број'},
     marriedLastName: 'Презиме пред склучување на бракот',
     phoneNumber:'Број за контакт',
     email: 'Е-пошта',
-    marriage: 'Дали сте во брак?',
-    next: 'Понатаму'
+    marriage: 'Дали сте во брак:',
+    next: 'Понатаму',
+    back: 'Назад'
 }
 
 
 export const albLabels: FormLabels = {
-    firstName: 'Emri (p.sh. Aisha)',
-    lastName:'',
+    firstName: 'Emri',
+    lastName:'Mbiemri',
     birth: 'Data e lindjes:',
-    placeBirth: 'Vendi i lindjes (p.sh. Shkupi)',
-    socialNumber: 'Numër identik (p.sh. 1234567890123)',
-    fatherName:'Emri i babait (p.sh. Sasho)',
-    motherName: 'Emri i nënës (p.sh. Marija)',
-    address: 'Adresa e banimit (psh. Kosta Novakovic nr. 24)',
+    placeBirth: 'Vendi i lindjes',
+    socialNumber: 'Numër identik',
+    fatherName:'Emri i babait',
+    motherName: 'Emri i nënës',
+    address: 'Adresa e banimit',
     city: 'Qyteti',
     previousAddress: 'Banesa dhe adresa e mëparshme',
-    citizenship: 'Shtetësia (p.sh. Maqedonase)',
-    nationality: 'Përkatësia nacionale (p.sh. maqedonase)',
-    gender: {label: 'Gjinia:' , male: 'Mashkull',female:'Femër', ifFemale: 'Je i martuar?',yes:'Po',no:  'Nr'  },
+    citizenship: 'Shtetësia',
+    nationality: 'Përkatësia nacionale',
+    gender: {label: 'Gjinia:' , male: 'Mashkull',female:'Femër',yes:'Po',no:  'Nr'  },
     contactBy:{how:'Si dëshironi të kontaktoheni:',email:'e-mail', phone:'numrin e telefonit'},
-    marriedLastName: 'Mbiemri para martesës (p.sh. Osmani)',
-    phoneNumber:'Numri i kontaktit (p.sh. 071234567)',
+    marriedLastName: 'Mbiemri para martesës',
+    phoneNumber:'Numri i kontaktit',
     email: 'Adresën e emailit',
-    marriage: 'Je i martuar?',
-    next: 'Më tej'
+    marriage: 'Je i martuar:',
+    next: 'Më tej',
+    back: 'Mbrapa'
 }

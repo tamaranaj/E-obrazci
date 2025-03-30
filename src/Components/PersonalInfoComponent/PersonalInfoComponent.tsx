@@ -86,7 +86,7 @@ export const PersonalInfoComponent = (props: StepperProps) => {
             <section className='column'>
             <div className="column">
               <input type="text" className='input' id="firstName" placeholder={language == 'mkd' ? 'Име (пр.Трајче)' : 'Emri (p.sh. Aisha)'} {...register("firstName", {
-                required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.',
+                // required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.',
                 pattern: {
                   value: /[а-шА-Шa-zA-Z]/g,
                   message: language == 'mkd' ? 'Внесете го вашето име.' : 'Shkruani emrin tuaj.'
@@ -355,6 +355,7 @@ export const PersonalInfoComponent = (props: StepperProps) => {
                 className='input'
                 type="text"
                 id="citizen"
+                
                 placeholder={language == 'mkd' ? 'Државјанство (пр.Македонско)' : 'Shtetësia (p.sh. Maqedonase)'}
                 {...register("citizenship", {
                   required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.',

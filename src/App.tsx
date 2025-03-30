@@ -4,10 +4,10 @@ import { Home } from './Components/HomeComponent/Home'
 import StepperComponent from './Components/StepperComponent/Stepper'
 import { Header } from './Components/HeaderComponent/Header'
 import { Footer } from './Components/Footer/Footer'
-import { TestComponent } from './Components/PersonalInfoComponent/TestComponent'
-import { mkdLabels } from './Components/HelperFunc/formLabels'
-import { mkdPlaceholders } from './Components/HelperFunc/formPlaceholders'
-import { formErrorsMkd } from './Components/HelperFunc/formErrors'
+import { albLabels, mkdLabels } from './Components/HelperFunc/formLabels'
+import { albPlaceholders, mkdPlaceholders } from './Components/HelperFunc/formPlaceholders'
+import { formErrorsAlb, formErrorsMkd } from './Components/HelperFunc/formErrors'
+import { stepperLabelsAlb, stepperLabelsMkd } from './Components/HelperFunc/stepperLabels'
 function App() {
   
   return (
@@ -16,8 +16,8 @@ function App() {
 
     <Routes>
       <Route path='/' element={<Home/>}/>
-      <Route path="/е-образци" element={<StepperComponent/>}/>
-      <Route path="/е-образци/мк" element={<TestComponent labels={mkdLabels} examples={mkdPlaceholders} errors={formErrorsMkd}/>}/>
+      <Route path="/е-образци/мк" element={<StepperComponent formLabels={mkdLabels} formErrorsMessages={formErrorsMkd} formPlaceholders={mkdPlaceholders} stepperLabels={stepperLabelsMkd}/>}/>
+      <Route path='/е-образци/ал' element={<StepperComponent formLabels={albLabels} formErrorsMessages={formErrorsAlb} formPlaceholders={albPlaceholders} stepperLabels={stepperLabelsAlb}/>}/>
     </Routes>
     <Footer/>
     </BrowserRouter>

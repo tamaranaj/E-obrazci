@@ -7,30 +7,42 @@ import { useLocation } from "react-router-dom";
 import { DatePickerComponent } from "./DatePickerComponent";
 import { FormErrorsStates, PersonalDetailsID } from "../../Types/interfaces";
 import { FormErrors } from "../HelperFunc/formErrors";
-import { Dayjs } from "dayjs";
+import "./PersonalInfoComponent.css";
+import {
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Button,
+} from "@mui/material";
 
-interface TestComponentProps {
+export interface PersonalInfoProps {
   labels: FormLabels;
   examples: FormPlaceholder;
-  errors: FormErrors;
+  errorsMessages: FormErrors;
+  handleNext: () => void,
+  handleBack: () => void
 }
 
 export const TestComponent = ({
   labels,
   examples,
-  errors,
-}: TestComponentProps) => {
+  errorsMessages,
+  handleNext,
+  handleBack
+}: PersonalInfoProps) => {
   const location = useLocation();
   const currentPath = location.pathname.includes("мк");
 
   const {
-    updatePersonalDetailsID,
     necessaryDocuments,
     idCardDocument,
     personalDetailsID,
     personalInfo,
   } = useContext(GeneralContext);
   const [married, setMarried] = useState<boolean | undefined>(undefined);
+  const[contact, setContact] = useState<string | undefined>(undefined)
   const [email, setEmail] = useState<boolean | undefined>(undefined);
   const [phone, setPhone] = useState<boolean | undefined>(undefined);
   const [areErrors, setAreErrors] = useState<FormErrorsStates>({
@@ -55,6 +67,14 @@ export const TestComponent = ({
   const [errorContact, setErrorContact] = useState(false);
   const [gender, setGender] = useState<boolean | undefined>(undefined);
 
+  const handleRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
+    personalInfo(event);
+    if (event.target.value === "женски") {
+      setGender(true);
+    } else if (event.target.value === "машки") {
+      setGender(false);
+    }
+  };
   const handleMarried = (value: string) => {
     if (value == "true") {
       setMarried(true);
@@ -63,6 +83,7 @@ export const TestComponent = ({
     }
   };
   const handleContact = (value: string) => {
+    setContact(value)
     if (value === "email") {
       setEmail(true);
       setPhone(false);
@@ -72,20 +93,26 @@ export const TestComponent = ({
       setPhone(true);
     }
   };
-  const checkErrors = (prop:keyof PersonalDetailsID  )=>{
-    console.log( personalDetailsID[prop])
-    if(!personalDetailsID[prop] || personalDetailsID[prop]===''){
-      console.log(areErrors)
-    setAreErrors({
-          ...areErrors,
-          [prop]: { required: true, invalid:false },
-        });
+  const handleErrorRequired = (
+    prop: keyof FormErrorsStates,
+    value: boolean
+  ) => {
+    setAreErrors((prevState) => ({
+      ...prevState,
+      [prop]: {
+        invalid: false,
+        required: value,
+      },
+    }));
+  };
+
+  const checkErrors = (prop: keyof PersonalDetailsID) => {
+    console.log(personalDetailsID[prop]);
+    if (!personalDetailsID[prop] || personalDetailsID[prop] === "") {
+      console.log(areErrors);
+      handleErrorRequired(prop, true);
     }
-    // const hasRequiredProp = Object.values(personalDetailsID).some((value: string|null | Dayjs)=>{if()});
-    // return hasRequiredProp
-    //tuka treba da proveram dali nekoe properti nema vrednost i koe properti..ako nema treba vo areErrors da mu setiram za required true
-    //treba da vidam ako nekoe pole ne treba da se popolni da si produzuva, primer ako e setirano za phone, email moze da e prazno i obratno, isto i ako e masko mominsko da e dozvoleno da e prazno, a isto i za previous address da go proveri samo ako idCardDocument.reason === "3"
-  }
+  };
   const handleSetValue = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     pattern: RegExp
@@ -94,42 +121,53 @@ export const TestComponent = ({
     if (pattern.test(event.target.value)) {
       setAreErrors({
         ...areErrors,
-        [event.target.name]: { required: false, invalid:false},
+        [event.target.name]: { required: false, invalid: false },
       });
     } else {
       setAreErrors({
         ...areErrors,
-        [event.target.name]: { required: false,invalid: true },
+        [event.target.name]: { required: false, invalid: true },
       });
-     
-      
     }
   };
 
-  const submitForm = (event: React.FormEvent<HTMLFormElement> ) => {
-    event.preventDefault()
-    console.log(personalDetailsID)
-    let properties  = Object.keys(personalDetailsID)
-    properties.forEach(element => {
-      checkErrors(element as keyof PersonalDetailsID)
+  const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(personalDetailsID);
+    let properties = Object.keys(personalDetailsID);
+    properties.forEach((element) => {
+      checkErrors(element as keyof PersonalDetailsID);
     });
-      if (gender && married === undefined){
-        setErrorMarried(true)
-        return
-      } 
-      if(phone===undefined && email===undefined){
-        setErrorContact(true)
-        return
-      }
-      console.log(personalDetailsID)
-      setErrorContact(false)
-      setErrorMarried(false)
-    //   updatePersonalDetailsID(data);
-    //   props.handleNext()
+    if (gender && married === undefined) {
+      setErrorMarried(true);
+      return;
     }
+    if (!contact) {
+      setErrorContact(true);
+      return;
+    }
+    if (idCardDocument.reason === "3" && !personalDetailsID.previousAddress) {
+      return;
+    }
+    if (
+      necessaryDocuments.passport &&
+      currentPath &&
+      !personalDetailsID.nationality
+    ) {
+      return;
+    }
+    console.log(personalDetailsID);
+    setErrorContact(false);
+    setErrorMarried(false);
+    //   updatePersonalDetailsID(data);
+    handleNext()
+  };
 
   return (
-    <form className="personalDetailsForm" onSubmit={(event)=>submitForm(event)}>
+    <form
+      className="personalDetailsForm"
+      onSubmit={(event) => submitForm(event)}
+    >
       <div className="gridWrapper">
         {currentPath && (
           <p className="error">
@@ -148,12 +186,15 @@ export const TestComponent = ({
                 onChange={(event) => {
                   handleSetValue(event, /^[\p{L}]{2,12}$/u);
                 }}
+                fullWidth
                 placeholder={examples.firstName}
                 error={areErrors.firstName.invalid}
-                helperText={areErrors.firstName.invalid && errors.invalid || areErrors.firstName.required && errors.required}
+                helperText={
+                  areErrors.firstName.invalid && errorsMessages.invalid
+                }
               />
-              {areErrors.firstName.required && (
-                <span className="errorMessage">{errors.required}</span>
+              {areErrors.firstName.required === true && (
+                <span className="errorMessage">{errorsMessages.required}</span>
               )}
             </div>
 
@@ -166,21 +207,24 @@ export const TestComponent = ({
                 onChange={(event) => {
                   handleSetValue(event, /^[\p{L}]{2,12}$/u);
                 }}
-                
+                fullWidth
                 placeholder={examples.lastName}
                 error={areErrors.lastName.invalid}
-                helperText={areErrors.lastName.invalid && errors.invalid}
+                helperText={
+                  areErrors.lastName.invalid && errorsMessages.invalid
+                }
               />
               {areErrors.lastName.required && (
-                <span className="errorMessage">{errors.required}</span>
+                <span className="errorMessage">{errorsMessages.required}</span>
               )}
             </div>
 
             <div className="fieldsets">
               <DatePickerComponent
+                handleDateError={handleErrorRequired}
                 pickerLabel={labels.birth}
                 hasError={areErrors.birth.required}
-                errorMsg={errors.required}
+                errorMsg={errorsMessages.required}
               />
             </div>
 
@@ -193,13 +237,15 @@ export const TestComponent = ({
                 onChange={(event) => {
                   handleSetValue(event, /^[\p{L}]{2,20}$/u);
                 }}
-                
+                fullWidth
                 placeholder={examples.placeBirth}
                 error={areErrors.placeBirth.invalid}
-                helperText={areErrors.placeBirth.invalid && errors.invalid}
+                helperText={
+                  areErrors.placeBirth.invalid && errorsMessages.invalid
+                }
               />
               {areErrors.placeBirth.required && (
-                <span className="errorMessage">{errors.required}</span>
+                <span className="errorMessage">{errorsMessages.required}</span>
               )}
             </div>
 
@@ -209,16 +255,18 @@ export const TestComponent = ({
                 variant="standard"
                 value={personalDetailsID.socialNumber}
                 name="socialNumber"
+                fullWidth
                 onChange={(event) => {
                   handleSetValue(event, /^[0-9]{13}$/);
                 }}
-                
                 placeholder={examples.socialNumber}
                 error={areErrors.socialNumber.invalid}
-                helperText={areErrors.socialNumber.invalid && errors.invalid}
+                helperText={
+                  areErrors.socialNumber.invalid && errorsMessages.invalid
+                }
               />
               {areErrors.socialNumber.required && (
-                <span className="errorMessage">{errors.required}</span>
+                <span className="errorMessage">{errorsMessages.required}</span>
               )}
             </div>
           </section>
@@ -230,16 +278,18 @@ export const TestComponent = ({
                 variant="standard"
                 value={personalDetailsID.fatherName}
                 name="fatherName"
+                fullWidth
                 onChange={(event) => {
                   handleSetValue(event, /^[\p{L}]{2,20}$/u);
                 }}
-                
                 placeholder={examples.fatherName}
                 error={areErrors.fatherName.invalid}
-                helperText={areErrors.fatherName.invalid && errors.invalid}
+                helperText={
+                  areErrors.fatherName.invalid && errorsMessages.invalid
+                }
               />
               {areErrors.fatherName.required && (
-                <span className="errorMessage">{errors.required}</span>
+                <span className="errorMessage">{errorsMessages.required}</span>
               )}
             </div>
 
@@ -249,16 +299,18 @@ export const TestComponent = ({
                 variant="standard"
                 value={personalDetailsID.motherName}
                 name="motherName"
+                fullWidth
                 onChange={(event) => {
                   handleSetValue(event, /^[\p{L}]{2,20}$/u);
                 }}
-                
                 placeholder={examples.motherName}
                 error={areErrors.motherName.invalid}
-                helperText={areErrors.motherName.invalid && errors.invalid}
+                helperText={
+                  areErrors.motherName.invalid && errorsMessages.invalid
+                }
               />
               {areErrors.motherName.required && (
-                <span className="errorMessage">{errors.required}</span>
+                <span className="errorMessage">{errorsMessages.required}</span>
               )}
             </div>
 
@@ -268,16 +320,16 @@ export const TestComponent = ({
                 variant="standard"
                 value={personalDetailsID.address}
                 name="address"
+                fullWidth
                 onChange={(event) => {
                   handleSetValue(event, /^[\p{L}]{2,20}$/u);
                 }}
-                
                 placeholder={examples.address}
                 error={areErrors.address.invalid}
-                helperText={areErrors.address.invalid && errors.invalid}
+                helperText={areErrors.address.invalid && errorsMessages.invalid}
               />
               {areErrors.address.required && (
-                <span className="errorMessage">{errors.required}</span>
+                <span className="errorMessage">{errorsMessages.required}</span>
               )}
             </div>
 
@@ -287,16 +339,16 @@ export const TestComponent = ({
                 variant="standard"
                 value={personalDetailsID.city}
                 name="city"
+                fullWidth
                 onChange={(event) => {
                   handleSetValue(event, /^[\p{L}]{2,20}$/u);
                 }}
-                
                 placeholder={examples.city}
                 error={areErrors.city.invalid}
-                helperText={areErrors.city.invalid && errors.invalid}
+                helperText={areErrors.city.invalid && errorsMessages.invalid}
               />
               {areErrors.city.required && (
-                <span className="errorMessage">{errors.required}</span>
+                <span className="errorMessage">{errorsMessages.required}</span>
               )}
             </div>
 
@@ -305,20 +357,22 @@ export const TestComponent = ({
                 <TextField
                   label={labels.previousAddress}
                   variant="standard"
+                  fullWidth
                   value={personalDetailsID.previousAddress}
                   name="previousAddress"
                   onChange={(event) => {
                     handleSetValue(event, /^[\p{L}]{2,20}$/u);
                   }}
-                  
                   placeholder={examples.previousAddress}
                   error={areErrors.previousAddress.invalid}
                   helperText={
-                    areErrors.previousAddress.invalid && errors.invalid
+                    areErrors.previousAddress.invalid && errorsMessages.invalid
                   }
                 />
                 {areErrors.previousAddress.required && (
-                  <span className="errorMessage">{errors.required}</span>
+                  <span className="errorMessage">
+                    {errorsMessages.required}
+                  </span>
                 )}
               </div>
             )}
@@ -329,16 +383,18 @@ export const TestComponent = ({
                 variant="standard"
                 value={personalDetailsID.citizenship}
                 name="citizenship"
+                fullWidth
                 onChange={(event) => {
                   handleSetValue(event, /^[\p{L}]{2,20}$/u);
                 }}
-                
                 placeholder={examples.citizenship}
                 error={areErrors.citizenship.invalid}
-                helperText={areErrors.citizenship.invalid && errors.invalid}
+                helperText={
+                  areErrors.citizenship.invalid && errorsMessages.invalid
+                }
               />
               {areErrors.citizenship.required && (
-                <span className="errorMessage">{errors.required}</span>
+                <span className="errorMessage">{errorsMessages.required}</span>
               )}
             </div>
 
@@ -349,16 +405,20 @@ export const TestComponent = ({
                   variant="standard"
                   value={personalDetailsID.nationality}
                   name="nationality"
+                  fullWidth
                   onChange={(event) => {
                     handleSetValue(event, /^[\p{L}]{2,20}$/u);
                   }}
-                  
                   placeholder={examples.nationality}
                   error={areErrors.nationality.invalid}
-                  helperText={areErrors.nationality.invalid && errors.invalid}
+                  helperText={
+                    areErrors.nationality.invalid && errorsMessages.invalid
+                  }
                 />
                 {areErrors.nationality.required && (
-                  <span className="errorMessage">{errors.required}</span>
+                  <span className="errorMessage">
+                    {errorsMessages.required}
+                  </span>
                 )}
               </div>
             )}
@@ -367,104 +427,107 @@ export const TestComponent = ({
 
         <div className="gridWrapper">
           <div className="flex">
-            <fieldset className="fieldsetGroups">
-              <legend>{labels.gender.label}</legend>
-
-              <div className="gender">
-                <div className="row">
-                  <input
-                    type="radio"
-                    id="male"
-                    value={labels.gender.male}
-                    onClick={() => setGender(false)}
-                  />
-                  <label htmlFor="male">{labels.gender.male}</label>
-                </div>
-
-                <div className="row">
-                  <input
-                    type="radio"
-                    id="female"
-                    value={labels.gender.female}
-                    onClick={() => setGender(true)}
-                  />
-                  <label htmlFor="female">{labels.gender.female}</label>
-                </div>
-              </div>
-            </fieldset>
-
+          <fieldset className='fieldsetGroups'>
+            <FormControl error={areErrors.gender.required}
+            >
+              <FormLabel id="demo-controlled-radio-buttons-group">
+                {labels.gender.label}
+              </FormLabel>
+              <RadioGroup
+                aria-labelledby="demo-controlled-radio-buttons-group"
+                name="gender"
+                value={personalDetailsID.gender}
+                onChange={(event) => {
+                  handleRadio(event);
+                }}
+                
+              >
+                <FormControlLabel
+                  value="женски"
+                  control={<Radio />}
+                  label={labels.gender.female}
+                />
+                <FormControlLabel
+                  value="машки"
+                  control={<Radio />}
+                  label={labels.gender.male}
+                />
+              </RadioGroup>
+              {areErrors.gender.required && (
+                  <span className="errorMessage">
+                    {errorsMessages.required}
+                  </span>
+                )}
+            </FormControl>
+          </fieldset>
             {gender && (
-              <fieldset className="fieldsetGroups">
-                <legend>{labels.marriage}</legend>
-
-                <div className="marriage">
-                  <section className="row">
-                    <input
-                      type="radio"
-                      id="married"
-                      name="married"
-                      value="true"
-                      onChange={(e) => {
-                        handleMarried(e.target.value);
-                      }}
-                    />
-                    <label htmlFor="married">{labels.gender.yes}</label>
-                  </section>
-
-                  <section className="row">
-                    <input
-                      type="radio"
-                      id="noMarried"
-                      name="married"
-                      value="false"
-                      onChange={(e) => {
-                        handleMarried(e.target.value);
-                      }}
-                    />
-                    <label htmlFor="noMarried">{labels.gender.no}</label>
-                  </section>
-
-                  {errorMarried && (
-                    <span className="errorMessage">{errors.required}</span>
-                  )}
-                </div>
-              </fieldset>
+              <fieldset className='fieldsetGroups'>
+              <FormControl error={errorMarried}
+              >
+                <FormLabel id="demo-controlled-radio-buttons-group">
+                  {labels.marriage}
+                </FormLabel>
+                <RadioGroup
+                  aria-labelledby="demo-controlled-radio-buttons-group"
+                  name="marriage"
+                  value={married}
+                  onChange={(e) => {
+                    handleMarried(e.target.value);
+                  }}
+                  
+                >
+                  <FormControlLabel
+                    value='false'
+                    control={<Radio />}
+                    label={labels.gender.no}
+                  />
+                  <FormControlLabel
+                    value="true"
+                    control={<Radio />}
+                    label={labels.gender.yes}
+                  />
+                </RadioGroup>
+                {errorMarried && (
+                  <span className="errorMessage">
+                    {errorsMessages.required}
+                  </span>
+                )}
+              </FormControl>
+            </fieldset>
             )}
 
-            <fieldset className="fieldsetGroups">
-              <legend>{labels.contactBy.how}</legend>
-
-              <div className="marriage">
-                <section className="row">
-                  <input
-                    type="radio"
-                    id="email"
-                    name="contact"
+            <fieldset className='fieldsetGroups'>
+              <FormControl error={errorContact}
+              >
+                <FormLabel id="demo-controlled-radio-buttons-group">
+                  {labels.contactBy.how}
+                </FormLabel>
+                <RadioGroup
+                  aria-labelledby="demo-controlled-radio-buttons-group"
+                  name="contact"
+                  value={contact}
+                  onChange={(e) => {
+                    handleContact(e.target.value);
+                  }}
+                  
+                >
+                  <FormControlLabel
+                    value='phone'
+                    control={<Radio />}
+                    label={labels.contactBy.phone}
+                  />
+                  <FormControlLabel
                     value="email"
-                    onChange={(e) => {
-                      handleContact(e.target.value);
-                    }}
+                    control={<Radio />}
+                    label={labels.contactBy.email}
                   />
-                  <label htmlFor="email">{labels.contactBy.email}</label>
-                </section>
-
-                <section className="row">
-                  <input
-                    type="radio"
-                    id="phone"
-                    name="contact"
-                    value="phone"
-                    onChange={(e) => {
-                      handleContact(e.target.value);
-                    }}
-                  />
-                  <label htmlFor="phone">{labels.contactBy.phone}</label>
-                </section>
-
+                </RadioGroup>
                 {errorContact && (
-                  <span className="errorMessage">{errors.required}</span>
+                  <span className="errorMessage">
+                    {errorsMessages.required}
+                  </span>
                 )}
-              </div>
+              </FormControl>
             </fieldset>
           </div>
 
@@ -473,20 +536,20 @@ export const TestComponent = ({
               <TextField
                 label={labels.marriedLastName}
                 variant="standard"
+                fullWidth
                 value={personalDetailsID.marriedLastName}
                 name="marriedLastName"
                 onChange={(event) => {
                   handleSetValue(event, /^[\p{L}]{2,20}$/u);
                 }}
-                
                 placeholder={examples.marriedLastName}
                 error={areErrors.marriedLastName.invalid}
                 helperText={
-                  areErrors.marriedLastName.invalid && errors.invalid
+                  areErrors.marriedLastName.invalid && errorsMessages.invalid
                 }
               />
               {areErrors.marriedLastName.required && (
-                <span className="errorMessage">{errors.required}</span>
+                <span className="errorMessage">{errorsMessages.required}</span>
               )}
             </div>
           )}
@@ -498,23 +561,65 @@ export const TestComponent = ({
                 variant="standard"
                 value={personalDetailsID.phone}
                 name="phone"
+                fullWidth
                 onChange={(event) => {
                   handleSetValue(event, /^[0-9]*$/);
                 }}
-                
                 placeholder={examples.phoneNumber}
                 error={areErrors.phone.invalid}
-                helperText={areErrors.phone.invalid && errors.invalid}
+                helperText={areErrors.phone.invalid && errorsMessages.invalid}
               />
               {areErrors.phone.required && (
-                <span className="errorMessage">{errors.required}</span>
+                <span className="errorMessage">{errorsMessages.required}</span>
+              )}
+            </div>
+          )}
+
+
+          {email && (
+            <div className="column">
+              <TextField
+                label={labels.email}
+                variant="standard"
+                value={personalDetailsID.email}
+                name="email"
+                fullWidth
+                onChange={(event) => {
+                  handleSetValue(event, /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
+                }}
+                placeholder={examples.email}
+                error={areErrors.email.invalid}
+                helperText={areErrors.email.invalid && errorsMessages.invalid}
+              />
+              {areErrors.email.required && (
+                <span className="errorMessage">{errorsMessages.required}</span>
               )}
             </div>
           )}
         </div>
       </div>
 
-      <button>Test</button>
+      <div>
+          <Button
+            variant="contained"
+            type='submit'
+
+            sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
+          >
+            {labels.next}
+          </Button>
+        </div>
+        <div>
+          <Button
+            variant="contained"
+            type='button'
+            onClick={handleBack}
+            sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
+          >
+           {labels.back}
+          </Button>
+        </div>
     </form>
+
   );
 };
