@@ -86,7 +86,10 @@ label{
     grid-template-columns: 100%;
     align-items: center;
 }
-
+.buttonsContainer{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
 
 @media only screen and (max-width:560px) {
 

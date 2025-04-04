@@ -9,7 +9,7 @@ import { PersonalDetailsID, StepperProps } from '../../Types/interfaces';
 
 export const PersonalInfoComponent = (props: StepperProps) => {
  
-  const { updatePersonalDetailsID,language, necessaryDocuments, documentLanguage, idCardDocument,haveChild } = useContext(GeneralContext)
+  const { updatePersonalDetailsID,personalInfo,language,personalDetailsID, necessaryDocuments, documentLanguage, idCardDocument,haveChild } = useContext(GeneralContext)
   const { register, handleSubmit, formState: { errors } } = useForm<PersonalDetailsID>({
     criteriaMode: "all"
   })
@@ -77,6 +77,11 @@ export const PersonalInfoComponent = (props: StepperProps) => {
     
   }
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>)=>{
+    console.log(event.target.value)
+    personalInfo(event)
+  }
+
   return (
     
       <form onSubmit={handleSubmit(submitForm)} className='personalDetailsForm'>
@@ -95,7 +100,7 @@ export const PersonalInfoComponent = (props: StepperProps) => {
                   value: 2,
                   message: language == 'mkd' ? 'Името не може да биде пократко од два карактери.' : 'Emri nuk mund të jetë më i shkurtër se dy karaktere.'
                 }
-              })} />
+              })}  value={personalDetailsID.firstName} onChange={(event: React.ChangeEvent<HTMLInputElement> )=>handleChange(event)}/>
 
               <ErrorMessage
                 errors={errors}
@@ -120,7 +125,7 @@ export const PersonalInfoComponent = (props: StepperProps) => {
                   value: 2,
                   message: language == 'mkd' ? 'Презимето не може да биде пократко од два карактери.' : 'Mbiemri nuk mund të jetë më i shkurtër se dy karaktere.'
                 }
-              })} />
+              })} onChange={(event:React.ChangeEvent<HTMLInputElement> )=>{handleChange(event)}}/>
               <ErrorMessage
                 errors={errors}
                 name="lastName"

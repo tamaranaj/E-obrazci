@@ -5,22 +5,21 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useContext } from 'react';
 import { GeneralContext } from '../../context/general.context';
-import { FormErrorsStates } from '../../Types/interfaces';
+// import { useForm } from 'react-hook-form';
 
 
 
 interface DatePickerComponentProps{
   pickerLabel: string,
-  hasError: boolean,
   errorMsg:string,
-  handleDateError:  (prop: keyof FormErrorsStates, value: boolean) => void
+  handleHasBirth: (value: boolean) => void
 }
 
 
 
-export const DatePickerComponent = ({pickerLabel, hasError, errorMsg, handleDateError}: DatePickerComponentProps)=>{
-  const {personalDetailsID,necessaryDocuments, haveChild, handleDate} = useContext(GeneralContext)
 
+export const DatePickerComponent = ({pickerLabel, errorMsg, handleHasBirth}: DatePickerComponentProps)=>{
+  const {personalDetailsID,necessaryDocuments, haveChild, handleDate, errorBirth} = useContext(GeneralContext)
 const getFormattedDate = (): Dayjs => {
   const date = new Date();
   let yearOffset = 0;
@@ -39,19 +38,17 @@ const getFormattedDate = (): Dayjs => {
   const min = dayjs('01-01-1930')
   const max = getFormattedDate()
   const setDate = (value:Dayjs| null)=>{
-    if(value===null){
-      handleDate(value)
-      handleDateError('birth', true)
-    }else{
-      handleDate(value)
-      handleDateError('birth', false)
+    if(value ===null){
+      handleHasBirth(true)
     }
+    handleHasBirth(false)
+    handleDate(value)
     
   }
  return (
   <div className='column'>
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer components={['DatePicker']}>
+    <LocalizationProvider  dateAdapter={AdapterDayjs}>
+      <DemoContainer  components={['DatePicker']}>
         <DatePicker
       
           label={pickerLabel}
@@ -65,7 +62,7 @@ const getFormattedDate = (): Dayjs => {
         />
       </DemoContainer>
     </LocalizationProvider>
-    {hasError && (<span className='errorMessage'>{errorMsg}</span>)}
+    {errorBirth && (<span className='errorMessage'>{errorMsg}</span>)}
   </div>
     
  

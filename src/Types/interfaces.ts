@@ -28,7 +28,7 @@ export interface PersonalDetailsID{
     marriedLastName: string ,
     fatherName: string,
     motherName: string ,
-    birth: Dayjs | null,
+    birth: Dayjs|null,
     placeBirth: string ,
     socialNumber: string,
     gender: string ,

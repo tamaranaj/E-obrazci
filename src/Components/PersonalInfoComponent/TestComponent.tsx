@@ -1,11 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext} from "react";
+import { useForm } from "react-hook-form";
 import { GeneralContext } from "../../context/general.context";
 import TextField from "@mui/material/TextField";
 import { FormLabels } from "../HelperFunc/formLabels";
 import { FormPlaceholder } from "../HelperFunc/formPlaceholders";
 import { useLocation } from "react-router-dom";
-import { DatePickerComponent } from "./DatePickerComponent";
-import { FormErrorsStates, PersonalDetailsID } from "../../Types/interfaces";
 import { FormErrors } from "../HelperFunc/formErrors";
 import "./PersonalInfoComponent.css";
 import {
@@ -16,13 +15,17 @@ import {
   Radio,
   Button,
 } from "@mui/material";
+import { FormData } from "./formInterface";
+import { ErrorMessage } from "@hookform/error-message";
+import { DatePickerComponent } from "./DatePickerComponent";
+
 
 export interface PersonalInfoProps {
   labels: FormLabels;
   examples: FormPlaceholder;
   errorsMessages: FormErrors;
-  handleNext: () => void,
-  handleBack: () => void
+  handleNext: () => void;
+  handleBack: () => void;
 }
 
 export const TestComponent = ({
@@ -30,144 +33,122 @@ export const TestComponent = ({
   examples,
   errorsMessages,
   handleNext,
-  handleBack
+  handleBack,
 }: PersonalInfoProps) => {
   const location = useLocation();
   const currentPath = location.pathname.includes("мк");
+  let genderOptions = [
+    { label: labels.gender.female, value: 'женски' },
+    { label: labels.gender.male, value: 'машки' },
+  ];
 
+  let contactOptions = [
+    { label: labels.contactBy.email, value: "email" },
+    { label: labels.contactBy.phone, value: "phone" },
+  ];
   const {
     necessaryDocuments,
     idCardDocument,
     personalDetailsID,
+    married,
+    contact,
+    gender,
+    phone,
+    email,errorBirth,errorContact,errorGender,errorMarried,
     personalInfo,
+    handleSetContact,
+    handleSetErrorContact,
+    handleSetMarried,
+    handleSetErrorMarried,
+    handleSetGender,
+    handleSetErrorGender,
+    handleSetErrorBirth,
+    handleSetPhone,
+    handleSetEmail,
   } = useContext(GeneralContext);
-  const [married, setMarried] = useState<boolean | undefined>(undefined);
-  const[contact, setContact] = useState<string | undefined>(undefined)
-  const [email, setEmail] = useState<boolean | undefined>(undefined);
-  const [phone, setPhone] = useState<boolean | undefined>(undefined);
-  const [areErrors, setAreErrors] = useState<FormErrorsStates>({
-    firstName: { invalid: false, required: false },
-    lastName: { invalid: false, required: false },
-    marriedLastName: { invalid: false, required: false },
-    fatherName: { invalid: false, required: false },
-    motherName: { invalid: false, required: false },
-    birth: { invalid: false, required: false },
-    placeBirth: { invalid: false, required: false },
-    socialNumber: { invalid: false, required: false },
-    gender: { invalid: false, required: false },
-    address: { invalid: false, required: false },
-    phone: { invalid: false, required: false },
-    citizenship: { invalid: false, required: false },
-    previousAddress: { invalid: false, required: false },
-    city: { invalid: false, required: false },
-    email: { invalid: false, required: false },
-    nationality: { invalid: false, required: false },
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    criteriaMode: "all",
   });
-  const [errorMarried, setErrorMarried] = useState(false);
-  const [errorContact, setErrorContact] = useState(false);
-  const [gender, setGender] = useState<boolean | undefined>(undefined);
 
-  const handleRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
-    personalInfo(event);
-    if (event.target.value === "женски") {
-      setGender(true);
-    } else if (event.target.value === "машки") {
-      setGender(false);
-    }
-  };
   const handleMarried = (value: string) => {
     if (value == "true") {
-      setMarried(true);
+      handleSetMarried(true);
     } else {
-      setMarried(false);
+      handleSetMarried(false);
     }
   };
+
   const handleContact = (value: string) => {
-    setContact(value)
+    handleSetContact(value);
+    handleSetErrorContact(false)
     if (value === "email") {
-      setEmail(true);
-      setPhone(false);
+      handleSetEmail(true);
+      handleSetPhone(false);
     }
     if (value === "phone") {
-      setEmail(false);
-      setPhone(true);
+      handleSetEmail(false);
+      handleSetPhone(true);
     }
   };
-  const handleErrorRequired = (
-    prop: keyof FormErrorsStates,
-    value: boolean
-  ) => {
-    setAreErrors((prevState) => ({
-      ...prevState,
-      [prop]: {
-        invalid: false,
-        required: value,
-      },
-    }));
-  };
+  const check=()=>{
+   
+    if (married === "" || contact==='' || personalDetailsID.birth===null || gender==='' || errorBirth) {
+      
+      
+      
+      
+      
+    }
+   
+  }
+  const submitForm = (data: FormData) => {
+    if(married === "" && gender){
+      handleSetErrorMarried(true);
+      return
+    }
+    if(contact===''){
+      handleSetErrorContact(true)
+      return
+    }
+    if(personalDetailsID.birth===null ){
+      handleSetErrorBirth(true)
+      return
+    }
+    console.log(personalDetailsID.gender)
+    if(personalDetailsID.gender===''){
+      handleSetErrorGender(true)
+      return
+    }
+      console.log('birth',errorBirth)
+    console.log('contact',errorContact)
+    console.log('gender',errorGender)
+    console.log('married',errorMarried)
+    
+    console.log(data);
+    console.log(personalDetailsID)
+    handleNext();
+    
+    
+    
 
-  const checkErrors = (prop: keyof PersonalDetailsID) => {
-    console.log(personalDetailsID[prop]);
-    if (!personalDetailsID[prop] || personalDetailsID[prop] === "") {
-      console.log(areErrors);
-      handleErrorRequired(prop, true);
-    }
+      
   };
-  const handleSetValue = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    pattern: RegExp
+const handleHasBirth= (value: boolean)=>{
+  handleSetErrorBirth(value)
+}
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    console.log(event.target.value);
     personalInfo(event);
-    if (pattern.test(event.target.value)) {
-      setAreErrors({
-        ...areErrors,
-        [event.target.name]: { required: false, invalid: false },
-      });
-    } else {
-      setAreErrors({
-        ...areErrors,
-        [event.target.name]: { required: false, invalid: true },
-      });
-    }
-  };
-
-  const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(personalDetailsID);
-    let properties = Object.keys(personalDetailsID);
-    properties.forEach((element) => {
-      checkErrors(element as keyof PersonalDetailsID);
-    });
-    if (gender && married === undefined) {
-      setErrorMarried(true);
-      return;
-    }
-    if (!contact) {
-      setErrorContact(true);
-      return;
-    }
-    if (idCardDocument.reason === "3" && !personalDetailsID.previousAddress) {
-      return;
-    }
-    if (
-      necessaryDocuments.passport &&
-      currentPath &&
-      !personalDetailsID.nationality
-    ) {
-      return;
-    }
-    console.log(personalDetailsID);
-    setErrorContact(false);
-    setErrorMarried(false);
-    //   updatePersonalDetailsID(data);
-    handleNext()
   };
 
   return (
-    <form
-      className="personalDetailsForm"
-      onSubmit={(event) => submitForm(event)}
-    >
+    <form className="personalDetailsForm" onSubmit={handleSubmit(submitForm)}>
       <div className="gridWrapper">
         {currentPath && (
           <p className="error">
@@ -181,21 +162,36 @@ export const TestComponent = ({
               <TextField
                 label={labels.firstName}
                 variant="standard"
+                {...register("firstName", {
+                  required: errorsMessages.required,
+                  pattern: {
+                    value: /^[\p{L}]{2,12}$/u,
+                    message: errorsMessages.invalid,
+                  },
+                  minLength: {
+                    value: 2,
+                    message: errorsMessages.invalid,
+                  },
+                })}
                 value={personalDetailsID.firstName}
-                name="firstName"
-                onChange={(event) => {
-                  handleSetValue(event, /^[\p{L}]{2,12}$/u);
-                }}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  handleChange(event)
+                }
                 fullWidth
                 placeholder={examples.firstName}
-                error={areErrors.firstName.invalid}
-                helperText={
-                  areErrors.firstName.invalid && errorsMessages.invalid
+              />
+              <ErrorMessage
+                errors={errors}
+                name="firstName"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <span key={type} className="errorMessage">
+                      {message}
+                    </span>
+                  ))
                 }
               />
-              {areErrors.firstName.required === true && (
-                <span className="errorMessage">{errorsMessages.required}</span>
-              )}
             </div>
 
             <div className="column">
@@ -203,27 +199,41 @@ export const TestComponent = ({
                 label={labels.lastName}
                 variant="standard"
                 value={personalDetailsID.lastName}
-                name="lastName"
-                onChange={(event) => {
-                  handleSetValue(event, /^[\p{L}]{2,12}$/u);
-                }}
+                {...register("lastName", {
+                  required: errorsMessages.required,
+                  pattern: {
+                    value: /^[\p{L}]{2,12}$/u,
+                    message: errorsMessages.invalid,
+                  },
+                  minLength: {
+                    value: 2,
+                    message: errorsMessages.invalid,
+                  },
+                })}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  handleChange(event)
+                }
                 fullWidth
-                placeholder={examples.lastName}
-                error={areErrors.lastName.invalid}
-                helperText={
-                  areErrors.lastName.invalid && errorsMessages.invalid
+                placeholder={examples.firstName}
+              />
+              <ErrorMessage
+                errors={errors}
+                name="lastName"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <span key={type} className="errorMessage">
+                      {message}
+                    </span>
+                  ))
                 }
               />
-              {areErrors.lastName.required && (
-                <span className="errorMessage">{errorsMessages.required}</span>
-              )}
             </div>
 
             <div className="fieldsets">
               <DatePickerComponent
-                handleDateError={handleErrorRequired}
+                handleHasBirth={handleHasBirth}
                 pickerLabel={labels.birth}
-                hasError={areErrors.birth.required}
                 errorMsg={errorsMessages.required}
               />
             </div>
@@ -233,20 +243,35 @@ export const TestComponent = ({
                 label={labels.placeBirth}
                 variant="standard"
                 value={personalDetailsID.placeBirth}
-                name="placeBirth"
-                onChange={(event) => {
-                  handleSetValue(event, /^[\p{L}]{2,20}$/u);
-                }}
+                {...register("placeBirth", {
+                  required: errorsMessages.required,
+                  pattern: {
+                    value: /^[\p{L}]{2,20}$/u,
+                    message: errorsMessages.invalid,
+                  },
+                  minLength: {
+                    value: 2,
+                    message: errorsMessages.invalid,
+                  },
+                })}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  handleChange(event)
+                }
                 fullWidth
                 placeholder={examples.placeBirth}
-                error={areErrors.placeBirth.invalid}
-                helperText={
-                  areErrors.placeBirth.invalid && errorsMessages.invalid
+              />
+              <ErrorMessage
+                errors={errors}
+                name="placeBirth"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <span key={type} className="errorMessage">
+                      {message}
+                    </span>
+                  ))
                 }
               />
-              {areErrors.placeBirth.required && (
-                <span className="errorMessage">{errorsMessages.required}</span>
-              )}
             </div>
 
             <div className="column">
@@ -254,20 +279,31 @@ export const TestComponent = ({
                 label={labels.socialNumber}
                 variant="standard"
                 value={personalDetailsID.socialNumber}
-                name="socialNumber"
+                {...register("socialNumber", {
+                  required: errorsMessages.required,
+                  pattern: {
+                    value: /^[0-9]{13}$/,
+                    message: errorsMessages.invalid,
+                  },
+                })}
                 fullWidth
-                onChange={(event) => {
-                  handleSetValue(event, /^[0-9]{13}$/);
-                }}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  handleChange(event)
+                }
                 placeholder={examples.socialNumber}
-                error={areErrors.socialNumber.invalid}
-                helperText={
-                  areErrors.socialNumber.invalid && errorsMessages.invalid
+              />
+              <ErrorMessage
+                errors={errors}
+                name="socialNumber"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <span key={type} className="errorMessage">
+                      {message}
+                    </span>
+                  ))
                 }
               />
-              {areErrors.socialNumber.required && (
-                <span className="errorMessage">{errorsMessages.required}</span>
-              )}
             </div>
           </section>
 
@@ -277,20 +313,31 @@ export const TestComponent = ({
                 label={labels.fatherName}
                 variant="standard"
                 value={personalDetailsID.fatherName}
-                name="fatherName"
+                {...register("fatherName", {
+                  required: errorsMessages.required,
+                  pattern: {
+                    value: /^[\p{L}]{2,20}$/u,
+                    message: errorsMessages.invalid,
+                  },
+                })}
                 fullWidth
-                onChange={(event) => {
-                  handleSetValue(event, /^[\p{L}]{2,20}$/u);
-                }}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  handleChange(event)
+                }
                 placeholder={examples.fatherName}
-                error={areErrors.fatherName.invalid}
-                helperText={
-                  areErrors.fatherName.invalid && errorsMessages.invalid
+              />
+              <ErrorMessage
+                errors={errors}
+                name="fatherName"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <span key={type} className="errorMessage">
+                      {message}
+                    </span>
+                  ))
                 }
               />
-              {areErrors.fatherName.required && (
-                <span className="errorMessage">{errorsMessages.required}</span>
-              )}
             </div>
 
             <div className="column">
@@ -298,20 +345,31 @@ export const TestComponent = ({
                 label={labels.motherName}
                 variant="standard"
                 value={personalDetailsID.motherName}
-                name="motherName"
+                {...register("motherName", {
+                  required: errorsMessages.required,
+                  pattern: {
+                    value: /^[\p{L}]{2,20}$/u,
+                    message: errorsMessages.invalid,
+                  },
+                })}
                 fullWidth
-                onChange={(event) => {
-                  handleSetValue(event, /^[\p{L}]{2,20}$/u);
-                }}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  handleChange(event)
+                }
                 placeholder={examples.motherName}
-                error={areErrors.motherName.invalid}
-                helperText={
-                  areErrors.motherName.invalid && errorsMessages.invalid
+              />
+              <ErrorMessage
+                errors={errors}
+                name="motherName"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <span key={type} className="errorMessage">
+                      {message}
+                    </span>
+                  ))
                 }
               />
-              {areErrors.motherName.required && (
-                <span className="errorMessage">{errorsMessages.required}</span>
-              )}
             </div>
 
             <div className="column">
@@ -319,18 +377,35 @@ export const TestComponent = ({
                 label={labels.address}
                 variant="standard"
                 value={personalDetailsID.address}
-                name="address"
+                {...register("address", {
+                  required: errorsMessages.required,
+                  pattern: {
+                    value: /[а-шА-Ш0-9a-zA-Z]/g,
+                    message: errorsMessages.invalid,
+                  },
+                  minLength: {
+                    value: 5,
+                    message: errorsMessages.invalid,
+                  },
+                })}
                 fullWidth
-                onChange={(event) => {
-                  handleSetValue(event, /^[\p{L}]{2,20}$/u);
-                }}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  handleChange(event)
+                }
                 placeholder={examples.address}
-                error={areErrors.address.invalid}
-                helperText={areErrors.address.invalid && errorsMessages.invalid}
               />
-              {areErrors.address.required && (
-                <span className="errorMessage">{errorsMessages.required}</span>
-              )}
+              <ErrorMessage
+                errors={errors}
+                name="address"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <span key={type} className="errorMessage">
+                      {message}
+                    </span>
+                  ))
+                }
+              />
             </div>
 
             <div className="column">
@@ -338,18 +413,35 @@ export const TestComponent = ({
                 label={labels.city}
                 variant="standard"
                 value={personalDetailsID.city}
-                name="city"
+                {...register("city", {
+                  required: errorsMessages.required,
+                  pattern: {
+                    value: /^[\p{L}]{2,20}$/u,
+                    message: errorsMessages.invalid,
+                  },
+                  minLength: {
+                    value: 3,
+                    message: errorsMessages.invalid,
+                  },
+                })}
                 fullWidth
-                onChange={(event) => {
-                  handleSetValue(event, /^[\p{L}]{2,20}$/u);
-                }}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  handleChange(event)
+                }
                 placeholder={examples.city}
-                error={areErrors.city.invalid}
-                helperText={areErrors.city.invalid && errorsMessages.invalid}
               />
-              {areErrors.city.required && (
-                <span className="errorMessage">{errorsMessages.required}</span>
-              )}
+              <ErrorMessage
+                errors={errors}
+                name="city"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <span key={type} className="errorMessage">
+                      {message}
+                    </span>
+                  ))
+                }
+              />
             </div>
 
             {idCardDocument.reason === "3" && (
@@ -359,21 +451,34 @@ export const TestComponent = ({
                   variant="standard"
                   fullWidth
                   value={personalDetailsID.previousAddress}
-                  name="previousAddress"
-                  onChange={(event) => {
-                    handleSetValue(event, /^[\p{L}]{2,20}$/u);
-                  }}
+                  {...register("previousAddress", {
+                    required: errorsMessages.required,
+                    pattern: {
+                      value: /^[\p{L}]{2,20}$/u,
+                      message: errorsMessages.invalid,
+                    },
+                    minLength: {
+                      value: 5,
+                      message: errorsMessages.invalid,
+                    },
+                  })}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange(event)
+                  }
                   placeholder={examples.previousAddress}
-                  error={areErrors.previousAddress.invalid}
-                  helperText={
-                    areErrors.previousAddress.invalid && errorsMessages.invalid
+                />
+                <ErrorMessage
+                  errors={errors}
+                  name="previousAddress"
+                  render={({ messages }) =>
+                    messages &&
+                    Object.entries(messages).map(([type, message]) => (
+                      <span key={type} className="errorMessage">
+                        {message}
+                      </span>
+                    ))
                   }
                 />
-                {areErrors.previousAddress.required && (
-                  <span className="errorMessage">
-                    {errorsMessages.required}
-                  </span>
-                )}
               </div>
             )}
 
@@ -382,20 +487,31 @@ export const TestComponent = ({
                 label={labels.citizenship}
                 variant="standard"
                 value={personalDetailsID.citizenship}
-                name="citizenship"
+                {...register("citizenship", {
+                  required: errorsMessages.required,
+                  pattern: {
+                    value: /^[\p{L}]{2,20}$/u,
+                    message: errorsMessages.invalid,
+                  },
+                })}
                 fullWidth
-                onChange={(event) => {
-                  handleSetValue(event, /^[\p{L}]{2,20}$/u);
-                }}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  handleChange(event)
+                }
                 placeholder={examples.citizenship}
-                error={areErrors.citizenship.invalid}
-                helperText={
-                  areErrors.citizenship.invalid && errorsMessages.invalid
+              />
+              <ErrorMessage
+                errors={errors}
+                name="citizenship"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <span key={type} className="errorMessage">
+                      {message}
+                    </span>
+                  ))
                 }
               />
-              {areErrors.citizenship.required && (
-                <span className="errorMessage">{errorsMessages.required}</span>
-              )}
             </div>
 
             {necessaryDocuments.passport && !currentPath && (
@@ -404,22 +520,31 @@ export const TestComponent = ({
                   label={labels.nationality}
                   variant="standard"
                   value={personalDetailsID.nationality}
-                  name="nationality"
+                  {...register("nationality", {
+                    required: errorsMessages.required,
+                    pattern: {
+                      value: /^[\p{L}]{2,20}$/u,
+                      message: errorsMessages.invalid,
+                    },
+                  })}
                   fullWidth
-                  onChange={(event) => {
-                    handleSetValue(event, /^[\p{L}]{2,20}$/u);
-                  }}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange(event)
+                  }
                   placeholder={examples.nationality}
-                  error={areErrors.nationality.invalid}
-                  helperText={
-                    areErrors.nationality.invalid && errorsMessages.invalid
+                />
+                <ErrorMessage
+                  errors={errors}
+                  name="nationality"
+                  render={({ messages }) =>
+                    messages &&
+                    Object.entries(messages).map(([type, message]) => (
+                      <span key={type} className="errorMessage">
+                        {message}
+                      </span>
+                    ))
                   }
                 />
-                {areErrors.nationality.required && (
-                  <span className="errorMessage">
-                    {errorsMessages.required}
-                  </span>
-                )}
               </div>
             )}
           </section>
@@ -427,106 +552,83 @@ export const TestComponent = ({
 
         <div className="gridWrapper">
           <div className="flex">
-          <fieldset className='fieldsetGroups'>
-            <FormControl error={areErrors.gender.required}
-            >
-              <FormLabel id="demo-controlled-radio-buttons-group">
-                {labels.gender.label}
-              </FormLabel>
-              <RadioGroup
-                aria-labelledby="demo-controlled-radio-buttons-group"
-                name="gender"
-                value={personalDetailsID.gender}
-                onChange={(event) => {
-                  handleRadio(event);
-                }}
-                
-              >
-                <FormControlLabel
-                  value="женски"
-                  control={<Radio />}
-                  label={labels.gender.female}
-                />
-                <FormControlLabel
-                  value="машки"
-                  control={<Radio />}
-                  label={labels.gender.male}
-                />
-              </RadioGroup>
-              {areErrors.gender.required && (
-                  <span className="errorMessage">
-                    {errorsMessages.required}
-                  </span>
-                )}
-            </FormControl>
-          </fieldset>
-            {gender && (
-              <fieldset className='fieldsetGroups'>
-              <FormControl error={errorMarried}
-              >
-                <FormLabel id="demo-controlled-radio-buttons-group">
-                  {labels.marriage}
-                </FormLabel>
+            <fieldset className="fieldsetGroups">
+              <FormControl>
+                <FormLabel component="legend">{labels.gender.label}</FormLabel>
                 <RadioGroup
-                  aria-labelledby="demo-controlled-radio-buttons-group"
-                  name="marriage"
-                  value={married}
-                  onChange={(e) => {
-                    handleMarried(e.target.value);
-                  }}
-                  
+                name="gender"
+                  value={personalDetailsID.gender}
+                  onChange={(event) => handleSetGender(event.target.value)}
                 >
-                  <FormControlLabel
-                    value='false'
-                    control={<Radio />}
-                    label={labels.gender.no}
-                  />
-                  <FormControlLabel
-                    value="true"
-                    control={<Radio />}
-                    label={labels.gender.yes}
-                  />
+                  {genderOptions.map((option, index) => (
+                    <FormControlLabel
+                      key={index}
+                      value={option.value}
+                      control={<Radio />}
+                      label={option.label}
+                    />
+                  ))}
                 </RadioGroup>
-                {errorMarried && (
-                  <span className="errorMessage">
-                    {errorsMessages.required}
-                  </span>
-                )}
+                {errorGender && (<span className="errorMessage">{errorsMessages.required}</span>)}
               </FormControl>
             </fieldset>
+            {gender && (
+              <fieldset className="fieldsetGroups">
+                <FormControl>
+                  <FormLabel id="demo-controlled-radio-buttons-group">
+                    {labels.marriage}
+                  </FormLabel>
+                  <RadioGroup
+                    aria-labelledby="demo-controlled-radio-buttons-group"
+                    value={married}
+                    onChange={(e) => {
+                      handleMarried(e.target.value);
+                    }}
+                    
+                  >
+                    <FormControlLabel
+                      value="false"
+                      control={<Radio />}
+                      label={labels.gender.no}
+                    />
+                    <FormControlLabel
+                      value="true"
+                      control={<Radio />}
+                      label={labels.gender.yes}
+                    />
+                  </RadioGroup>
+                  {errorMarried && (
+                    <span className="errorMessage">
+                      {errorsMessages.required}
+                    </span>
+                  )}
+                </FormControl>
+              </fieldset>
             )}
 
-            <fieldset className='fieldsetGroups'>
-              <FormControl error={errorContact}
-              >
-                <FormLabel id="demo-controlled-radio-buttons-group">
-                  {labels.contactBy.how}
-                </FormLabel>
+            <fieldset className="fieldsetGroups">
+              <FormControl>
+                <FormLabel component="legend">{labels.contactBy.how}</FormLabel>
                 <RadioGroup
-                  aria-labelledby="demo-controlled-radio-buttons-group"
-                  name="contact"
+                name="contact"
                   value={contact}
-                  onChange={(e) => {
-                    handleContact(e.target.value);
-                  }}
-                  
+                  onChange={(event) => handleContact(event.target.value)}
                 >
-                  <FormControlLabel
-                    value='phone'
-                    control={<Radio />}
-                    label={labels.contactBy.phone}
-                  />
-                  <FormControlLabel
-                    value="email"
-                    control={<Radio />}
-                    label={labels.contactBy.email}
-                  />
+                  {contactOptions.map((option) => (
+                    <FormControlLabel
+                      key={option.value}
+                      value={option.value}
+                      control={<Radio />}
+                      label={option.label}
+                    />
+                  ))}
                 </RadioGroup>
                 {errorContact && (
                   <span className="errorMessage">
                     {errorsMessages.required}
                   </span>
                 )}
+
               </FormControl>
             </fieldset>
           </div>
@@ -538,19 +640,28 @@ export const TestComponent = ({
                 variant="standard"
                 fullWidth
                 value={personalDetailsID.marriedLastName}
-                name="marriedLastName"
+                {...register("marriedLastName", {
+                  pattern: {
+                    value: /^[\p{L}]{2,20}$/u,
+                    message: errorsMessages.required,
+                  },
+                  minLength: {
+                    value: 2,
+                    message: errorsMessages.invalid,
+                  },
+                })}
                 onChange={(event) => {
-                  handleSetValue(event, /^[\p{L}]{2,20}$/u);
+                  handleChange(event);
                 }}
                 placeholder={examples.marriedLastName}
-                error={areErrors.marriedLastName.invalid}
-                helperText={
-                  areErrors.marriedLastName.invalid && errorsMessages.invalid
-                }
               />
-              {areErrors.marriedLastName.required && (
-                <span className="errorMessage">{errorsMessages.required}</span>
-              )}
+              <ErrorMessage
+                errors={errors}
+                name="marriedLastName"
+                render={({ message }) => (
+                  <span className="errorMessage">{message}</span>
+                )}
+              />
             </div>
           )}
 
@@ -560,21 +671,41 @@ export const TestComponent = ({
                 label={labels.phoneNumber}
                 variant="standard"
                 value={personalDetailsID.phone}
-                name="phone"
+                {...register("phone", {
+                  required: errorsMessages.required,
+                  pattern: {
+                    value: /^[0-9]*$/,
+                    message: errorsMessages.invalid,
+                  },
+                  minLength: {
+                    value: 9,
+                    message: errorsMessages.invalid,
+                  },
+                  maxLength: {
+                    value: 15,
+                    message: errorsMessages.invalid,
+                  },
+                })}
                 fullWidth
                 onChange={(event) => {
-                  handleSetValue(event, /^[0-9]*$/);
+                  handleChange(event);
                 }}
                 placeholder={examples.phoneNumber}
-                error={areErrors.phone.invalid}
-                helperText={areErrors.phone.invalid && errorsMessages.invalid}
               />
-              {areErrors.phone.required && (
-                <span className="errorMessage">{errorsMessages.required}</span>
-              )}
+              <ErrorMessage
+                errors={errors}
+                name="phone"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <span key={type} className="errorMessage">
+                      {message}
+                    </span>
+                  ))
+                }
+              />
             </div>
           )}
-
 
           {email && (
             <div className="column">
@@ -582,44 +713,71 @@ export const TestComponent = ({
                 label={labels.email}
                 variant="standard"
                 value={personalDetailsID.email}
-                name="email"
+                {...register("email", {
+                  required: errorsMessages.required,
+                  pattern: {
+                    value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                    message: errorsMessages.invalid,
+                  },
+                })}
                 fullWidth
                 onChange={(event) => {
-                  handleSetValue(event, /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
+                  handleChange(event);
                 }}
                 placeholder={examples.email}
-                error={areErrors.email.invalid}
-                helperText={areErrors.email.invalid && errorsMessages.invalid}
               />
-              {areErrors.email.required && (
-                <span className="errorMessage">{errorsMessages.required}</span>
-              )}
+              <ErrorMessage
+                errors={errors}
+                name="email"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <span key={type} className="errorMessage">
+                      {message}
+                    </span>
+                  ))
+                }
+              />
             </div>
           )}
         </div>
       </div>
 
-      <div>
+      <div className="buttonsContainer">
+        <div>
           <Button
             variant="contained"
-            type='submit'
-
-            sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
+            type="button"
+            onClick={handleBack}
+            sx={{
+              mt: 1,
+              mr: 1,
+              backgroundColor: "#1976D2",
+              borderRadius: "10px",
+              border: "none",
+              textShadow: "1px 1px 1px black",
+            }}
           >
-            {labels.next}
+            {labels.back}
           </Button>
         </div>
         <div>
           <Button
             variant="contained"
-            type='button'
-            onClick={handleBack}
-            sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
+            type="submit"
+            sx={{
+              mt: 1,
+              mr: 1,
+              backgroundColor: "#1976D2",
+              borderRadius: "10px",
+              border: "none",
+              textShadow: "1px 1px 1px black",
+            }}
           >
-           {labels.back}
+            {labels.next}
           </Button>
         </div>
+      </div>
     </form>
-
   );
 };

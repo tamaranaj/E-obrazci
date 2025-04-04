@@ -12,23 +12,40 @@ interface ContextDefault {
     driverLicense: DriverLicense,
     child: Children,
     terms: boolean,
+    documentLanguage: string,
+    tabs: string[],
+    haveChild: boolean,
+    married: boolean | string,
+    contact: string,
+    gender: boolean| string,
+    phone: boolean| string,
+    email:boolean| string,
+    errorContact: boolean,
+    errorMarried:boolean,
+    errorGender: boolean,
+    errorBirth: boolean,
     updatePersonalDetailsID(formResults: PersonalDetailsID): void,
     updateIDCardDocument:(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
     updatePassportDocument:(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
     changeLanguage: () => void,
     addNecessaryDocs: (event: React.ChangeEvent<HTMLInputElement>) => void,
     updateDriverLicense: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
-    documentLanguage: string,
     updateDocumentLanguage: (value:string) => void,
     updateSetChild: (formValues: Children) => void,
     updateSetTerms: (value: boolean) => void,
-    tabs: string[],
     resetContext: () => void, 
-    haveChild: boolean,
     handleHaveChild: (value: boolean) => void,
     personalInfo: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void,
-    handleDate: (value: Dayjs | null) => void
-
+    handleDate: (value: Dayjs|null) => void,
+    handleSetMarried: (value: boolean | string) => void,
+    handleSetGender: (value: string) => void,
+    handleSetContact: (value: string) => void
+    handleSetPhone: (value: boolean | string) => void,
+    handleSetEmail: (value: boolean | string) => void,
+    handleSetErrorBirth: (value: boolean) => void,
+    handleSetErrorGender: (value: boolean) => void,
+    handleSetErrorContact: (value: boolean) => void,
+    handleSetErrorMarried: (value: boolean) => void
 }
 const contextDefaultValues: ContextDefault = {
     personalDetailsID: {
@@ -80,6 +97,15 @@ const contextDefaultValues: ContextDefault = {
     terms:true,
     tabs:[],
     haveChild: false,
+    married: '',
+    contact:  '',
+    gender:  '',
+    phone: '',
+    email:'',
+    errorContact:false,
+    errorMarried:false,
+    errorGender: false,
+    errorBirth:false,
     updatePersonalDetailsID: ()=>{},
     updateIDCardDocument: ()=>{},
     updatePassportDocument: ()=>{},
@@ -92,8 +118,16 @@ const contextDefaultValues: ContextDefault = {
     updateSetTerms: ()=>{},
     handleHaveChild: () => {},
     personalInfo: ()=>{},
-    handleDate: () => {}
-    
+    handleDate: () => {},
+    handleSetMarried: () => {},
+    handleSetGender: () => {},
+    handleSetContact: () => {},
+    handleSetPhone: ()=>{},
+    handleSetEmail: ()=>{},
+    handleSetErrorBirth:  ()=>{},
+    handleSetErrorGender:  ()=>{},
+    handleSetErrorContact:  ()=>{},
+    handleSetErrorMarried:  ()=>{}
 }
 export const GeneralContext = createContext(contextDefaultValues)
 
@@ -114,6 +148,58 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
     const [terms, setTerms] = useState(contextDefaultValues.terms)
     const [tabs,setTabs] = useState(contextDefaultValues.tabs)
     const[haveChild, setHaveChild] = useState(contextDefaultValues.haveChild)
+    const [married, setMarried] = useState(contextDefaultValues.married);
+    const [contact, setContact] = useState(contextDefaultValues.contact);
+    const [gender, setGender] = useState(contextDefaultValues.gender);
+    const [email, setEmail] = useState(contextDefaultValues.email);
+    const [phone, setPhone] = useState(contextDefaultValues.phone);
+    const[errorContact,setErrorContact]=useState(contextDefaultValues.errorContact)
+    const[errorMarried,setErrorMarried]=useState(contextDefaultValues.errorMarried)
+    const[errorGender,setErrorGender]=useState(contextDefaultValues.errorGender)
+    const[errorBirth, setErrorBirth]= useState(contextDefaultValues.errorBirth)
+    const handleSetErrorContact = (value:boolean)=>{
+        setErrorContact(value)
+    }
+    const handleSetErrorMarried = (value:boolean)=>{
+        setErrorMarried(value)
+    }
+    const handleSetErrorGender = (value:boolean)=>{
+        setErrorGender(value)
+    }
+    const handleSetErrorBirth = (value:boolean)=>{
+        setErrorBirth(value)
+    }
+    const handleSetEmail = (value: boolean| string)=>{
+        setEmail(value)
+    }
+    const handleSetPhone = (value: boolean| string)=>{
+        setPhone(value)
+    }
+    const handleSetMarried = (value: boolean | string)=>{
+        handleSetErrorMarried(false)
+        setMarried(value)
+    }
+    const handleSetGender = (value: string )=>{
+        handleSetErrorGender(false)
+        if(value==='женски'){
+            setGender(true)
+            setPersonalDetailsIDCard({
+                ...personalDetailsID,
+                gender: 'женски',
+            });
+        }else{
+            setGender(false)
+            setPersonalDetailsIDCard({
+                ...personalDetailsID,
+                gender: 'машки',
+            }); 
+        }
+    }
+
+    const handleSetContact = (value: string)=>{
+        handleSetErrorContact(false)
+        setContact(value)
+    }
 
     const updateSetTerms = (value: boolean)=>{
         setTerms(value)
@@ -179,7 +265,8 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
 
     }
 
-    const handleDate = (value: Dayjs | null)=>{
+    const handleDate = (value: Dayjs|null )=>{
+        console.log('value', value)
         setPersonalDetailsIDCard({
             ...personalDetailsID,
             birth: value,
@@ -203,13 +290,21 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
         setTerms(contextDefaultValues.terms)
         setTabs(contextDefaultValues.tabs)
         setHaveChild(contextDefaultValues.haveChild)
-
+        setMarried(contextDefaultValues.married)
+        setContact(contextDefaultValues.contact)
+        setErrorBirth(contextDefaultValues.errorBirth)
+        setErrorContact(contextDefaultValues.errorContact)
+        setErrorGender(contextDefaultValues.errorGender)
+        setErrorMarried(contextDefaultValues.errorMarried)
+        setGender(contextDefaultValues.gender)
+        setEmail(contextDefaultValues.email)
+        setPhone(contextDefaultValues.phone)
     }
     
     
     return(
         <GeneralContext.Provider 
-        value={{personalDetailsID,tabs,haveChild,idCardDocument,passport,necessaryDocuments,language,driverLicense,documentLanguage,child,terms,updateSetTerms,updateSetChild,updateDocumentLanguage,updateDriverLicense,updateIDCardDocument,updatePersonalDetailsID,changeLanguage, addNecessaryDocs, updatePassportDocument,handleHaveChild,personalInfo,handleDate,resetContext  }}>
+        value={{personalDetailsID,tabs,haveChild,idCardDocument,passport,necessaryDocuments,language,driverLicense,documentLanguage,child,terms,married, contact, gender,email,phone,errorContact,errorBirth,errorGender,errorMarried,handleSetErrorBirth,handleSetErrorGender,handleSetErrorMarried,handleSetErrorContact,handleSetEmail,handleSetPhone,handleSetMarried,handleSetGender,handleSetContact,updateSetTerms,updateSetChild,updateDocumentLanguage,updateDriverLicense,updateIDCardDocument,updatePersonalDetailsID,changeLanguage, addNecessaryDocs, updatePassportDocument,handleHaveChild,personalInfo,handleDate,resetContext  }}>
             {children}
         </GeneralContext.Provider>
     )
