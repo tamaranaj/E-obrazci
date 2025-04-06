@@ -9,7 +9,7 @@ import { PersonalDetailsID, StepperProps } from '../../Types/interfaces';
 
 export const PersonalInfoComponent = (props: StepperProps) => {
  
-  const { updatePersonalDetailsID,language, necessaryDocuments, documentLanguage, idCardDocument,haveChild } = useContext(GeneralContext)
+  const { updatePersonalDetailsID,personalInfo,language,personalDetailsID, necessaryDocuments, documentLanguage, idCardDocument,haveChild } = useContext(GeneralContext)
   const { register, handleSubmit, formState: { errors } } = useForm<PersonalDetailsID>({
     criteriaMode: "all"
   })
@@ -77,16 +77,21 @@ export const PersonalInfoComponent = (props: StepperProps) => {
     
   }
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>)=>{
+    console.log(event.target.value)
+    personalInfo(event)
+  }
+
   return (
     
       <form onSubmit={handleSubmit(submitForm)} className='personalDetailsForm'>
         <div className="gridWrapper">
-          {documentLanguage === 'macedonian' && (<p className='error'>Пополнете ја формата користејќи кирилично писмо</p>)}
+          {documentLanguage === 'macedonian' && (<p className='error'>{language==='mkd'?'Пополнете ја формата користејќи кирилично писмо': 'Plotësoni formularin duke përdorur alfabetin cirilik'}</p>)}
             <div className='flex'>
             <section className='column'>
             <div className="column">
               <input type="text" className='input' id="firstName" placeholder={language == 'mkd' ? 'Име (пр.Трајче)' : 'Emri (p.sh. Aisha)'} {...register("firstName", {
-                required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.',
+                // required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.',
                 pattern: {
                   value: /[а-шА-Шa-zA-Z]/g,
                   message: language == 'mkd' ? 'Внесете го вашето име.' : 'Shkruani emrin tuaj.'
@@ -95,7 +100,7 @@ export const PersonalInfoComponent = (props: StepperProps) => {
                   value: 2,
                   message: language == 'mkd' ? 'Името не може да биде пократко од два карактери.' : 'Emri nuk mund të jetë më i shkurtër se dy karaktere.'
                 }
-              })} />
+              })}  value={personalDetailsID.firstName} onChange={(event: React.ChangeEvent<HTMLInputElement> )=>handleChange(event)}/>
 
               <ErrorMessage
                 errors={errors}
@@ -120,7 +125,7 @@ export const PersonalInfoComponent = (props: StepperProps) => {
                   value: 2,
                   message: language == 'mkd' ? 'Презимето не може да биде пократко од два карактери.' : 'Mbiemri nuk mund të jetë më i shkurtër se dy karaktere.'
                 }
-              })} />
+              })} onChange={(event:React.ChangeEvent<HTMLInputElement> )=>{handleChange(event)}}/>
               <ErrorMessage
                 errors={errors}
                 name="lastName"
@@ -355,6 +360,7 @@ export const PersonalInfoComponent = (props: StepperProps) => {
                 className='input'
                 type="text"
                 id="citizen"
+                
                 placeholder={language == 'mkd' ? 'Државјанство (пр.Македонско)' : 'Shtetësia (p.sh. Maqedonase)'}
                 {...register("citizenship", {
                   required: language == 'mkd' ? 'Ова поле е задолжително.' : 'Kjo fushë është e detyrueshme.',

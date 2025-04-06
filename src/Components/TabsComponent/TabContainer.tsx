@@ -17,6 +17,7 @@ export interface TabsComponentChildrenProps{
 export const TabContainer = () => {
     const{tabs, language} = useContext(GeneralContext)
     const [value, setValue] = useState('1');
+   
     const tabsProps = (newValue:string)=>{
         setValue(newValue);
     }

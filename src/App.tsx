@@ -4,7 +4,11 @@ import { Home } from './Components/HomeComponent/Home'
 import StepperComponent from './Components/StepperComponent/Stepper'
 import { Header } from './Components/HeaderComponent/Header'
 import { Footer } from './Components/Footer/Footer'
-
+import { albLabels, mkdLabels } from './Components/HelperFunc/formLabels'
+import { albPlaceholders, mkdPlaceholders } from './Components/HelperFunc/formPlaceholders'
+import { formErrorsAlb, formErrorsMkd } from './Components/HelperFunc/formErrors'
+import { stepperLabelsAlb, stepperLabelsMkd } from './Components/HelperFunc/stepperLabels'
+import { albPatterns, mkdPattern } from './Components/HelperFunc/formPatterns'
 function App() {
   
   return (
@@ -13,8 +17,8 @@ function App() {
 
     <Routes>
       <Route path='/' element={<Home/>}/>
-      <Route path="/е-образци" element={<StepperComponent/>}/>
-
+      <Route path="/е-образци/мкд" element={<StepperComponent formLabels={mkdLabels} formErrorsMessages={formErrorsMkd} formPlaceholders={mkdPlaceholders} stepperLabels={stepperLabelsMkd} patterns={mkdPattern}/>}/>
+      <Route path='/е-образци/алб' element={<StepperComponent formLabels={albLabels} formErrorsMessages={formErrorsAlb} formPlaceholders={albPlaceholders} stepperLabels={stepperLabelsAlb} patterns={albPatterns}/>}/>
     </Routes>
     <Footer/>
     </BrowserRouter>

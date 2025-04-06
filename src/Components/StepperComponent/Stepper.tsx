@@ -14,17 +14,20 @@ import { CheckboxComponent } from '../CheckboxComponent/CheckboxComponent';
 import { TabContainer } from '../TabsComponent/TabContainer';
 import { check } from '../HelperFunc/checkAnswers';
 import { DocumentLanguageComponent } from '../DocumentLanguageComponent/DocumentLanguageComponent';
-import { PersonalInfoComponent } from '../PersonalInfoComponent/PersonalInfoComponent';
 import { ChildrenComponent } from '../ChildrenComponent/ChildrenComponent';
+import { TestComponent } from '../PersonalInfoComponent/TestComponent';
+import { StepperComponentProps } from '../../Types/interfaces';
 
-export default function StepperComponent() {
-  const { language, necessaryDocuments, idCardDocument,passport,driverLicense,resetContext } = useContext(GeneralContext)
+export default function StepperComponent({stepperLabels, formLabels,formErrorsMessages, formPlaceholders, patterns}: StepperComponentProps) {
+  const { necessaryDocuments, idCardDocument,passport,driverLicense,resetContext } = useContext(GeneralContext)
   const [activeStep, setActiveStep] = useState(0);
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     console.log(activeStep)
   };
-
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
   const handleReset = () => {
     setActiveStep(0);
     resetContext()
@@ -38,7 +41,7 @@ export default function StepperComponent() {
       <Stepper activeStep={activeStep} orientation="vertical" >
         <Step >
             <StepLabel >
-              <span>{language == 'mkd' ? 'Изберете на кој јазик да биде изготвено барањето' : 'Zgjidhni në cilën gjuhë duhet të përgatitet kërkesa'}</span>
+              <span>{stepperLabels.firstStep}</span>
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
@@ -48,7 +51,7 @@ export default function StepperComponent() {
           </Step>
         <Step >
             <StepLabel >
-              <span>{language == 'mkd' ? 'Податоци за подносителот на барањето' : 'Informacion rreth aplikantit'}</span>
+              <span>{stepperLabels.secondStep}</span>
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
@@ -58,7 +61,7 @@ export default function StepperComponent() {
           </Step>
           <Step >
             <StepLabel >
-              <span>{language == 'mkd' ? 'Изберете документ' : 'Zgjidhni një dokument'}</span>
+              <span>{stepperLabels.thirdStep}</span>
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
@@ -69,11 +72,21 @@ export default function StepperComponent() {
           
           <Step>
             <StepLabel sx={{ color: 'inherit' }}>
-              <span>{language == 'mkd' ? 'Податоци за барањето' : 'Informacion rreth aplikimit'}</span>
+              <span>{stepperLabels.sixthStep}</span>
             </StepLabel>
             <StepContent >
               <Typography component={'div'} sx={{width: '90%', display:'flex',flexDirection: "column", alignItems:'center'}}>
                 <TabContainer />
+                <div className="row">
+                <Button
+                  variant="contained"
+                  type='button'
+                  onClick={handleBack}
+                  sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
+                >
+                  {formLabels.back}
+                </Button>
+                </div>
                 <Button
                   variant="contained"
                   type='button'
@@ -81,7 +94,7 @@ export default function StepperComponent() {
                   disabled= {check(necessaryDocuments,idCardDocument,passport,driverLicense)}
                   sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
                 >
-                  {language == 'mkd' ? 'Понатаму' : 'Më tej'}
+                  {formLabels.next}
                 </Button>
 
               </Typography>
@@ -89,11 +102,12 @@ export default function StepperComponent() {
           </Step>
           <Step >
             <StepLabel >
-              <span>{language == 'mkd' ? 'Лични податоци за подносителот на барањето' : 'Të dhënat personale për aplikantin'}</span>
+              <span>{stepperLabels.fourthStep}</span>
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
-                <PersonalInfoComponent handleNext={handleNext}/>              
+                <TestComponent labels={formLabels} patterns={patterns} examples={formPlaceholders} errorsMessages={formErrorsMessages} handleNext={handleNext} handleBack={handleBack}/>
+                {/* <PersonalInfoComponent handleNext={handleNext}/>               */}
               </Typography>
             </StepContent>
           </Step>
@@ -105,13 +119,13 @@ export default function StepperComponent() {
           <Paper square elevation={0} sx={{ p: 3, backgroundColor: 'transparent' }} className='paper'>
             <Typography component={'section'}>
               <div>
-                <p>{language == 'mkd' ? 'Сите чекори се завршени' : 'Të gjithë hapat kanë përfunduar'}</p>
+                <p>{stepperLabels.fifthStep}</p>
               </div>
 
             </Typography>
             <DocumentComponent />
             <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-              {language == 'mkd' ? 'Ново барање' : 'Kërkesë e re'}
+              {stepperLabels.newDocument}
 
             </Button>
           </Paper>}

@@ -2,10 +2,16 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    gap: 10px;
+    gap: 40px;
 }
 .fieldsetGroups{
     width: 100%;
+    margin: 10px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
 }
 
 .personalDetailsForm{
@@ -39,6 +45,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    margin: 3px;
 }
 
 .row{
@@ -76,11 +83,13 @@ label{
 
 .fieldsets{
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    grid-template-columns: 100%;
     align-items: center;
 }
-
+.buttonsContainer{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
 
 @media only screen and (max-width:560px) {
 
