@@ -1,5 +1,5 @@
-import { useContext} from "react";
-import { useForm } from "react-hook-form";
+import { useContext } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { GeneralContext } from "../../context/general.context";
 import TextField from "@mui/material/TextField";
 import { FormLabels } from "../HelperFunc/formLabels";
@@ -7,23 +7,29 @@ import { FormPlaceholder } from "../HelperFunc/formPlaceholders";
 import { useLocation } from "react-router-dom";
 import { FormErrors } from "../HelperFunc/formErrors";
 import "./PersonalInfoComponent.css";
+import "react-day-picker/style.css";
 import {
-  FormControl,
   FormLabel,
   RadioGroup,
   FormControlLabel,
   Radio,
   Button,
+  FormHelperText,
 } from "@mui/material";
 import { FormData } from "./formInterface";
 import { ErrorMessage } from "@hookform/error-message";
-import { DatePickerComponent } from "./DatePickerComponent";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs, { Dayjs } from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { FormRegexPatterns } from "../HelperFunc/formPatterns";
 
 
 export interface PersonalInfoProps {
   labels: FormLabels;
   examples: FormPlaceholder;
   errorsMessages: FormErrors;
+  patterns: FormRegexPatterns
   handleNext: () => void;
   handleBack: () => void;
 }
@@ -32,14 +38,24 @@ export const TestComponent = ({
   labels,
   examples,
   errorsMessages,
+  patterns,
   handleNext,
   handleBack,
 }: PersonalInfoProps) => {
   const location = useLocation();
+
   const currentPath = location.pathname.includes("мк");
   let genderOptions = [
-    { label: labels.gender.female, value: 'женски' },
-    { label: labels.gender.male, value: 'машки' },
+    { label: labels.gender.female, value: "женски" },
+    { label: labels.gender.male, value: "машки" },
+  ];
+
+  let marriedOptions = [
+    {
+      label: labels.gender.yes,
+      value: "yes",
+    },
+    { label: labels.gender.no, value: "no" },
   ];
 
   let contactOptions = [
@@ -51,95 +67,50 @@ export const TestComponent = ({
     idCardDocument,
     personalDetailsID,
     married,
-    contact,
-    gender,
     phone,
-    email,errorBirth,errorContact,errorGender,errorMarried,
-    personalInfo,
+    email,
+    contact,
+    haveChild,
     handleSetContact,
-    handleSetErrorContact,
+    handleDate,
+    personalInfo,
     handleSetMarried,
-    handleSetErrorMarried,
-    handleSetGender,
-    handleSetErrorGender,
-    handleSetErrorBirth,
-    handleSetPhone,
-    handleSetEmail,
   } = useContext(GeneralContext);
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
     criteriaMode: "all",
   });
-
-  const handleMarried = (value: string) => {
-    if (value == "true") {
-      handleSetMarried(true);
+  const getFormattedDate = (): Dayjs => {
+    const date = new Date();
+    let yearOffset = 0;
+    if (necessaryDocuments.idCard && haveChild) {
+      yearOffset = 15;
+    } else if (necessaryDocuments.passport && haveChild) {
+      yearOffset = 0;
     } else {
-      handleSetMarried(false);
+      yearOffset = 18;
     }
+    let year = date.getFullYear() - yearOffset;
+    let month = String(date.getMonth() + 1).padStart(2, "0");
+    let day = String(date.getDate()).padStart(2, "0");
+    return dayjs(`${year}-${month}-${day}`);
+  };
+  const min = dayjs("01-01-1930");
+  const max = getFormattedDate();
+  const handleMarried = (value: string) => {
+    handleSetMarried(value);
   };
 
-  const handleContact = (value: string) => {
-    handleSetContact(value);
-    handleSetErrorContact(false)
-    if (value === "email") {
-      handleSetEmail(true);
-      handleSetPhone(false);
-    }
-    if (value === "phone") {
-      handleSetEmail(false);
-      handleSetPhone(true);
-    }
-  };
-  const check=()=>{
-   
-    if (married === "" || contact==='' || personalDetailsID.birth===null || gender==='' || errorBirth) {
-      
-      
-      
-      
-      
-    }
-   
-  }
   const submitForm = (data: FormData) => {
-    if(married === "" && gender){
-      handleSetErrorMarried(true);
-      return
-    }
-    if(contact===''){
-      handleSetErrorContact(true)
-      return
-    }
-    if(personalDetailsID.birth===null ){
-      handleSetErrorBirth(true)
-      return
-    }
-    console.log(personalDetailsID.gender)
-    if(personalDetailsID.gender===''){
-      handleSetErrorGender(true)
-      return
-    }
-      console.log('birth',errorBirth)
-    console.log('contact',errorContact)
-    console.log('gender',errorGender)
-    console.log('married',errorMarried)
-    
     console.log(data);
-    console.log(personalDetailsID)
+    console.log(personalDetailsID);
     handleNext();
-    
-    
-    
-
-      
   };
-const handleHasBirth= (value: boolean)=>{
-  handleSetErrorBirth(value)
-}
+
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -165,7 +136,7 @@ const handleHasBirth= (value: boolean)=>{
                 {...register("firstName", {
                   required: errorsMessages.required,
                   pattern: {
-                    value: /^[\p{L}]{2,12}$/u,
+                    value: patterns.namePattern,
                     message: errorsMessages.invalid,
                   },
                   minLength: {
@@ -202,7 +173,7 @@ const handleHasBirth= (value: boolean)=>{
                 {...register("lastName", {
                   required: errorsMessages.required,
                   pattern: {
-                    value: /^[\p{L}]{2,12}$/u,
+                    value: patterns.namePattern,
                     message: errorsMessages.invalid,
                   },
                   minLength: {
@@ -230,12 +201,37 @@ const handleHasBirth= (value: boolean)=>{
               />
             </div>
 
-            <div className="fieldsets">
-              <DatePickerComponent
-                handleHasBirth={handleHasBirth}
-                pickerLabel={labels.birth}
-                errorMsg={errorsMessages.required}
-              />
+            <div className="column">
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <Controller
+                  name={"birth"}
+                  control={control}
+                  defaultValue={personalDetailsID.birth}
+                  rules={{ required: errorsMessages.required }}
+                  render={({ field }) => {
+                    return (
+                      <DatePicker
+                        label={labels.birth}
+                        value={field.value ?? null}
+                        onChange={(date) => {
+                          field.onChange(date);
+                          handleDate(date);
+                        }}
+                        format="DD/MM/YYYY"
+                        minDate={min}
+                        maxDate={max}
+                      />
+                    );
+                  }}
+                />
+                <ErrorMessage
+                  errors={errors}
+                  name="birth"
+                  render={({ message }) => (
+                    <span className="errorMessage">{message}</span>
+                  )}
+                />
+              </LocalizationProvider>
             </div>
 
             <div className="column">
@@ -246,7 +242,7 @@ const handleHasBirth= (value: boolean)=>{
                 {...register("placeBirth", {
                   required: errorsMessages.required,
                   pattern: {
-                    value: /^[\p{L}]{2,20}$/u,
+                    value: patterns.namePattern,
                     message: errorsMessages.invalid,
                   },
                   minLength: {
@@ -282,7 +278,7 @@ const handleHasBirth= (value: boolean)=>{
                 {...register("socialNumber", {
                   required: errorsMessages.required,
                   pattern: {
-                    value: /^[0-9]{13}$/,
+                    value: /^[0-9]*$/,
                     message: errorsMessages.invalid,
                   },
                 })}
@@ -292,18 +288,30 @@ const handleHasBirth= (value: boolean)=>{
                 }
                 placeholder={examples.socialNumber}
               />
-              <ErrorMessage
-                errors={errors}
-                name="socialNumber"
-                render={({ messages }) =>
-                  messages &&
-                  Object.entries(messages).map(([type, message]) => (
-                    <span key={type} className="errorMessage">
-                      {message}
-                    </span>
-                  ))
-                }
-              />
+              <div
+                className="row"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <ErrorMessage
+                  errors={errors}
+                  name="socialNumber"
+                  render={({ messages }) =>
+                    messages &&
+                    Object.entries(messages).map(([type, message]) => (
+                      <span key={type} className="errorMessage">
+                        {message}
+                      </span>
+                    ))
+                  }
+                />
+                <FormHelperText className="customHelperText">
+                  {`${personalDetailsID.socialNumber.length} / 13`}
+                </FormHelperText>
+              </div>
             </div>
           </section>
 
@@ -316,7 +324,7 @@ const handleHasBirth= (value: boolean)=>{
                 {...register("fatherName", {
                   required: errorsMessages.required,
                   pattern: {
-                    value: /^[\p{L}]{2,20}$/u,
+                    value: patterns.namePattern,
                     message: errorsMessages.invalid,
                   },
                 })}
@@ -348,7 +356,7 @@ const handleHasBirth= (value: boolean)=>{
                 {...register("motherName", {
                   required: errorsMessages.required,
                   pattern: {
-                    value: /^[\p{L}]{2,20}$/u,
+                    value:patterns.namePattern,
                     message: errorsMessages.invalid,
                   },
                 })}
@@ -380,7 +388,7 @@ const handleHasBirth= (value: boolean)=>{
                 {...register("address", {
                   required: errorsMessages.required,
                   pattern: {
-                    value: /[а-шА-Ш0-9a-zA-Z]/g,
+                    value: patterns.addressPattern,
                     message: errorsMessages.invalid,
                   },
                   minLength: {
@@ -416,7 +424,7 @@ const handleHasBirth= (value: boolean)=>{
                 {...register("city", {
                   required: errorsMessages.required,
                   pattern: {
-                    value: /^[\p{L}]{2,20}$/u,
+                    value: patterns.namePattern,
                     message: errorsMessages.invalid,
                   },
                   minLength: {
@@ -454,7 +462,7 @@ const handleHasBirth= (value: boolean)=>{
                   {...register("previousAddress", {
                     required: errorsMessages.required,
                     pattern: {
-                      value: /^[\p{L}]{2,20}$/u,
+                      value: patterns.addressPattern,
                       message: errorsMessages.invalid,
                     },
                     minLength: {
@@ -490,7 +498,7 @@ const handleHasBirth= (value: boolean)=>{
                 {...register("citizenship", {
                   required: errorsMessages.required,
                   pattern: {
-                    value: /^[\p{L}]{2,20}$/u,
+                    value: patterns.namePattern,
                     message: errorsMessages.invalid,
                   },
                 })}
@@ -523,7 +531,7 @@ const handleHasBirth= (value: boolean)=>{
                   {...register("nationality", {
                     required: errorsMessages.required,
                     pattern: {
-                      value: /^[\p{L}]{2,20}$/u,
+                      value: patterns.namePattern,
                       message: errorsMessages.invalid,
                     },
                   })}
@@ -553,87 +561,117 @@ const handleHasBirth= (value: boolean)=>{
         <div className="gridWrapper">
           <div className="flex">
             <fieldset className="fieldsetGroups">
-              <FormControl>
-                <FormLabel component="legend">{labels.gender.label}</FormLabel>
-                <RadioGroup
+              <FormLabel component="legend">{labels.gender.label}</FormLabel>
+              <Controller
+                rules={{ required: errorsMessages.required }}
+                control={control}
                 name="gender"
-                  value={personalDetailsID.gender}
-                  onChange={(event) => handleSetGender(event.target.value)}
-                >
-                  {genderOptions.map((option, index) => (
-                    <FormControlLabel
-                      key={index}
-                      value={option.value}
-                      control={<Radio />}
-                      label={option.label}
-                    />
-                  ))}
-                </RadioGroup>
-                {errorGender && (<span className="errorMessage">{errorsMessages.required}</span>)}
-              </FormControl>
-            </fieldset>
-            {gender && (
-              <fieldset className="fieldsetGroups">
-                <FormControl>
-                  <FormLabel id="demo-controlled-radio-buttons-group">
-                    {labels.marriage}
-                  </FormLabel>
+                defaultValue={personalDetailsID.gender ?? null}
+                render={({ field }) => (
                   <RadioGroup
-                    aria-labelledby="demo-controlled-radio-buttons-group"
-                    value={married}
-                    onChange={(e) => {
-                      handleMarried(e.target.value);
+                    {...field}
+                    value={field.value}
+                    onBlur={field.onBlur}
+                    onChange={(event) => {
+                      field.onChange(event.target.value);
+                      personalInfo(event);
                     }}
-                    
                   >
-                    <FormControlLabel
-                      value="false"
-                      control={<Radio />}
-                      label={labels.gender.no}
-                    />
-                    <FormControlLabel
-                      value="true"
-                      control={<Radio />}
-                      label={labels.gender.yes}
-                    />
+                    {genderOptions.map((option, index) => (
+                      <FormControlLabel
+                        key={index}
+                        value={option.value}
+                        control={<Radio />}
+                        label={option.label}
+                      />
+                    ))}
                   </RadioGroup>
-                  {errorMarried && (
-                    <span className="errorMessage">
-                      {errorsMessages.required}
-                    </span>
-                  )}
-                </FormControl>
-              </fieldset>
-            )}
+                )}
+              />
+              <ErrorMessage
+                errors={errors}
+                name="gender"
+                render={({ message }) => (
+                  <span className="errorMessage">{message}</span>
+                )}
+              />
+            </fieldset>
 
             <fieldset className="fieldsetGroups">
-              <FormControl>
-                <FormLabel component="legend">{labels.contactBy.how}</FormLabel>
-                <RadioGroup
-                name="contact"
-                  value={contact}
-                  onChange={(event) => handleContact(event.target.value)}
-                >
-                  {contactOptions.map((option) => (
-                    <FormControlLabel
-                      key={option.value}
-                      value={option.value}
-                      control={<Radio />}
-                      label={option.label}
-                    />
-                  ))}
-                </RadioGroup>
-                {errorContact && (
-                  <span className="errorMessage">
-                    {errorsMessages.required}
-                  </span>
+              <FormLabel component="legend">{labels.marriage}</FormLabel>
+              <Controller
+                rules={{ required: errorsMessages.required }}
+                control={control}
+                name="married"
+                defaultValue={married ?? ""}
+                render={({ field }) => (
+                  <RadioGroup
+                    {...field}
+                    value={field.value ?? ""}
+                    onBlur={field.onBlur}
+                    onChange={({ target: { value } }) => {
+                      field.onChange(value);
+                      handleMarried(value);
+                    }}
+                  >
+                    {marriedOptions.map((option, index) => (
+                      <FormControlLabel
+                        key={index}
+                        value={option.value}
+                        control={<Radio />}
+                        label={option.label}
+                      />
+                    ))}
+                  </RadioGroup>
                 )}
+              />
+              <ErrorMessage
+                errors={errors}
+                name="married"
+                render={({ message }) => (
+                  <span className="errorMessage">{message}</span>
+                )}
+              />
+            </fieldset>
 
-              </FormControl>
+            <fieldset className="fieldsetGroups">
+              <FormLabel component="legend">{labels.contactBy.how}</FormLabel>
+              <Controller
+                rules={{ required: errorsMessages.required }}
+                control={control}
+                name="contact"
+                defaultValue={contact}
+                render={({ field }) => (
+                  <RadioGroup
+                    value={field.value}
+                    onBlur={field.onBlur}
+                    onChange={({ target: { value } }) => {
+                      field.onChange(value);
+                      handleSetContact(value);
+                    }}
+                  >
+                    {contactOptions.map((option) => (
+                      <FormControlLabel
+                        key={option.value}
+                        value={option.value}
+                        control={<Radio />}
+                        label={option.label}
+                      />
+                    ))}
+                  </RadioGroup>
+                )}
+              />
+              <ErrorMessage
+                errors={errors}
+                name="contact"
+                render={({ message }) => (
+                  <span className="errorMessage">{message}</span>
+                )}
+              />
             </fieldset>
           </div>
 
-          {married && gender && (
+          {married === "yes" && (
             <div className="column">
               <TextField
                 label={labels.marriedLastName}
@@ -642,7 +680,7 @@ const handleHasBirth= (value: boolean)=>{
                 value={personalDetailsID.marriedLastName}
                 {...register("marriedLastName", {
                   pattern: {
-                    value: /^[\p{L}]{2,20}$/u,
+                    value: patterns.namePattern,
                     message: errorsMessages.required,
                   },
                   minLength: {
@@ -674,7 +712,7 @@ const handleHasBirth= (value: boolean)=>{
                 {...register("phone", {
                   required: errorsMessages.required,
                   pattern: {
-                    value: /^[0-9]*$/,
+                    value: /^\+?[0-9]*$/,
                     message: errorsMessages.invalid,
                   },
                   minLength: {
@@ -690,20 +728,32 @@ const handleHasBirth= (value: boolean)=>{
                 onChange={(event) => {
                   handleChange(event);
                 }}
-                placeholder={examples.phoneNumber}
+                placeholder={`${examples.phoneNumber} / +38971234567`}
               />
-              <ErrorMessage
-                errors={errors}
-                name="phone"
-                render={({ messages }) =>
-                  messages &&
-                  Object.entries(messages).map(([type, message]) => (
-                    <span key={type} className="errorMessage">
-                      {message}
-                    </span>
-                  ))
-                }
-              />
+              <div
+                className="row"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <ErrorMessage
+                  errors={errors}
+                  name="phone"
+                  render={({ messages }) =>
+                    messages &&
+                    Object.entries(messages).map(([type, message]) => (
+                      <span key={type} className="errorMessage">
+                        {message}
+                      </span>
+                    ))
+                  }
+                />
+                <FormHelperText className="customHelperText">
+                  {`${personalDetailsID.phone.length} / 15`}
+                </FormHelperText>
+              </div>
             </div>
           )}
 
