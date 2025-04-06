@@ -1,3 +1,4 @@
+import { Dayjs } from "dayjs";
 
 
 export interface FormData{
@@ -15,6 +16,10 @@ export interface FormData{
         city: string,
         email:string,
         nationality:string,
+        birth:Dayjs| null,
+        gender: string | null
+        married: string | null,
+        contact: string| null
         
        
 }

@@ -31,7 +31,7 @@ export interface PersonalDetailsID{
     birth: Dayjs|null,
     placeBirth: string ,
     socialNumber: string,
-    gender: string ,
+    gender: string | null,
     address: string, 
     phone: string ,
     citizenship: string,
@@ -64,6 +64,7 @@ import { StepperLabels } from "../Components/HelperFunc/stepperLabels"
 import { FormLabels } from "../Components/HelperFunc/formLabels"
 import { FormPlaceholder } from "../Components/HelperFunc/formPlaceholders"
 import { FormErrors } from "../Components/HelperFunc/formErrors"
+import { FormRegexPatterns } from "../Components/HelperFunc/formPatterns"
 
 export type DatePickerInputProps = {
   inputRef: React.Ref<HTMLInputElement>;
@@ -102,5 +103,6 @@ export interface StepperComponentProps{
     stepperLabels: StepperLabels,
     formLabels: FormLabels,
     formPlaceholders: FormPlaceholder,
-    formErrorsMessages: FormErrors
+    formErrorsMessages: FormErrors,
+    patterns: FormRegexPatterns
 }

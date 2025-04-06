@@ -14,16 +14,12 @@ import { CheckboxComponent } from '../CheckboxComponent/CheckboxComponent';
 import { TabContainer } from '../TabsComponent/TabContainer';
 import { check } from '../HelperFunc/checkAnswers';
 import { DocumentLanguageComponent } from '../DocumentLanguageComponent/DocumentLanguageComponent';
-import { PersonalInfoComponent } from '../PersonalInfoComponent/PersonalInfoComponent';
 import { ChildrenComponent } from '../ChildrenComponent/ChildrenComponent';
-import { mkdLabels } from '../HelperFunc/formLabels';
-import { mkdPlaceholders } from '../HelperFunc/formPlaceholders';
-import { formErrorsMkd } from '../HelperFunc/formErrors';
 import { TestComponent } from '../PersonalInfoComponent/TestComponent';
 import { StepperComponentProps } from '../../Types/interfaces';
 
-export default function StepperComponent({stepperLabels, formLabels,formErrorsMessages, formPlaceholders}: StepperComponentProps) {
-  const { language, necessaryDocuments, idCardDocument,passport,driverLicense,resetContext } = useContext(GeneralContext)
+export default function StepperComponent({stepperLabels, formLabels,formErrorsMessages, formPlaceholders, patterns}: StepperComponentProps) {
+  const { necessaryDocuments, idCardDocument,passport,driverLicense,resetContext } = useContext(GeneralContext)
   const [activeStep, setActiveStep] = useState(0);
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -100,7 +96,7 @@ export default function StepperComponent({stepperLabels, formLabels,formErrorsMe
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
-                <TestComponent labels={formLabels} examples={formPlaceholders} errorsMessages={formErrorsMessages} handleNext={handleNext} handleBack={handleBack}/>
+                <TestComponent labels={formLabels} patterns={patterns} examples={formPlaceholders} errorsMessages={formErrorsMessages} handleNext={handleNext} handleBack={handleBack}/>
                 {/* <PersonalInfoComponent handleNext={handleNext}/>               */}
               </Typography>
             </StepContent>
