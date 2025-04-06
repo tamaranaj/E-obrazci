@@ -182,7 +182,8 @@ export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)
                 setTabs([...tabs,event.target.name])
             }
             
-        }else{
+        }
+        else{
             const filterTabs = tabs.filter(item=>item!==event.target.name)
             setTabs(filterTabs)
         }

@@ -77,6 +77,16 @@ export default function StepperComponent({stepperLabels, formLabels,formErrorsMe
             <StepContent >
               <Typography component={'div'} sx={{width: '90%', display:'flex',flexDirection: "column", alignItems:'center'}}>
                 <TabContainer />
+                <div className="row">
+                <Button
+                  variant="contained"
+                  type='button'
+                  onClick={handleBack}
+                  sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
+                >
+                  {formLabels.back}
+                </Button>
+                </div>
                 <Button
                   variant="contained"
                   type='button'
