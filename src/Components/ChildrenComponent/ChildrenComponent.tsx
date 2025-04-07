@@ -11,10 +11,14 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import { ChildrenFormLabels } from "../HelperFunc/childrenForm";
+import { FormErrors } from "../HelperFunc/formErrors";
 interface ChildrenComponentProps{
   handleNext: ()=>void,
+  formProps: ChildrenFormLabels,
+  errorsMessages: FormErrors
 }
-export const ChildrenComponent = ({ handleNext }: ChildrenComponentProps) => {
+export const ChildrenComponent = ({ handleNext, formProps,errorsMessages }: ChildrenComponentProps) => {
   const [value, setValue] = useState('no');
   const {haveChild, handleHaveChild,documentLanguage} = useContext(GeneralContext)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

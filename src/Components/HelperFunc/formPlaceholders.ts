@@ -17,7 +17,7 @@ export interface FormPlaceholder{
 
 
 export const mkdPlaceholders:FormPlaceholder = {
-    firstName: 'Трајче',
+    firstName: 'Марко',
     lastName :'Стојановски',
     placeBirth: 'Скопје',
     socialNumber: '1234567890123',
