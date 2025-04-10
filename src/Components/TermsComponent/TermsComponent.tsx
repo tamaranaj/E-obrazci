@@ -3,8 +3,13 @@ import './TermsComponent.css'
 import { useContext } from 'react';
 import { GeneralContext } from '../../context/general.context';
 
-export const TermsComponent = ()=> {
-    const {terms, updateSetTerms, language}= useContext(GeneralContext)
+type TermsProp ={
+  info:string,
+  error: string
+}
+
+export const TermsComponent = ({info, error}: TermsProp)=> {
+    const {terms, updateSetTerms}= useContext(GeneralContext)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     updateSetTerms(event.target.checked);
   };
@@ -17,14 +22,11 @@ export const TermsComponent = ()=> {
         onChange={handleChange}
         inputProps={{ 'aria-label': 'controlled' }}
     />
-    {language==='mkd'? (<span className='terms'>Подносителот на барањето е согласен неговите/нивните лични податоци да се корисатат во постапката за остварување на правото пред надлежните органи за прибавување на СИТЕ документи означени со ѕвезда(*) во барањето.</span>
-    ) : (<span className='terms'>Parashtruesi i kërkesës pajtohet të dhënat e tij/tyre personale të shfrityohen në procedurën për realiyimin e të drejtës para organeve kompetente për sigurimin e të GJITHA dokumenteve të nënviyuara me yll(*) nga kërkese.
-    </span>)}
+    <span className='terms'>{info}</span>
     </div>
     
 
-    {!terms && language==='mkd'? <span className='error'>Ова поле е задолжително.</span> : !terms && language==='alb' &&
-    <span className='error'>Kjo fushë është e detyrueshme.</span>}
+    {!terms && <span className='error'>{error}</span> }
     
     
     </div>

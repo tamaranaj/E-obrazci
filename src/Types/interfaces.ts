@@ -105,6 +105,8 @@ export interface StepperComponentProps{
     formLabels: FormLabels,
     formPlaceholders: FormPlaceholder,
     formErrorsMessages: FormErrors,
-    patterns: FormRegexPatterns
-    childrenForm: ChildrenFormLabels
+    patterns: FormRegexPatterns,
+    childrenForm: ChildrenFormLabels,
+    termsInfo:string
+
 }
