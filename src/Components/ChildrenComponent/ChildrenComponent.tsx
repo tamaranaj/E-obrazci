@@ -1,9 +1,8 @@
 import { Children } from "../../Types/interfaces";
 import './ChildrenComponent.css'
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Button from "@mui/material/Button";
 import { GeneralContext } from "../../context/general.context";
-import { ErrorMessage } from "@hookform/error-message";
 import { useForm, useFieldArray } from "react-hook-form";
 import { TermsComponent } from "../TermsComponent/TermsComponent";
 import Radio from '@mui/material/Radio';
@@ -11,265 +10,173 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-interface ChildrenComponentProps{
-  handleNext: ()=>void,
+import { ChildrenFormLabels } from "../HelperFunc/childrenForm";
+import { FormErrors } from "../HelperFunc/formErrors";
+import { FormRegexPatterns } from "../HelperFunc/formPatterns";
+import { TextFieldComponent } from "../HelperFunc/TextFieldComponent";
+import FormHelperText from "@mui/material/FormHelperText";
+interface ChildrenComponentProps {
+  handleNext: () => void,
+  formProps: ChildrenFormLabels,
+  errorsMessages: FormErrors,
+  patterns: FormRegexPatterns
 }
-export const ChildrenComponent = ({ handleNext }: ChildrenComponentProps) => {
-  const [value, setValue] = useState('no');
-  const {haveChild, handleHaveChild,documentLanguage} = useContext(GeneralContext)
+export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patterns }: ChildrenComponentProps) => {
+
+  const { haveChild, handleHaveChild, child, setParentToDefault } = useContext(GeneralContext)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value = (event.target as HTMLInputElement).value
-    if(value == 'yes'){
-      setValue(value);
+    let value = event.target.value
+    if (value === 'true') {
+   
       handleHaveChild(true)
-    }else{
-      setValue('no')
-      handleHaveChild(false)
-      remove(1);
-      remove(0);
+      setParentToDefault()
+      handleAddParent()
+      console.log(child)
+    } else {
       
+      handleHaveChild(false)
+      remove(1)
+      remove(0)
+      setParentToDefault()
     }
-    
+
   };
 
 
-  const { updateSetChild, language,terms } = useContext(GeneralContext);
+  const { updateSetChild, terms, addParent, removeParent } = useContext(GeneralContext);
   const {
-    register,
     handleSubmit,
     formState: { errors },
     control,
   } = useForm<Children>({
     criteriaMode: "all",
-    defaultValues: {
-      parents: [
-        { firstName: "", lastName: "", relation: "", socialNumber: "" },
-      ],
-    },
   });
-  
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "parents",
   });
 
   const handleAddParent = () => {
+
     append({ firstName: "", lastName: "", relation: "", socialNumber: "" });
+    addParent()
   };
 
-  const submitForm = (data: Children) => {
-    if(!terms) return
-    console.log(haveChild)
-    updateSetChild(data);
+  const submitForm = () => {
+    if (!terms) return
     handleNext();
   };
 
-  const handleRemoveParent=(index: number)=>{
-    if(index===1 && fields.at(0)){
+  const handleRemoveParent = (index: number) => {
+    if (index === 1 && fields.at(0)) {
       remove(1)
-    }else if(index === 0 && !fields.at(1)){
-      
+      removeParent(1)
+    } else if (index === 0 && !fields.at(1)) {
+
       remove(0)
-      setValue('no')
+      setParentToDefault()
       handleHaveChild(false)
-      
+
     }
 
-    if(index===0 && fields.at(1)){
-      remove(0)}
+    if (index === 0 && fields.at(1)) {
+      remove(0)
+      removeParent(0)
+    }
   }
   return (
     <div className="childrenContainer">
       <form onSubmit={handleSubmit(submitForm)} className="childrenForm">
-        
-          <FormControl>
-      <FormLabel id="demo-controlled-radio-buttons-group">{language == "mkd"
-                ? "Дали поднесувате барање за вашето дете?"
-                : "A po bëni një kërkesë për fëmijën tuaj?"}</FormLabel>
-      <RadioGroup
-        aria-labelledby="demo-controlled-radio-buttons-group"
-        name="controlled-radio-buttons-group"
-        value={value}
-        onChange={handleChange}
-      >
-        <div className="radioBtn">
-        <FormControlLabel value="yes" control={<Radio />} label={language == "mkd" ? "Да" : "Po"} />
-        <FormControlLabel value="no" control={<Radio />} label={language == "mkd" ? "Не" : "Nr"} />
 
-        </div>
-        
-      </RadioGroup>
-    </FormControl>
+        <FormControl>
+          <FormLabel id="demo-controlled-radio-buttons-group">{formProps.childApplication}</FormLabel>
+          <RadioGroup
+            aria-labelledby="demo-controlled-radio-buttons-group"
+            name="controlled-radio-buttons-group"
+            value={haveChild}
+            onChange={handleChange}
+          >
+            <div className="radioBtn">
+              <FormControlLabel value={true} control={<Radio />} label={formProps.yes} />
+              <FormControlLabel value={false} control={<Radio />} label={formProps.no} />
+
+            </div>
+
+          </RadioGroup>
+        </FormControl>
 
         {haveChild && (
           <section className="dynamicSection">
-            {documentLanguage === 'macedonian' && (<p className="error">Пополнете ја формата користејќи кирилично писмо</p>)}
+            {/* {documentLanguage === 'macedonian' && (<p className="error">Пополнете ја формата користејќи кирилично писмо</p>)} */}
             <div className="dynamicFieldsContainer">
               {fields.map((field, index) => (
                 <div key={field.id} className="dynamicFields">
                   <div className="dynamicColumn">
                     <div className="dinInputError">
-                      <input
-                        type="text"
-                        className="dynamicInput"
-                        id="parentName"
-                        placeholder={
-                          language == "mkd"
-                            ? "Име на родител/старател"
-                            : "Emri i prindit/kujdestarit"
-                        }
-                        {...register(`parents.${index}.firstName`, {
-                          required:
-                            language == "mkd"
-                              ? "Ова поле е задолжително."
-                              : "Kjo fushë është e detyrueshme.",
-                          pattern: {
-                            value: /[а-шА-Шa-zA-Z]{2}/g,
-                            message:
-                              language == "mkd"
-                                ? "Внесете го името на родителот/старателот."
-                                : "Shkruani emrin e prindit/kujdestarit.",
-                          },
-                        })}
-                      />
-                      <ErrorMessage
-                        errors={errors}
+                      <TextFieldComponent<Children>
                         name={`parents.${index}.firstName`}
-                        render={({ messages }) =>
-                          messages &&
-                          Object.entries(messages).map(([type, message]) => (
-                            <span key={type} className="errorMessage">
-                              {message}
-                            </span>
-                          ))
-                        }
+                        label={formProps.parentFirstNameLabel}
+                        placeholder={formProps.parentFirstNamePlaceholder}
+                        pattern={patterns.namePattern}
+                        control={control}
+                        errors={errors}
+                        value={child.parents[index].firstName}
+                        errorsMessages={errorsMessages}
+                        handleChange={(e) => updateSetChild(index, "firstName", e.target.value)}
                       />
+
+
                     </div>
                     <div className="dinInputError">
-                      <input
-                        type="text"
-                        placeholder={
-                          language == "mkd"
-                            ? "Презиме на родител/старател"
-                            : "Mbiemri i prindit/kujdestarit"
-                        }
-                        {...register(`parents.${index}.lastName`, {
-                          required:
-                            language == "mkd"
-                              ? "Ова поле е задолжително."
-                              : "Kjo fushë është e detyrueshme.",
-                          pattern: {
-                            value: /[а-шА-Шa-zA-Z]{2}/g,
-                            message:
-                              language == "mkd"
-                                ? "Внесете го презимето на родителот/старателот."
-                                : "Shkruani mbiemrin e prindit/kujdestarit.",
-                          },
-                        })}
-                        className="dynamicInput"
-                      />
-                      <ErrorMessage
+                    <TextFieldComponent<Children>
+                        name={`parents.${index}.relation`}
+                        label={formProps.relationLabel}
+                        placeholder={formProps.relationPlaceholder}
+                        pattern={patterns.namePattern}
+                        control={control}
                         errors={errors}
-                        name={`parents.${index}.lastName`}
-                        render={({ messages }) =>
-                          messages &&
-                          Object.entries(messages).map(([type, message]) => (
-                            <span key={type} className="errorMessage">
-                              {message}
-                            </span>
-                          ))
-                        }
+                        value={child.parents[index].relation}
+                        errorsMessages={errorsMessages}
+                        handleChange={(e) => updateSetChild(index, "relation", e.target.value)}
                       />
+                      
                     </div>
                   </div>
                   <div className="dynamicColumn">
                     <div className="dinInputError">
-                      <input
-                        type="text"
-                        placeholder={
-                          language == "mkd"
-                            ? "Матичен број"
-                            : "Numri i identifikimit"
-                        }
-                        {...register(`parents.${index}.socialNumber`, {
-                          required:
-                            language == "mkd"
-                              ? "Ова поле е задолжително."
-                              : "Kjo fushë është e detyrueshme.",
-                          pattern: {
-                            value: /^[0-9]*$/,
-                            message:
-                              language == "mkd"
-                                ? "Внесениот матичен број не е валиден."
-                                : "Numri i sigurimeve shoqërore i futur nuk është i vlefshëm.",
-                          },
-                          minLength: {
-                            value: 13,
-                            message:
-                              language == "mkd"
-                                ? "Матичниот број не може да биде пократок од 13 карактери."
-                                : "Numri i regjistrimit nuk mund të jetë më i shkurtër se 13 karaktere.",
-                          },
-                          maxLength: {
-                            value: 13,
-                            message:
-                              language == "mkd"
-                                ? "Матичниот број не може да биде подолг од 13 карактери."
-                                : "Numri i regjistrimit nuk mund të jetë më i gjatë se 13 karaktere.",
-                          },
-                        })}
-                        className="dynamicInput"
-                      />
-                      <ErrorMessage
+                    <TextFieldComponent<Children>
+                        name={`parents.${index}.lastName`}
+                        label={formProps.parentLastNameLabel}
+                        placeholder={formProps.parentLastNamePlaceholder}
+                        pattern={patterns.namePattern}
+                        control={control}
                         errors={errors}
-                        name={`parents[${index}].socialNumber`}
-                        render={({ messages }) =>
-                          messages &&
-                          Object.entries(messages).map(([type, message]) => (
-                            <span key={type} className="errorMessage">
-                              {message}
-                            </span>
-                          ))
-                        }
+                        value={child.parents[index].lastName}
+                        errorsMessages={errorsMessages}
+                        handleChange={(e) => updateSetChild(index, "lastName", e.target.value)}
                       />
+                      
                     </div>
 
                     <div className="dinInputError">
-                      <input
-                        type="text"
-                        placeholder={
-                          language == "mkd" ? "Релација" : "Marrëdhënia"
-                        }
-                        {...register(`parents.${index}.relation`, {
-                          required:
-                            language == "mkd"
-                              ? "Ова поле е задолжително."
-                              : "Kjo fushë është e detyrueshme.",
-                          pattern: {
-                            value: /[а-шА-Шa-zA-Z]{2}/g,
-                            message:
-                              language == "mkd"
-                                ? "Внесете ја вашата релација со детето."
-                                : "Vendosni marrëdhënien tuaj me fëmijën.",
-                          },
-                        })}
-                        className="dynamicInput"
-                      />
-                      <ErrorMessage
+                    <TextFieldComponent<Children>
+                        name={`parents.${index}.socialNumber`}
+                        label={formProps.socialNumberLabel}
+                        placeholder={formProps.socialNumberPlaceholder}
+                        pattern={patterns.socialNumber}
+                        control={control}
                         errors={errors}
-                        name={`parents.${index}.relation`}
-                        render={({ messages }) =>
-                          messages &&
-                          Object.entries(messages).map(([type, message]) => (
-                            <span key={type} className="errorMessage">
-                              {message}
-                            </span>
-                          ))
-                        }
+                        value={child.parents[index].socialNumber}
+                        errorsMessages={errorsMessages}
+                        handleChange={(e) => updateSetChild(index, "socialNumber", e.target.value)}
                       />
+                      <FormHelperText className="customHelperText">
+                        {`${child.parents[index].socialNumber.length} / 13`}
+                      </FormHelperText>
                     </div>
                   </div>
-                  <div>
+                  <div style={{display:"flex",alignItems:"center"}}>
                     <Button
                       variant="contained"
                       sx={{
@@ -284,7 +191,7 @@ export const ChildrenComponent = ({ handleNext }: ChildrenComponentProps) => {
                       type="button"
                       onClick={() => handleRemoveParent(index)}
                     >
-                      {language == "mkd" ? "Отстрани" : "Hiqni"}
+                      {formProps.removeParent}
                     </Button>
                   </div>
                 </div>
@@ -305,36 +212,31 @@ export const ChildrenComponent = ({ handleNext }: ChildrenComponentProps) => {
               disabled={fields.length == 2}
               onClick={handleAddParent}
             >
-              {language == "mkd"
-                ? "Додај родител/старател"
-                : "Shto një prind/kujdestar"}
+              {formProps.addParent}
             </Button>
           </section>
         )}
 
-        <TermsComponent/>
-
-
-
-      <div>
-        <Button
-          variant="contained"
-          type="submit"
-          sx={{
-            mt: 1,
-            mr: 1,
-            backgroundColor: "#1976D2",
-            borderRadius: "10px",
-            border: "none",
-            textShadow: "1px 1px 1px black",
-          }}
-        >
-          {language == "mkd" ? "Понатаму" : "Më tej"}
-        </Button>
-      </div>
+        <TermsComponent />
+        <div >
+          <Button
+            variant="contained"
+            type="submit"
+            sx={{
+              mt: 1,
+              mr: 1,
+              backgroundColor: "#1976D2",
+              borderRadius: "10px",
+              border: "none",
+              textShadow: "1px 1px 1px black",
+            }}
+          >
+            {formProps.next}
+          </Button>
+        </div>
       </form>
 
-      
+
     </div>
   );
 };

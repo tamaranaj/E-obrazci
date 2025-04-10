@@ -15,10 +15,10 @@ import { TabContainer } from '../TabsComponent/TabContainer';
 import { check } from '../HelperFunc/checkAnswers';
 import { DocumentLanguageComponent } from '../DocumentLanguageComponent/DocumentLanguageComponent';
 import { ChildrenComponent } from '../ChildrenComponent/ChildrenComponent';
-import { TestComponent } from '../PersonalInfoComponent/TestComponent';
 import { StepperComponentProps } from '../../Types/interfaces';
+import { PersonalInfoComponent } from '../PersonalInfoComponent/PersonalInfoComponent';
 
-export default function StepperComponent({stepperLabels, formLabels,formErrorsMessages, formPlaceholders, patterns}: StepperComponentProps) {
+export default function StepperComponent({stepperLabels, formLabels,formErrorsMessages, formPlaceholders, patterns, childrenForm}: StepperComponentProps) {
   const { necessaryDocuments, idCardDocument,passport,driverLicense,resetContext } = useContext(GeneralContext)
   const [activeStep, setActiveStep] = useState(0);
   const handleNext = () => {
@@ -55,7 +55,7 @@ export default function StepperComponent({stepperLabels, formLabels,formErrorsMe
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
-                <ChildrenComponent handleNext={handleNext} />
+                <ChildrenComponent handleNext={handleNext} errorsMessages={formErrorsMessages} formProps={childrenForm} patterns={patterns}/>
               </Typography>
             </StepContent>
           </Step>
@@ -106,8 +106,8 @@ export default function StepperComponent({stepperLabels, formLabels,formErrorsMe
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
-                <TestComponent labels={formLabels} patterns={patterns} examples={formPlaceholders} errorsMessages={formErrorsMessages} handleNext={handleNext} handleBack={handleBack}/>
-                {/* <PersonalInfoComponent handleNext={handleNext}/>               */}
+                <PersonalInfoComponent labels={formLabels} patterns={patterns} examples={formPlaceholders} errorsMessages={formErrorsMessages} handleNext={handleNext} handleBack={handleBack}/>
+                
               </Typography>
             </StepContent>
           </Step>

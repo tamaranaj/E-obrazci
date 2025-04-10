@@ -65,6 +65,7 @@ import { FormLabels } from "../Components/HelperFunc/formLabels"
 import { FormPlaceholder } from "../Components/HelperFunc/formPlaceholders"
 import { FormErrors } from "../Components/HelperFunc/formErrors"
 import { FormRegexPatterns } from "../Components/HelperFunc/formPatterns"
+import { ChildrenFormLabels } from "../Components/HelperFunc/childrenForm"
 
 export type DatePickerInputProps = {
   inputRef: React.Ref<HTMLInputElement>;
@@ -105,4 +106,5 @@ export interface StepperComponentProps{
     formPlaceholders: FormPlaceholder,
     formErrorsMessages: FormErrors,
     patterns: FormRegexPatterns
+    childrenForm: ChildrenFormLabels
 }
