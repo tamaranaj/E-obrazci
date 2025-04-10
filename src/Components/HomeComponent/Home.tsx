@@ -23,7 +23,10 @@ export const Home = ()=>{
                 </span>)}              
             </div>            
 
+            <div>
             <Button variant="contained" sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black', width:'130px', height:'40px'}} onClick={navigation}>{language == 'mkd'? 'Во ред': 'Në rregull'} </Button>
+            </div>
+            
            
         </div>
     )
