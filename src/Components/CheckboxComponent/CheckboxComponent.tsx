@@ -13,9 +13,10 @@ export interface CheckboxComponentProps{
   
 }
 export const CheckboxComponent = ({handleNext}: CheckboxComponentProps )=> {
-  const{language, necessaryDocuments, haveChild,addNecessaryDocs} = useContext(GeneralContext)
+  const{language, necessaryDocuments,addNecessaryDocs} = useContext(GeneralContext)
   const { idCard, passport, driverLicense } = necessaryDocuments;
-  const error = [idCard, passport, driverLicense].filter((v) => v).length < 1;
+  const error = ![idCard, passport, driverLicense].some((v) =>v)
+  console.log(error)
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column'}}>
@@ -35,12 +36,12 @@ export const CheckboxComponent = ({handleNext}: CheckboxComponentProps )=> {
             }
             label={language == 'mkd' ? 'Патна исправа' : 'Pasaporta'}
           />
-          {!haveChild && (<FormControlLabel
+          <FormControlLabel
             control={
               <Checkbox checked={driverLicense} onChange={addNecessaryDocs} name="driverLicense" />
             }
             label={language == 'mkd' ? 'Возачка дозвола' : 'Patentë shoferi'}
-          />)}
+          />
         </FormGroup>
         <FormHelperText>{error && (language == 'mkd'?'За да продолжите морате да одберете најмалку 1 документ' : 'Për të vazhduar, duhet të zgjidhni të paktën 1 dokument')}</FormHelperText>
       </FormControl>

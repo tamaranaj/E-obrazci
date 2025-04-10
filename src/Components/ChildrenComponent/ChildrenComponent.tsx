@@ -25,7 +25,7 @@ interface ChildrenComponentProps {
 export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patterns, termsInfo }: ChildrenComponentProps) => {
 
 
-  const { haveChild, handleHaveChild, child, setParentToDefault } = useContext(GeneralContext)
+  const { haveChild, handleHaveChild, child, setParentToDefault,necessaryDocuments } = useContext(GeneralContext)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let value = event.target.value
     if (value === 'true') {
@@ -44,7 +44,7 @@ export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patte
 
   };
 
-
+  console.log(necessaryDocuments)
   const { updateSetChild, terms, addParent, removeParent } = useContext(GeneralContext);
   const {
     handleSubmit,
@@ -91,7 +91,7 @@ export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patte
     <div className="childrenContainer">
       <form onSubmit={handleSubmit(submitForm)} className="childrenForm">
 
-        <FormControl>
+        {!necessaryDocuments.driverLicense && (<FormControl>
           <FormLabel id="demo-controlled-radio-buttons-group">{formProps.childApplication}</FormLabel>
           <RadioGroup
             aria-labelledby="demo-controlled-radio-buttons-group"
@@ -106,7 +106,7 @@ export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patte
             </div>
 
           </RadioGroup>
-        </FormControl>
+        </FormControl>)}
 
         {haveChild && (
           <section className="dynamicSection">
