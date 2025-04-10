@@ -200,7 +200,7 @@ export const PersonalInfoComponent = ({
               <TextFieldComponent<FormData>
                 name="socialNumber"
                 label={labels.socialNumber}
-                pattern={patterns.numbers}
+                pattern={patterns.socialNumber}
                 control={control}
                 errorsMessages={errorsMessages}
                 errors={errors}
@@ -437,7 +437,7 @@ export const PersonalInfoComponent = ({
               <TextFieldComponent<FormData>
                 name="phone"
                 label={labels.phoneNumber}
-                pattern={patterns.numbers}
+                pattern={patterns.phone}
                 control={control}
                 errorsMessages={errorsMessages}
                 errors={errors}
