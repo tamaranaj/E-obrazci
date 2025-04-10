@@ -24,6 +24,7 @@ interface ChildrenComponentProps {
 }
 export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patterns, termsInfo }: ChildrenComponentProps) => {
 
+
   const { haveChild, handleHaveChild, child, setParentToDefault } = useContext(GeneralContext)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let value = event.target.value

@@ -11,6 +11,7 @@ import { stepperLabelsAlb, stepperLabelsMkd } from './Components/HelperFunc/step
 import { albPatterns, mkdPattern } from './Components/HelperFunc/formPatterns'
 import { childrenFormLabelsAlb, childrenFormLabelsMKD } from './Components/HelperFunc/childrenForm'
 import { termsAlb, termsMkd } from './Components/HelperFunc/terms'
+
 function App() {
   
   return (
@@ -19,6 +20,7 @@ function App() {
 
     <Routes>
       <Route path='/' element={<Home/>}/>
+
       <Route path="/е-образци/мкд" element={<StepperComponent termsInfo={termsMkd} formLabels={mkdLabels} formErrorsMessages={formErrorsMkd} formPlaceholders={mkdPlaceholders} stepperLabels={stepperLabelsMkd} patterns={mkdPattern} childrenForm={childrenFormLabelsMKD}/>}/>
       <Route path='/е-образци/алб' element={<StepperComponent formLabels={albLabels} termsInfo={termsAlb} formErrorsMessages={formErrorsAlb} formPlaceholders={albPlaceholders} stepperLabels={stepperLabelsAlb} patterns={albPatterns} childrenForm={childrenFormLabelsAlb}/>}/>
     </Routes>

@@ -108,5 +108,4 @@ export interface StepperComponentProps{
     patterns: FormRegexPatterns,
     childrenForm: ChildrenFormLabels,
     termsInfo:string
-
 }
