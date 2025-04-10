@@ -19,9 +19,11 @@ interface ChildrenComponentProps {
   handleNext: () => void,
   formProps: ChildrenFormLabels,
   errorsMessages: FormErrors,
-  patterns: FormRegexPatterns
+  patterns: FormRegexPatterns,
+  termsInfo: string
 }
-export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patterns }: ChildrenComponentProps) => {
+export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patterns, termsInfo }: ChildrenComponentProps) => {
+
 
   const { haveChild, handleHaveChild, child, setParentToDefault } = useContext(GeneralContext)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -217,7 +219,7 @@ export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patte
           </section>
         )}
 
-        <TermsComponent />
+        <TermsComponent info={termsInfo} error={errorsMessages.required}/>
         <div >
           <Button
             variant="contained"

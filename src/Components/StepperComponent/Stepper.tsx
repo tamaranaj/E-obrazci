@@ -18,7 +18,9 @@ import { ChildrenComponent } from '../ChildrenComponent/ChildrenComponent';
 import { StepperComponentProps } from '../../Types/interfaces';
 import { PersonalInfoComponent } from '../PersonalInfoComponent/PersonalInfoComponent';
 
-export default function StepperComponent({stepperLabels, formLabels,formErrorsMessages, formPlaceholders, patterns, childrenForm}: StepperComponentProps) {
+
+export default function StepperComponent({stepperLabels, formLabels,formErrorsMessages, formPlaceholders, patterns, childrenForm, termsInfo}: StepperComponentProps) {
+
   const { necessaryDocuments, idCardDocument,passport,driverLicense,resetContext } = useContext(GeneralContext)
   const [activeStep, setActiveStep] = useState(0);
   const handleNext = () => {
@@ -55,7 +57,9 @@ export default function StepperComponent({stepperLabels, formLabels,formErrorsMe
             </StepLabel>
             <StepContent >
               <Typography component={'div'}>
-                <ChildrenComponent handleNext={handleNext} errorsMessages={formErrorsMessages} formProps={childrenForm} patterns={patterns}/>
+
+                <ChildrenComponent handleNext={handleNext} termsInfo={termsInfo} errorsMessages={formErrorsMessages} formProps={childrenForm} patterns={patterns}/>
+
               </Typography>
             </StepContent>
           </Step>
