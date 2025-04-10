@@ -25,18 +25,16 @@ interface ChildrenComponentProps {
 export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patterns, termsInfo }: ChildrenComponentProps) => {
 
 
-  const { haveChild, handleHaveChild, child, setParentToDefault,necessaryDocuments } = useContext(GeneralContext)
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value = event.target.value
-    if (value === 'true') {
-   
-      handleHaveChild(true)
-      setParentToDefault()
+  const { haveChild, handleHaveChild, child, setParentToDefault,necessaryDocuments,updateSetChild, terms, addParent, removeParent, documentLanguage  } = useContext(GeneralContext)
+  const handleChange = (value:string) => {
+    
+   if(value ==='yes'){
+      handleHaveChild(value)
       handleAddParent()
       console.log(child)
     } else {
       
-      handleHaveChild(false)
+      handleHaveChild('no')
       remove(1)
       remove(0)
       setParentToDefault()
@@ -44,8 +42,7 @@ export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patte
 
   };
 
-  console.log(necessaryDocuments)
-  const { updateSetChild, terms, addParent, removeParent } = useContext(GeneralContext);
+
   const {
     handleSubmit,
     formState: { errors },
@@ -78,7 +75,7 @@ export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patte
 
       remove(0)
       setParentToDefault()
-      handleHaveChild(false)
+      handleHaveChild('no')
 
     }
 
@@ -97,20 +94,20 @@ export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patte
             aria-labelledby="demo-controlled-radio-buttons-group"
             name="controlled-radio-buttons-group"
             value={haveChild}
-            onChange={handleChange}
+            onChange={(e)=>handleChange(e.target.value)}
           >
             <div className="radioBtn">
-              <FormControlLabel value={true} control={<Radio />} label={formProps.yes} />
-              <FormControlLabel value={false} control={<Radio />} label={formProps.no} />
+              <FormControlLabel value={'yes'} control={<Radio />} label={formProps.yes} />
+              <FormControlLabel value={'no'} control={<Radio />} label={formProps.no} />
 
             </div>
 
           </RadioGroup>
         </FormControl>)}
 
-        {haveChild && (
+        {haveChild ==='yes' && (
           <section className="dynamicSection">
-            {/* {documentLanguage === 'macedonian' && (<p className="error">Пополнете ја формата користејќи кирилично писмо</p>)} */}
+            {documentLanguage === 'мк' && (<p className="error">Пополнете ја формата користејќи кирилично писмо</p>)}
             <div className="dynamicFieldsContainer">
               {fields.map((field, index) => (
                 <div key={field.id} className="dynamicFields">
