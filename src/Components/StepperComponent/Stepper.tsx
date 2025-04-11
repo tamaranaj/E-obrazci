@@ -16,12 +16,17 @@ import { check } from '../HelperFunc/checkAnswers';
 import { ChildrenComponent } from '../ChildrenComponent/ChildrenComponent';
 import { StepperComponentProps } from '../../Types/interfaces';
 import { PersonalInfoComponent } from '../PersonalInfoComponent/PersonalInfoComponent';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function StepperComponent({ stepperLabels, formLabels, formErrorsMessages, formPlaceholders, patterns, childrenForm, termsInfo }: StepperComponentProps) {
 
   const { necessaryDocuments, idCardDocument, passport, driverLicense, resetContext } = useContext(GeneralContext)
   const [activeStep, setActiveStep] = useState(0);
+  const navigate = useNavigate()
+  const handleBackHome=()=>{
+    navigate('/')
+  }
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     console.log(activeStep)
@@ -122,6 +127,8 @@ export default function StepperComponent({ stepperLabels, formLabels, formErrors
             </Paper>}
         </Box>
       </div>
+
+      <div className='relative'><button className='absolute' onClick={handleBackHome}>Home</button></div>
     </div>
   );
 }

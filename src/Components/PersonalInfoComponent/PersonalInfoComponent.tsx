@@ -3,7 +3,6 @@ import { Controller, useForm } from "react-hook-form";
 import { GeneralContext } from "../../context/general.context";
 import { FormLabels } from "../HelperFunc/formLabels";
 import { FormPlaceholder } from "../HelperFunc/formPlaceholders";
-// import { useLocation } from "react-router-dom";
 import { FormErrors } from "../HelperFunc/formErrors";
 import "./PersonalInfoComponent.css";
 import "react-day-picker/style.css";
@@ -41,16 +40,7 @@ export const PersonalInfoComponent = ({
   handleNext,
   handleBack,
 }: PersonalInfoProps) => {
-  // const location = useLocation();
-  // const decodedPath = decodeURIComponent(location.pathname);
 
-  // const isMkd = decodedPath.includes("/мкд");
-  // const isAl = decodedPath.includes("/ал");
-
-  // console.log("Decoded path:", decodedPath); // /е-образци/мкд
-  // console.log("isMkd:", isMkd); // true if on /мкд
-  // const currentPath = location.pathname.includes("/мкд");
-  // console.log('path',location.pathname)
   let genderOptions = [
     { label: labels.gender.female, value: "женски" },
     { label: labels.gender.male, value: "машки" },
@@ -127,11 +117,11 @@ export const PersonalInfoComponent = ({
   return (
     <form className="personalDetailsForm" onSubmit={handleSubmit(submitForm)}>
       <div className="gridWrapper">
-        {/* {currentPath && (
+        {documentLanguage==='мк' && (
           <p className="error">
             Пополнете ја формата користејќи кирилично писмо
           </p>
-        )} */}
+        )}
 
         <div className="flex">
           <section className="column">
@@ -297,7 +287,7 @@ export const PersonalInfoComponent = ({
               handleChange={handleChange}
             />
 
-            {necessaryDocuments.passport && !documentLanguage && (
+            {necessaryDocuments.passport && documentLanguage==='ал' && (
               <TextFieldComponent<FormData>
                 name="nationality"
                 label={labels.nationality}

@@ -19,9 +19,9 @@ interface ContextDefault {
     driverLicense: DriverLicense;
     child: Children;
     terms: boolean;
-    documentLanguage: string;
+    documentLanguage: string|null;
     tabs: string[];
-    haveChild: boolean;
+    haveChild: string;
     married: null | string;
     contact: string | null;
     phone: boolean;
@@ -43,7 +43,7 @@ interface ContextDefault {
     updateSetChild: (index: number, field: keyof Parents, value: string) => void;
     updateSetTerms: (value: boolean) => void;
     resetContext: () => void;
-    handleHaveChild: (value: boolean) => void;
+    handleHaveChild: (value: string) => void;
     personalInfo: (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => void;
@@ -96,13 +96,13 @@ const contextDefaultValues: ContextDefault = {
         nameLanguage: "",
         procedure: "",
     },
-    documentLanguage: "",
+    documentLanguage: null,
     child: {
         parents: [{ firstName: "", lastName: "", relation: "", socialNumber: "" }],
     },
     terms: true,
     tabs: [],
-    haveChild: false,
+    haveChild: 'no',
     married: null,
     contact: null,
     phone: false,
@@ -229,7 +229,7 @@ export const GeneralContextProvider = ({
         });
     };
 
-    const handleHaveChild = (value: boolean) => {
+    const handleHaveChild = (value: string) => {
         setHaveChild(value);
     };
 

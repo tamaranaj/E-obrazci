@@ -12,6 +12,17 @@
     align-items: center;
 }
 
+.relative{
+    position:relative;
+    width: 100%;
+}
+
+.absolute{
+    width: 50px;
+    position: absolute;
+    left: center;
+}
+
 @media only screen and (max-width:1000px) {
     .stepper{
         width:70%;
