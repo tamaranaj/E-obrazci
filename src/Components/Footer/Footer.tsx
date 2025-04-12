@@ -3,7 +3,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
 export const Footer = ()=>{
-   
+  
     return (
         <footer className='footer'>
             <div className='infoContainer'>

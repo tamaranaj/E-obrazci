@@ -2,7 +2,6 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Home } from './Components/HomeComponent/Home'
 import StepperComponent from './Components/StepperComponent/Stepper'
-import { Header } from './Components/HeaderComponent/Header'
 import { Footer } from './Components/Footer/Footer'
 import { albLabels, mkdLabels } from './Components/HelperFunc/formLabels'
 import { albPlaceholders, mkdPlaceholders } from './Components/HelperFunc/formPlaceholders'
@@ -16,13 +15,14 @@ function App() {
   
   return (
     <BrowserRouter>
-      <Header/>
-
+        
     <Routes>
       <Route path='/' element={<Home/>}/>
 
-      <Route path="/е-образци/мкд" element={<StepperComponent termsInfo={termsMkd} formLabels={mkdLabels} formErrorsMessages={formErrorsMkd} formPlaceholders={mkdPlaceholders} stepperLabels={stepperLabelsMkd} patterns={mkdPattern} childrenForm={childrenFormLabelsMKD}/>}/>
-      <Route path='/е-образци/алб' element={<StepperComponent formLabels={albLabels} termsInfo={termsAlb} formErrorsMessages={formErrorsAlb} formPlaceholders={albPlaceholders} stepperLabels={stepperLabelsAlb} patterns={albPatterns} childrenForm={childrenFormLabelsAlb}/>}/>
+      <Route path="/е-образци/мк" element={<StepperComponent termsInfo={termsMkd} formLabels={mkdLabels} formErrorsMessages={formErrorsMkd} formPlaceholders={mkdPlaceholders} stepperLabels={stepperLabelsMkd} patterns={mkdPattern} childrenForm={childrenFormLabelsMKD}/>}/>
+      <Route path='/е-образци/ал' element={<StepperComponent formLabels={albLabels} termsInfo={termsAlb} formErrorsMessages={formErrorsAlb} formPlaceholders={albPlaceholders} stepperLabels={stepperLabelsAlb} patterns={albPatterns} childrenForm={childrenFormLabelsAlb}/>}/>
+
+      <Route path="*" element={<p>Page not found</p>} />
     </Routes>
     <Footer/>
     </BrowserRouter>

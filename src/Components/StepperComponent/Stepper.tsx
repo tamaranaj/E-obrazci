@@ -13,128 +13,121 @@ import { useContext, useState } from 'react';
 import { CheckboxComponent } from '../CheckboxComponent/CheckboxComponent';
 import { TabContainer } from '../TabsComponent/TabContainer';
 import { check } from '../HelperFunc/checkAnswers';
-import { DocumentLanguageComponent } from '../DocumentLanguageComponent/DocumentLanguageComponent';
 import { ChildrenComponent } from '../ChildrenComponent/ChildrenComponent';
 import { StepperComponentProps } from '../../Types/interfaces';
 import { PersonalInfoComponent } from '../PersonalInfoComponent/PersonalInfoComponent';
+import { useNavigate } from 'react-router-dom';
 
+export default function StepperComponent({ stepperLabels, formLabels, formErrorsMessages, formPlaceholders, patterns, childrenForm, termsInfo }: StepperComponentProps) {
 
-export default function StepperComponent({stepperLabels, formLabels,formErrorsMessages, formPlaceholders, patterns, childrenForm, termsInfo}: StepperComponentProps) {
-
-  const { necessaryDocuments, idCardDocument,passport,driverLicense,resetContext } = useContext(GeneralContext)
+  const { necessaryDocuments, idCardDocument, passport, driverLicense,visitedTabs,handleVisitedTabs, resetContext } = useContext(GeneralContext)
   const [activeStep, setActiveStep] = useState(0);
+  const navigate = useNavigate()
+  const handleBackHome=()=>{
+    navigate('/')
+  }
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    console.log(activeStep)
+    handleVisitedTabs(activeStep+1)
+    console.log('active step',activeStep)
   };
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+
   const handleReset = () => {
-    setActiveStep(0);
     resetContext()
+    setActiveStep(0);
+    
   };
+
+  const handleOpenClickedTab = (step:number)=>{
+    
+    let test = visitedTabs.includes(step)
+    if(test){
+      setActiveStep(step);
+    }
+    
+  }
 
   return (
     <div className='stepperContainer'>
-      
+
       <div className='stepper'>
         <Box >
-      <Stepper activeStep={activeStep} orientation="vertical" >
-        <Step >
-            <StepLabel >
-              <span>{stepperLabels.firstStep}</span>
-            </StepLabel>
-            <StepContent >
-              <Typography component={'div'}>
-              <DocumentLanguageComponent handleNext={handleNext} />
-              </Typography>
-            </StepContent>
-          </Step>
-        <Step >
-            <StepLabel >
-              <span>{stepperLabels.secondStep}</span>
-            </StepLabel>
-            <StepContent >
-              <Typography component={'div'}>
+          <Stepper activeStep={activeStep} orientation="vertical" >
+            <Step >
+              <StepLabel style={{cursor: 'pointer'}} sx={activeStep===0?{bgcolor:'#6f9ecd'}: {bgcolor:'white'}}  onClick={()=>handleOpenClickedTab(0)}>
+                <span>{stepperLabels.thirdStep}</span>
+              </StepLabel>
+              <StepContent >
+                <Typography component={'div'}>
+                  <CheckboxComponent handleNext={handleNext} />
+                </Typography>
+              </StepContent>
+            </Step>
+            <Step >
+              <StepLabel  style={{cursor: 'pointer'}} sx={activeStep===1?{bgcolor:'#6f9ecd'}: {bgcolor:'white'}} onClick={()=>handleOpenClickedTab(1)}>
+                <span>{stepperLabels.secondStep}</span>
+              </StepLabel>
+              <StepContent >
+                <Typography component={'div'}>
+                  <ChildrenComponent handleNext={handleNext} termsInfo={termsInfo} errorsMessages={formErrorsMessages} formProps={childrenForm} patterns={patterns} />
+                </Typography>
+              </StepContent>
+            </Step>
 
-                <ChildrenComponent handleNext={handleNext} termsInfo={termsInfo} errorsMessages={formErrorsMessages} formProps={childrenForm} patterns={patterns}/>
+            <Step>
+              <StepLabel  style={{cursor: 'pointer'}} sx={activeStep===2?{bgcolor:'#6f9ecd'}: {bgcolor:'white'}} onClick={()=>handleOpenClickedTab(2)}>
+                <span>{stepperLabels.sixthStep}</span>
+              </StepLabel>
+              <StepContent >
+                <Typography component={'div'} sx={{ width: '90%', display: 'flex', flexDirection: "column", alignItems: 'center' }}>
+                  <TabContainer />
+                  
+                  <Button
+                    variant="contained"
+                    type='button'
+                    onClick={handleNext}
+                    disabled={check(necessaryDocuments, idCardDocument, passport, driverLicense)}
+                    sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
+                  >
+                    {formLabels.next}
+                  </Button>
 
-              </Typography>
-            </StepContent>
-          </Step>
-          <Step >
-            <StepLabel >
-              <span>{stepperLabels.thirdStep}</span>
-            </StepLabel>
-            <StepContent >
-              <Typography component={'div'}>
-              <CheckboxComponent handleNext={handleNext} />
-              </Typography>
-            </StepContent>
-          </Step>
-          
-          <Step>
-            <StepLabel sx={{ color: 'inherit' }}>
-              <span>{stepperLabels.sixthStep}</span>
-            </StepLabel>
-            <StepContent >
-              <Typography component={'div'} sx={{width: '90%', display:'flex',flexDirection: "column", alignItems:'center'}}>
-                <TabContainer />
-                <div className="row">
-                <Button
-                  variant="contained"
-                  type='button'
-                  onClick={handleBack}
-                  sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
-                >
-                  {formLabels.back}
-                </Button>
+                </Typography>
+              </StepContent>
+            </Step>
+            <Step >
+              <StepLabel  style={{cursor: 'pointer'}} sx={activeStep===3?{bgcolor:'#6f9ecd'}: {bgcolor:'white'}} onClick={()=>handleOpenClickedTab(3)}>
+                <span>{stepperLabels.fourthStep}</span>
+              </StepLabel>
+              <StepContent >
+                <Typography component={'div'}>
+                  <PersonalInfoComponent labels={formLabels} patterns={patterns} examples={formPlaceholders} errorsMessages={formErrorsMessages} handleNext={handleNext}  />
+
+                </Typography>
+              </StepContent>
+            </Step>
+
+
+
+          </Stepper>
+          {activeStep == 4 &&
+            <Paper square elevation={0} sx={{ p: 3, backgroundColor: 'transparent' }} className='paper' onClick={()=>handleOpenClickedTab(4)}>
+              <Typography component={'section'}>
+                <div>
+                  <p>{stepperLabels.fifthStep}</p>
                 </div>
-                <Button
-                  variant="contained"
-                  type='button'
-                  onClick={handleNext}
-                  disabled= {check(necessaryDocuments,idCardDocument,passport,driverLicense)}
-                  sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
-                >
-                  {formLabels.next}
-                </Button>
 
               </Typography>
-            </StepContent>
-          </Step>
-          <Step >
-            <StepLabel >
-              <span>{stepperLabels.fourthStep}</span>
-            </StepLabel>
-            <StepContent >
-              <Typography component={'div'}>
-                <PersonalInfoComponent labels={formLabels} patterns={patterns} examples={formPlaceholders} errorsMessages={formErrorsMessages} handleNext={handleNext} handleBack={handleBack}/>
-                
-              </Typography>
-            </StepContent>
-          </Step>
+              <DocumentComponent />
+              <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+                {stepperLabels.newDocument}
 
-           
+              </Button>
+            </Paper>}
+        </Box>
+      </div>
 
-        </Stepper>
-        {activeStep == 5 &&
-          <Paper square elevation={0} sx={{ p: 3, backgroundColor: 'transparent' }} className='paper'>
-            <Typography component={'section'}>
-              <div>
-                <p>{stepperLabels.fifthStep}</p>
-              </div>
-
-            </Typography>
-            <DocumentComponent />
-            <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-              {stepperLabels.newDocument}
-
-            </Button>
-          </Paper>}
-          </Box>
-      </div> 
+      <div className='relative'><button className='absolute' onClick={handleBackHome}>Home</button></div>
     </div>
   );
 }

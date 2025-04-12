@@ -3,7 +3,6 @@ import { Controller, useForm } from "react-hook-form";
 import { GeneralContext } from "../../context/general.context";
 import { FormLabels } from "../HelperFunc/formLabels";
 import { FormPlaceholder } from "../HelperFunc/formPlaceholders";
-import { useLocation } from "react-router-dom";
 import { FormErrors } from "../HelperFunc/formErrors";
 import "./PersonalInfoComponent.css";
 import "react-day-picker/style.css";
@@ -22,7 +21,8 @@ import dayjs, { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { FormRegexPatterns } from "../HelperFunc/formPatterns";
-import { TextFieldComponent } from "../HelperFunc/TextFieldComponent";
+import { TextFieldComponent } from "../SharedComponents/TextFieldComponent";
+
 
 export interface PersonalInfoProps {
   labels: FormLabels;
@@ -30,7 +30,6 @@ export interface PersonalInfoProps {
   errorsMessages: FormErrors;
   patterns: FormRegexPatterns;
   handleNext: () => void;
-  handleBack: () => void;
 }
 
 export const PersonalInfoComponent = ({
@@ -39,11 +38,8 @@ export const PersonalInfoComponent = ({
   errorsMessages,
   patterns,
   handleNext,
-  handleBack,
 }: PersonalInfoProps) => {
-  const location = useLocation();
 
-  const currentPath = location.pathname.includes("мк");
   let genderOptions = [
     { label: labels.gender.female, value: "женски" },
     { label: labels.gender.male, value: "машки" },
@@ -70,6 +66,7 @@ export const PersonalInfoComponent = ({
     email,
     contact,
     haveChild,
+    documentLanguage,
     handleSetContact,
     handleDate,
     personalInfo,
@@ -119,7 +116,7 @@ export const PersonalInfoComponent = ({
   return (
     <form className="personalDetailsForm" onSubmit={handleSubmit(submitForm)}>
       <div className="gridWrapper">
-        {currentPath === true && (
+        {documentLanguage==='мк' && (
           <p className="error">
             Пополнете ја формата користејќи кирилично писмо
           </p>
@@ -134,6 +131,8 @@ export const PersonalInfoComponent = ({
               control={control}
               errorsMessages={errorsMessages}
               errors={errors}
+              min={2}
+              max={30}
               value={personalDetailsID.firstName}
               placeholder={examples.firstName}
               handleChange={handleChange}
@@ -146,6 +145,8 @@ export const PersonalInfoComponent = ({
               control={control}
               errorsMessages={errorsMessages}
               errors={errors}
+              min={2}
+                        max={30}
               value={personalDetailsID.lastName}
               placeholder={examples.lastName}
               handleChange={handleChange}
@@ -191,6 +192,8 @@ export const PersonalInfoComponent = ({
               control={control}
               errorsMessages={errorsMessages}
               errors={errors}
+              min={2}
+                        max={30}
               value={personalDetailsID.placeBirth}
               placeholder={examples.placeBirth}
               handleChange={handleChange}
@@ -204,6 +207,8 @@ export const PersonalInfoComponent = ({
                 control={control}
                 errorsMessages={errorsMessages}
                 errors={errors}
+                min={13}
+                max={13}
                 value={personalDetailsID.socialNumber}
                 placeholder={examples.socialNumber}
                 handleChange={handleChange}
@@ -222,6 +227,8 @@ export const PersonalInfoComponent = ({
               control={control}
               errorsMessages={errorsMessages}
               errors={errors}
+              min={2}
+                        max={30}
               value={personalDetailsID.fatherName}
               placeholder={examples.fatherName}
               handleChange={handleChange}
@@ -234,6 +241,8 @@ export const PersonalInfoComponent = ({
               control={control}
               errorsMessages={errorsMessages}
               errors={errors}
+              min={2}
+                        max={30}
               value={personalDetailsID.motherName}
               placeholder={examples.motherName}
               handleChange={handleChange}
@@ -246,6 +255,8 @@ export const PersonalInfoComponent = ({
               control={control}
               errorsMessages={errorsMessages}
               errors={errors}
+              min={5}
+                        max={50}
               value={personalDetailsID.address}
               placeholder={examples.address}
               handleChange={handleChange}
@@ -258,6 +269,8 @@ export const PersonalInfoComponent = ({
               control={control}
               errorsMessages={errorsMessages}
               errors={errors}
+              min={2}
+                        max={30}
               value={personalDetailsID.city}
               placeholder={examples.city}
               handleChange={handleChange}
@@ -271,6 +284,8 @@ export const PersonalInfoComponent = ({
                 control={control}
                 errorsMessages={errorsMessages}
                 errors={errors}
+                min={5}
+                        max={50}
                 value={personalDetailsID.previousAddress}
                 placeholder={examples.previousAddress}
                 handleChange={handleChange}
@@ -284,17 +299,21 @@ export const PersonalInfoComponent = ({
               control={control}
               errorsMessages={errorsMessages}
               errors={errors}
+              min={2}
+              max={30}
               value={personalDetailsID.citizenship}
               placeholder={examples.citizenship}
               handleChange={handleChange}
             />
 
-            {necessaryDocuments.passport && !currentPath && (
+            {necessaryDocuments.passport && documentLanguage==='ал' && (
               <TextFieldComponent<FormData>
                 name="nationality"
                 label={labels.nationality}
                 pattern={patterns.namePattern}
                 control={control}
+                min={2}
+                max={30}
                 errorsMessages={errorsMessages}
                 errors={errors}
                 value={personalDetailsID.nationality}
@@ -343,8 +362,8 @@ export const PersonalInfoComponent = ({
                 )}
               />
             </fieldset>
-
-            <fieldset className="fieldsetGroups">
+            
+            {haveChild==='no' && (<fieldset className="fieldsetGroups">
               <FormLabel component="legend">{labels.marriage}</FormLabel>
               <Controller
                 rules={{ required: errorsMessages.required }}
@@ -379,7 +398,8 @@ export const PersonalInfoComponent = ({
                   <span className="errorMessage">{message}</span>
                 )}
               />
-            </fieldset>
+            </fieldset>)}
+            
 
             <fieldset className="fieldsetGroups">
               <FormLabel component="legend">{labels.contactBy.how}</FormLabel>
@@ -426,6 +446,8 @@ export const PersonalInfoComponent = ({
               control={control}
               errorsMessages={errorsMessages}
               errors={errors}
+              min={2}
+              max={30}
               value={personalDetailsID.marriedLastName}
               placeholder={examples.marriedLastName}
               handleChange={handleChange}
@@ -441,6 +463,8 @@ export const PersonalInfoComponent = ({
                 control={control}
                 errorsMessages={errorsMessages}
                 errors={errors}
+                min={9}
+                max={20}
                 value={personalDetailsID.phone}
                 placeholder={`${examples.phoneNumber} / +38971234567`}
                 handleChange={handleChange}
@@ -459,6 +483,8 @@ export const PersonalInfoComponent = ({
               control={control}
               errorsMessages={errorsMessages}
               errors={errors}
+              min={11}
+              max={30}
               value={personalDetailsID.email}
               placeholder={examples.email}
               handleChange={handleChange}
@@ -467,24 +493,8 @@ export const PersonalInfoComponent = ({
         </div>
       </div>
 
-      <div className="buttonsContainer">
-        <div>
-          <Button
-            variant="contained"
-            type="button"
-            onClick={handleBack}
-            sx={{
-              mt: 1,
-              mr: 1,
-              backgroundColor: "#1976D2",
-              borderRadius: "10px",
-              border: "none",
-              textShadow: "1px 1px 1px black",
-            }}
-          >
-            {labels.back}
-          </Button>
-        </div>
+      
+        
         <div>
           <Button
             variant="contained"
@@ -501,7 +511,7 @@ export const PersonalInfoComponent = ({
             {labels.next}
           </Button>
         </div>
-      </div>
+      
     </form>
   );
 };
