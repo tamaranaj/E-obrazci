@@ -13,8 +13,8 @@ import FormLabel from '@mui/material/FormLabel';
 import { ChildrenFormLabels } from "../HelperFunc/childrenForm";
 import { FormErrors } from "../HelperFunc/formErrors";
 import { FormRegexPatterns } from "../HelperFunc/formPatterns";
-import { TextFieldComponent } from "../HelperFunc/TextFieldComponent";
 import FormHelperText from "@mui/material/FormHelperText";
+import { TextFieldComponent } from "../SharedComponents/TextFieldComponent";
 interface ChildrenComponentProps {
   handleNext: () => void,
   formProps: ChildrenFormLabels,
@@ -26,11 +26,15 @@ export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patte
 
 
   const { haveChild, handleHaveChild, child, setParentToDefault,necessaryDocuments,updateSetChild, terms, addParent, removeParent, documentLanguage  } = useContext(GeneralContext)
+  
   const handleChange = (value:string) => {
     
    if(value ==='yes'){
       handleHaveChild(value)
-      handleAddParent()
+      setParentToDefault()
+      if(!fields.length){
+        append({ firstName: "", lastName: "", relation: "", socialNumber: "" })
+      }
       console.log(child)
     } else {
       
@@ -41,14 +45,16 @@ export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patte
     }
 
   };
-
+  
 
   const {
     handleSubmit,
     formState: { errors },
+   
     control,
   } = useForm<Children>({
     criteriaMode: "all",
+    defaultValues: child,
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -56,6 +62,7 @@ export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patte
     name: "parents",
   });
 
+  
   const handleAddParent = () => {
 
     append({ firstName: "", lastName: "", relation: "", socialNumber: "" });
@@ -120,9 +127,12 @@ export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patte
                         pattern={patterns.namePattern}
                         control={control}
                         errors={errors}
+                        min={2}
+                        max={30}
                         value={child.parents[index].firstName}
                         errorsMessages={errorsMessages}
                         handleChange={(e) => updateSetChild(index, "firstName", e.target.value)}
+                        
                       />
 
 
@@ -137,6 +147,8 @@ export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patte
                         errors={errors}
                         value={child.parents[index].relation}
                         errorsMessages={errorsMessages}
+                        min={2}
+                        max={30}
                         handleChange={(e) => updateSetChild(index, "relation", e.target.value)}
                       />
                       
@@ -151,6 +163,8 @@ export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patte
                         pattern={patterns.namePattern}
                         control={control}
                         errors={errors}
+                        min={2}
+                        max={30}
                         value={child.parents[index].lastName}
                         errorsMessages={errorsMessages}
                         handleChange={(e) => updateSetChild(index, "lastName", e.target.value)}
@@ -166,6 +180,8 @@ export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patte
                         pattern={patterns.socialNumber}
                         control={control}
                         errors={errors}
+                        min={13}
+                        max={13}
                         value={child.parents[index].socialNumber}
                         errorsMessages={errorsMessages}
                         handleChange={(e) => updateSetChild(index, "socialNumber", e.target.value)}
@@ -173,6 +189,7 @@ export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patte
                       <FormHelperText className="customHelperText">
                         {`${child.parents[index].socialNumber.length} / 13`}
                       </FormHelperText>
+                      
                     </div>
                   </div>
                   <div style={{display:"flex",alignItems:"center"}}>

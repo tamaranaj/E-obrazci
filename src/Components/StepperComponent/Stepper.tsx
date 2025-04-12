@@ -18,10 +18,9 @@ import { StepperComponentProps } from '../../Types/interfaces';
 import { PersonalInfoComponent } from '../PersonalInfoComponent/PersonalInfoComponent';
 import { useNavigate } from 'react-router-dom';
 
-
 export default function StepperComponent({ stepperLabels, formLabels, formErrorsMessages, formPlaceholders, patterns, childrenForm, termsInfo }: StepperComponentProps) {
 
-  const { necessaryDocuments, idCardDocument, passport, driverLicense, resetContext } = useContext(GeneralContext)
+  const { necessaryDocuments, idCardDocument, passport, driverLicense,visitedTabs,handleVisitedTabs, resetContext } = useContext(GeneralContext)
   const [activeStep, setActiveStep] = useState(0);
   const navigate = useNavigate()
   const handleBackHome=()=>{
@@ -29,15 +28,24 @@ export default function StepperComponent({ stepperLabels, formLabels, formErrors
   }
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    console.log(activeStep)
+    handleVisitedTabs(activeStep+1)
+    console.log('active step',activeStep)
   };
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+
   const handleReset = () => {
-    setActiveStep(0);
     resetContext()
+    setActiveStep(0);
+    
   };
+
+  const handleOpenClickedTab = (step:number)=>{
+    
+    let test = visitedTabs.includes(step)
+    if(test){
+      setActiveStep(step);
+    }
+    
+  }
 
   return (
     <div className='stepperContainer'>
@@ -46,7 +54,7 @@ export default function StepperComponent({ stepperLabels, formLabels, formErrors
         <Box >
           <Stepper activeStep={activeStep} orientation="vertical" >
             <Step >
-              <StepLabel >
+              <StepLabel style={{cursor: 'pointer'}} sx={activeStep===0?{bgcolor:'#6f9ecd'}: {bgcolor:'white'}}  onClick={()=>handleOpenClickedTab(0)}>
                 <span>{stepperLabels.thirdStep}</span>
               </StepLabel>
               <StepContent >
@@ -56,7 +64,7 @@ export default function StepperComponent({ stepperLabels, formLabels, formErrors
               </StepContent>
             </Step>
             <Step >
-              <StepLabel >
+              <StepLabel  style={{cursor: 'pointer'}} sx={activeStep===1?{bgcolor:'#6f9ecd'}: {bgcolor:'white'}} onClick={()=>handleOpenClickedTab(1)}>
                 <span>{stepperLabels.secondStep}</span>
               </StepLabel>
               <StepContent >
@@ -67,22 +75,13 @@ export default function StepperComponent({ stepperLabels, formLabels, formErrors
             </Step>
 
             <Step>
-              <StepLabel sx={{ color: 'inherit' }}>
+              <StepLabel  style={{cursor: 'pointer'}} sx={activeStep===2?{bgcolor:'#6f9ecd'}: {bgcolor:'white'}} onClick={()=>handleOpenClickedTab(2)}>
                 <span>{stepperLabels.sixthStep}</span>
               </StepLabel>
               <StepContent >
                 <Typography component={'div'} sx={{ width: '90%', display: 'flex', flexDirection: "column", alignItems: 'center' }}>
                   <TabContainer />
-                  <div className="row">
-                    <Button
-                      variant="contained"
-                      type='button'
-                      onClick={handleBack}
-                      sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
-                    >
-                      {formLabels.back}
-                    </Button>
-                  </div>
+                  
                   <Button
                     variant="contained"
                     type='button'
@@ -97,12 +96,12 @@ export default function StepperComponent({ stepperLabels, formLabels, formErrors
               </StepContent>
             </Step>
             <Step >
-              <StepLabel >
+              <StepLabel  style={{cursor: 'pointer'}} sx={activeStep===3?{bgcolor:'#6f9ecd'}: {bgcolor:'white'}} onClick={()=>handleOpenClickedTab(3)}>
                 <span>{stepperLabels.fourthStep}</span>
               </StepLabel>
               <StepContent >
                 <Typography component={'div'}>
-                  <PersonalInfoComponent labels={formLabels} patterns={patterns} examples={formPlaceholders} errorsMessages={formErrorsMessages} handleNext={handleNext} handleBack={handleBack} />
+                  <PersonalInfoComponent labels={formLabels} patterns={patterns} examples={formPlaceholders} errorsMessages={formErrorsMessages} handleNext={handleNext}  />
 
                 </Typography>
               </StepContent>
@@ -112,7 +111,7 @@ export default function StepperComponent({ stepperLabels, formLabels, formErrors
 
           </Stepper>
           {activeStep == 4 &&
-            <Paper square elevation={0} sx={{ p: 3, backgroundColor: 'transparent' }} className='paper'>
+            <Paper square elevation={0} sx={{ p: 3, backgroundColor: 'transparent' }} className='paper' onClick={()=>handleOpenClickedTab(4)}>
               <Typography component={'section'}>
                 <div>
                   <p>{stepperLabels.fifthStep}</p>

@@ -26,6 +26,7 @@ interface ContextDefault {
     contact: string | null;
     phone: boolean;
     email: boolean;
+    visitedTabs: number[],
     setParentToDefault: () => void;
     updatePersonalDetailsID(formResults: PersonalDetailsID): void;
     updateIDCardDocument: (
@@ -52,6 +53,8 @@ interface ContextDefault {
     removeParent: (index: number) => void;
     handleSetMarried: (value: null | string) => void;
     handleSetContact: (value: string) => void;
+    handleVisitedTabs: (tabIndex: number) => void
+
 }
 const contextDefaultValues: ContextDefault = {
     personalDetailsID: {
@@ -102,6 +105,7 @@ const contextDefaultValues: ContextDefault = {
     },
     terms: true,
     tabs: [],
+    visitedTabs:[0],
     haveChild: 'no',
     married: null,
     contact: null,
@@ -124,7 +128,8 @@ const contextDefaultValues: ContextDefault = {
     handleDate: () => { },
     handleSetMarried: () => { },
     handleSetContact: () => { },
-    setParentToDefault:()=>{}
+    setParentToDefault:()=>{},
+    handleVisitedTabs: ()=>{}
 };
 export const GeneralContext = createContext(contextDefaultValues);
 
@@ -139,6 +144,7 @@ export const GeneralContextProvider = ({
         contextDefaultValues.personalDetailsID
     );
     const [language, setLanguage] = useState(contextDefaultValues.language);
+    const[visitedTabs,setVisitedTabs] = useState(contextDefaultValues.visitedTabs)
     const [documentLanguage, setDocumentLanguage] = useState(
         contextDefaultValues.documentLanguage
     );
@@ -160,6 +166,13 @@ export const GeneralContextProvider = ({
     const [contact, setContact] = useState(contextDefaultValues.contact);
     const [email, setEmail] = useState(contextDefaultValues.email);
     const [phone, setPhone] = useState(contextDefaultValues.phone);
+
+    const handleVisitedTabs = (tabIndex:number)=>{
+        const check = visitedTabs.includes(tabIndex)
+        if(!check){
+            setVisitedTabs(prev=>[...prev,tabIndex])
+        }
+    }
 
     const handleSetMarried = (value: null | string) => {
         console.log("married", value, typeof value);
@@ -308,6 +321,7 @@ export const GeneralContextProvider = ({
         setContact(contextDefaultValues.contact);
         setEmail(contextDefaultValues.email);
         setPhone(contextDefaultValues.phone);
+        setVisitedTabs(contextDefaultValues.visitedTabs)
     };
 
     return (
@@ -328,6 +342,8 @@ export const GeneralContextProvider = ({
                 email,
                 phone,
                 contact,
+                visitedTabs,
+                handleVisitedTabs,
                 setParentToDefault,
                 addParent,
                 removeParent,
