@@ -8,12 +8,14 @@ import Checkbox from '@mui/material/Checkbox';
 import { GeneralContext } from '../../context/general.context';
 import { useContext } from 'react';
 import Button from '@mui/material/Button';
+import { CheckboxProps } from '../HelperFunc/checkboxProps';
 export interface CheckboxComponentProps{
   handleNext: ()=>void,
+  checkboxProps: CheckboxProps
   
 }
-export const CheckboxComponent = ({handleNext}: CheckboxComponentProps )=> {
-  const{language, necessaryDocuments,addNecessaryDocs} = useContext(GeneralContext)
+export const CheckboxComponent = ({handleNext,checkboxProps}: CheckboxComponentProps )=> {
+  const{necessaryDocuments,addNecessaryDocs} = useContext(GeneralContext)
   const { idCard, passport, driverLicense } = necessaryDocuments;
   const error = ![idCard, passport, driverLicense].some((v) =>v)
   console.log(error)
@@ -22,28 +24,28 @@ export const CheckboxComponent = ({handleNext}: CheckboxComponentProps )=> {
     <Box sx={{ display: 'flex', flexDirection: 'column'}}>
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard" required
         error={error}>
-        <FormLabel component="legend">{language == 'mkd'? 'Одберете документи кои ви се потребни': 'Zgjidhni dokumentet që ju nevojiten'}</FormLabel>
+        <FormLabel component="legend">{checkboxProps.label}</FormLabel>
         <FormGroup>
           <FormControlLabel
             control={
               <Checkbox checked={idCard} onChange={addNecessaryDocs} name="idCard" />
             }
-            label={language == 'mkd' ? 'Лична карта' : 'Karta e identitetit'}
+            label={checkboxProps.idCard}
           />
           <FormControlLabel
             control={
               <Checkbox checked={passport} onChange={addNecessaryDocs} name="passport" />
             }
-            label={language == 'mkd' ? 'Патна исправа' : 'Pasaporta'}
+            label={checkboxProps.passport}
           />
           <FormControlLabel
             control={
               <Checkbox checked={driverLicense} onChange={addNecessaryDocs} name="driverLicense" />
             }
-            label={language == 'mkd' ? 'Возачка дозвола' : 'Patentë shoferi'}
+            label={checkboxProps.driverLicense}
           />
         </FormGroup>
-        <FormHelperText>{error && (language == 'mkd'?'За да продолжите морате да одберете најмалку 1 документ' : 'Për të vazhduar, duhet të zgjidhni të paktën 1 dokument')}</FormHelperText>
+        <FormHelperText>{error && checkboxProps.error}</FormHelperText>
       </FormControl>
 
         <div>
@@ -54,7 +56,7 @@ export const CheckboxComponent = ({handleNext}: CheckboxComponentProps )=> {
           onClick={handleNext}
           sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black'}}
         >
-          {language == 'mkd' ? 'Понатаму': 'Më tej'}
+          {checkboxProps.next}
         </Button>
         </div>
 

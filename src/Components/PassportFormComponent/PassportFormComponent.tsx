@@ -4,9 +4,17 @@ import { BilingualNameComponent } from "../SharedComponents/BilingualNameCompone
 import { FormDocLanguageComponent } from "../SharedComponents/FormDocLanguageComponents ";
 import { ProcedureComponent } from "../SharedComponents/ProcedureComponent";
 import { FormControl, RadioGroup, FormControlLabel, Radio, Button } from "@mui/material";
-import { TabsComponentChildrenProps } from "../TabsComponent/TabContainer";
+import { DocumentProps, LanguageForm } from "../HelperFunc/tabContainerProps";
 
-export const PassportForm = ({tabsProps}: TabsComponentChildrenProps) => {
+interface PassportFormProps{
+  tabsProps: (newValue: string) => void
+   passportConfig: DocumentProps,
+    languageFormProps: LanguageForm,
+    errorRequired:string,
+    notRequired:string
+}
+
+export const PassportForm = ({tabsProps,passportConfig,errorRequired,notRequired,languageFormProps}: PassportFormProps) => {
 
    const { updatePassportDocument, language, passport,documentLanguage, tabs } = useContext(GeneralContext);
  const index = tabs.indexOf('passport')
@@ -28,7 +36,7 @@ export const PassportForm = ({tabsProps}: TabsComponentChildrenProps) => {
         <div className="grid">
 
         <fieldset className="reasons"  >
-        <legend>{language == 'mkd' ? 'Причина за барање:' : 'Arsyeja e kërkesës:'}</legend>
+        <legend>{passportConfig.label}</legend>
         <FormControl>
           
           <RadioGroup
@@ -37,33 +45,28 @@ export const PassportForm = ({tabsProps}: TabsComponentChildrenProps) => {
             value={passport.reason}
             onChange={(event)=>checkRadio(event)}
             >
-            <FormControlLabel value="1" control={<Radio/>} label={language=='mkd'? 'Прв пат': 'Herën e parë'}  />
+              {passportConfig.reasons.map((item,index)=>(
+                  <FormControlLabel value={index+1} key={`passport${index}`} control={<Radio/>} label={item}  />
 
-            <FormControlLabel value="2" control={<Radio/>} label= {language=='mkd'? 'Редовна замена': 'Zëvendësimi i rregullt'} />
-
-            <FormControlLabel value="3" control={<Radio/>} label={language=='mkd'? 'Промена на лични податоци': 'Ndryshimi i të dhënave personale'}  />
-
-            <FormControlLabel value="4" control={<Radio/>} label= {language=='mkd'? 'Замена поради други причини (исполнетост или друго)': 'Zëvendësimi për arsye të tjera (përmbushje ose ndryshe)'} />
-            <FormControlLabel value="5" control={<Radio/>} label= {language=='mkd'? 'Дупликат пасош (изгубен,исчезнат или украден)': 'Pasaportë e kopjuar (e humbur, e humbur ose e vjedhur)'} />
-
-            <FormControlLabel value="6" control={<Radio/>} label= {language=='mkd'? 'Предвремена замена заради оштетеност на пасошот': 'Zëvendësimi i parakohshëm për shkak të dëmtimit të pasaportës'} />
-
-            <FormControlLabel value="7" control={<Radio/>} label= {language=='mkd'? 'Издавање на пасош со ограничен рок на важење': 'Lëshimi i një pasaporte me një periudhë të kufizuar vlefshmërie'} />
+              ))}
+            
           </RadioGroup>
         </FormControl>
-          {passport.reason ==='' && <span className="errorMessage">{language == 'mkd'? 'Ова поле е задолжително.':"Kjo fushë është e nevojshme."}</span>}
+
+          {passport.reason ==='' && <span className="errorMessage">{errorRequired}</span>}
       </fieldset>
 
          <fieldset className="reasons">
-         <ProcedureComponent handleChange={updatePassportDocument} state={passport.procedure}/>
-         {passport.procedure ==='' && <span className="errorMessage">{language == 'mkd'? 'Ова поле е задолжително.':"Kjo fushë është e nevojshme."}</span>}
+         <ProcedureComponent procedureConfig={passportConfig.procedure} handleChange={updatePassportDocument} state={passport.procedure}/>
+         {passport.procedure ==='' && <span className="errorMessage">{errorRequired}</span>}
          </fieldset>
           
-          {documentLanguage==='macedonian' && (<FormDocLanguageComponent handleChange={updatePassportDocument} state={passport.cardLanguage}/>)}
-          {documentLanguage==='macedonian' && (<BilingualNameComponent handleChange={updatePassportDocument} state={passport.nameLanguage}/>)}     
+          {documentLanguage==='мк' && (<FormDocLanguageComponent notRequired={notRequired} label={languageFormProps.formDocLabel} handleChange={updatePassportDocument} state={passport.cardLanguage}/>)}
+
+          {documentLanguage==='мк' && (<BilingualNameComponent notRequired={notRequired} label={languageFormProps.bilingualNameLabel} handleChange={updatePassportDocument} state={passport.nameLanguage}/>)}     
           
-          {documentLanguage==='macedonian' && (<fieldset className="reasons">
-            <legend>Барам податоците во образецот да бидат испишани на еден од наведените јазици и писмо:</legend>
+          {documentLanguage==='мк' && (<fieldset className="reasons">
+            <legend>{passportConfig?.formLanguage}</legend>
             
             
             <select id="named-select" name="formLanguage" onChange={updatePassportDocument} className="select" value={passport.formLanguage}>
@@ -75,7 +78,7 @@ export const PassportForm = ({tabsProps}: TabsComponentChildrenProps) => {
               <option value={"босански"}>Босански</option>
             </select>
 
-            <span className="description">Ова поле не е задолжително.</span>
+            <span className="description">{notRequired}</span>
             </fieldset>)
           }     
 

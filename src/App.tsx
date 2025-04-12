@@ -10,6 +10,8 @@ import { stepperLabelsAlb, stepperLabelsMkd } from './Components/HelperFunc/step
 import { albPatterns, mkdPattern } from './Components/HelperFunc/formPatterns'
 import { childrenFormLabelsAlb, childrenFormLabelsMKD } from './Components/HelperFunc/childrenForm'
 import { termsAlb, termsMkd } from './Components/HelperFunc/terms'
+import { checkboxPropsAlb, checkboxPropsMkd } from './Components/HelperFunc/checkboxProps'
+import { tabsConfigAlb, tabsConfigMkd } from './Components/HelperFunc/tabContainerProps'
 
 function App() {
   
@@ -19,8 +21,8 @@ function App() {
     <Routes>
       <Route path='/' element={<Home/>}/>
 
-      <Route path="/е-образци/мк" element={<StepperComponent termsInfo={termsMkd} formLabels={mkdLabels} formErrorsMessages={formErrorsMkd} formPlaceholders={mkdPlaceholders} stepperLabels={stepperLabelsMkd} patterns={mkdPattern} childrenForm={childrenFormLabelsMKD}/>}/>
-      <Route path='/е-образци/ал' element={<StepperComponent formLabels={albLabels} termsInfo={termsAlb} formErrorsMessages={formErrorsAlb} formPlaceholders={albPlaceholders} stepperLabels={stepperLabelsAlb} patterns={albPatterns} childrenForm={childrenFormLabelsAlb}/>}/>
+      <Route path="/е-образци/мк" element={<StepperComponent tabsConfig={tabsConfigMkd}  checkboxProps={checkboxPropsMkd} termsInfo={termsMkd} formLabels={mkdLabels} formErrorsMessages={formErrorsMkd} formPlaceholders={mkdPlaceholders} stepperLabels={stepperLabelsMkd} patterns={mkdPattern} childrenForm={childrenFormLabelsMKD}/>}/>
+      <Route path='/е-образци/ал' element={<StepperComponent  tabsConfig={tabsConfigAlb}  checkboxProps={checkboxPropsAlb} formLabels={albLabels} termsInfo={termsAlb} formErrorsMessages={formErrorsAlb} formPlaceholders={albPlaceholders} stepperLabels={stepperLabelsAlb} patterns={albPatterns} childrenForm={childrenFormLabelsAlb}/>}/>
 
       <Route path="*" element={<p>Page not found</p>} />
     </Routes>

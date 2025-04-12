@@ -18,9 +18,9 @@ import { StepperComponentProps } from '../../Types/interfaces';
 import { PersonalInfoComponent } from '../PersonalInfoComponent/PersonalInfoComponent';
 import { useNavigate } from 'react-router-dom';
 
-export default function StepperComponent({ stepperLabels, formLabels, formErrorsMessages, formPlaceholders, patterns, childrenForm, termsInfo }: StepperComponentProps) {
+export default function StepperComponent({ stepperLabels, formLabels, formErrorsMessages, formPlaceholders, patterns, childrenForm, termsInfo, checkboxProps, tabsConfig }: StepperComponentProps) {
 
-  const { necessaryDocuments, idCardDocument, passport, driverLicense,visitedTabs,handleVisitedTabs, resetContext } = useContext(GeneralContext)
+  const { necessaryDocuments, idCardDocument, passport, terms,driverLicense,visitedTabs,handleVisitedTabs, resetContext } = useContext(GeneralContext)
   const [activeStep, setActiveStep] = useState(0);
   const navigate = useNavigate()
   const handleBackHome=()=>{
@@ -39,8 +39,10 @@ export default function StepperComponent({ stepperLabels, formLabels, formErrors
   };
 
   const handleOpenClickedTab = (step:number)=>{
-    
+    if(!terms)return
+    if(Object.values(necessaryDocuments).every(i=> i===false))return
     let test = visitedTabs.includes(step)
+    
     if(test){
       setActiveStep(step);
     }
@@ -59,7 +61,7 @@ export default function StepperComponent({ stepperLabels, formLabels, formErrors
               </StepLabel>
               <StepContent >
                 <Typography component={'div'}>
-                  <CheckboxComponent handleNext={handleNext} />
+                  <CheckboxComponent handleNext={handleNext} checkboxProps={checkboxProps} />
                 </Typography>
               </StepContent>
             </Step>
@@ -80,7 +82,7 @@ export default function StepperComponent({ stepperLabels, formLabels, formErrors
               </StepLabel>
               <StepContent >
                 <Typography component={'div'} sx={{ width: '90%', display: 'flex', flexDirection: "column", alignItems: 'center' }}>
-                  <TabContainer />
+                  <TabContainer tabsConfig={tabsConfig} />
                   
                   <Button
                     variant="contained"

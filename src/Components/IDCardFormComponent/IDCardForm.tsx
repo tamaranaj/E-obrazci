@@ -5,10 +5,18 @@ import { ProcedureComponent } from "../SharedComponents/ProcedureComponent";
 import { BilingualNameComponent } from "../SharedComponents/BilingualNameComponent";
 import { FormDocLanguageComponent } from "../SharedComponents/FormDocLanguageComponents ";
 import { Button, FormControl, FormControlLabel, Radio, RadioGroup } from "@mui/material";
-import { TabsComponentChildrenProps } from "../TabsComponent/TabContainer";
 
+import { DocumentProps, LanguageForm } from "../HelperFunc/tabContainerProps";
 
-export const IDCardForm = ({tabsProps}: TabsComponentChildrenProps) => {
+interface IdCardFormProps{
+  tabsProps: (newValue: string) => void
+  idConfig: DocumentProps,
+  languageFormProps: LanguageForm,
+  errorRequired:string,
+  notRequired:string
+}
+
+export const IDCardForm = ({tabsProps, idConfig,languageFormProps,errorRequired,notRequired}: IdCardFormProps) => {
 
   const { updateIDCardDocument,language, idCardDocument,documentLanguage,tabs} = useContext(GeneralContext);
      const checkRadio = (event: React.ChangeEvent<HTMLInputElement> )=>{
@@ -28,7 +36,7 @@ export const IDCardForm = ({tabsProps}: TabsComponentChildrenProps) => {
 
           <div className="grid">
           <fieldset className="reasons"  >
-          <legend>{language=='mkd'? 'Причина за барање:':'Arsyeja e kërkesës:'}</legend>
+          <legend>{idConfig.label}</legend>
         <FormControl>
           
           <RadioGroup
@@ -37,30 +45,25 @@ export const IDCardForm = ({tabsProps}: TabsComponentChildrenProps) => {
             value={idCardDocument.reason}
             onChange={(event)=>checkRadio(event)}
             >
-            <FormControlLabel value="1" control={<Radio/>} label={language=='mkd'? 'Прв пат': 'Herën e parë'}  />
-
-            <FormControlLabel value="2" control={<Radio />} label= {language=='mkd'? 'Редовна замена': 'Zëvendësimi i rregullt'} />
-
-            <FormControlLabel value="3" control={<Radio />} label= {language=='mkd'? 'Промена на податоци (лични податоци, адреса и живеалиште)': 'Ndryshimi i të dhënave (të dhënat personale, adresa dhe vendbanimi)'} />
-
-            <FormControlLabel value="4" control={<Radio />} label= {language=='mkd'? 'Дупликат лична карта (изгубена или украдена)': 'ID dublikatë (e humbur ose e vjedhur)'}  />
-
-            <FormControlLabel value="5" control={<Radio/>} label= {language=='mkd'? 'Предвремена замена заради оштетеност на личната карта': 'Ndërrimi i parakohshëm për shkak të dëmtimit të kartës së identitetit'} />
+              {idConfig.reasons.map((reason, index)=>(
+                <FormControlLabel value={index+1} key={`reason${index}`} control={<Radio/>} label={reason}  />
+              ))}
+          
           </RadioGroup>
         </FormControl>
 
-        {idCardDocument.reason === '' && <span className='errorMessage'>{language == 'mkd'? 'Ова поле е задолжително.':"Kjo fushë është e nevojshme."}</span>}
+        {idCardDocument.reason === '' && <span className='errorMessage'>{errorRequired}</span>}
       </fieldset>            
           
           <fieldset className="reasons">
             
-          <ProcedureComponent handleChange={updateIDCardDocument} state={idCardDocument.procedure}/>
-          {idCardDocument.procedure === '' && <span className="errorMessage">{language == 'mkd'? 'Ова поле е задолжително.':"Kjo fushë është e nevojshme."}</span>}
+          <ProcedureComponent handleChange={updateIDCardDocument} procedureConfig={idConfig.procedure} state={idCardDocument.procedure}/>
+          {idCardDocument.procedure === '' && <span className="errorMessage">{errorRequired}</span>}
           </fieldset>
           
-          {documentLanguage==='macedonian' && (<FormDocLanguageComponent handleChange={updateIDCardDocument} state={idCardDocument.cardLanguage}/>)}
+          {documentLanguage==='мк' && (<FormDocLanguageComponent label={languageFormProps.formDocLabel} notRequired={notRequired} handleChange={updateIDCardDocument} state={idCardDocument.cardLanguage}/>)}
 
-          {documentLanguage==='macedonian' && (<BilingualNameComponent handleChange={updateIDCardDocument} state={idCardDocument.nameLanguage}/>  )}
+          {documentLanguage==='мк' && (<BilingualNameComponent notRequired={notRequired} label={languageFormProps.bilingualNameLabel} handleChange={updateIDCardDocument} state={idCardDocument.nameLanguage}/>  )}
             
                   
           
