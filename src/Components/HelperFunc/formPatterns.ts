@@ -10,7 +10,7 @@ export const mkdPattern: FormRegexPatterns={
 export const albPatterns: FormRegexPatterns={
     namePattern: new RegExp(/[a-zA-Z]{2,50}/g),
     addressPattern: new RegExp(/^[A-Za-z][A-Za-z0-9\s,.'-/]{5,50}$/),
-    socialNumber: new RegExp(/^[0-9]{13}$/),
+    socialNumber: new RegExp(/^[0-9]*$/),
     email: new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/),
     phone: new RegExp(/^\+?[0-9\s\-/]{9,20}$/)
 }

@@ -12,6 +12,24 @@
     align-items: center;
 }
 
+.relative{
+    position:relative;
+    width: 100%;
+}
+
+.absolute{
+    width: 50px;
+    position: absolute;
+    left: center;
+}
+/* .step{
+  background-color: #6f9ecd;
+  padding: 30px;
+  color: white;
+  border: 5%;
+  /* background-color: #1a5231; */
+
+
 @media only screen and (max-width:1000px) {
     .stepper{
         width:70%;
