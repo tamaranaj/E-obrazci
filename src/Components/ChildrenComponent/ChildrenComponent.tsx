@@ -95,7 +95,9 @@ export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patte
     <div className="childrenContainer">
       <form onSubmit={handleSubmit(submitForm)} className="childrenForm">
 
-        {!necessaryDocuments.driverLicense && (<FormControl>
+        {!necessaryDocuments.driverLicense && (
+          
+          <FormControl>
           <FormLabel id="demo-controlled-radio-buttons-group">{formProps.childApplication}</FormLabel>
           <RadioGroup
             aria-labelledby="demo-controlled-radio-buttons-group"
@@ -111,7 +113,7 @@ export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patte
 
           </RadioGroup>
         </FormControl>)}
-
+        
         {haveChild ==='yes' && (
           <section className="dynamicSection">
             {documentLanguage === 'мк' && (<p className="error">Пополнете ја формата користејќи кирилично писмо</p>)}
@@ -192,7 +194,7 @@ export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patte
                       
                     </div>
                   </div>
-                  <div style={{display:"flex",alignItems:"center"}}>
+                  <div className="removeBtnCont">
                     <Button
                       variant="contained"
                       sx={{

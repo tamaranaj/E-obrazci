@@ -27,6 +27,10 @@
     gap: 5px
     
 }
+
+.formRadioLabel{
+    text-align: start;
+}
 .row-flex-start{
     display: flex;
     align-items: flex-start;

@@ -3,9 +3,11 @@ import { addNotoSerifFont } from "../../addNotoSerifFont";
 import { addArimoFontBold } from "../../addArimoFontBold";
 import { PersonalDetailsID, DriverLicense } from "../../Types/interfaces";
 
+
 export const generateDriverLicenseALB = (driverLic: DriverLicense, personalInfo: PersonalDetailsID)=>{
 
 const doc = new jsPDF()
+    
     addNotoSerifFont(doc)
     addArimoFontBold(doc);
     doc.setFont("NotoSerif", "normal");
@@ -63,7 +65,7 @@ const doc = new jsPDF()
     doc.text(personalInfo.firstName, 35,155)
     doc.text(personalInfo.lastName, 110,155)
     doc.text(personalInfo.socialNumber, 80,165)
-    doc.text(personalInfo.birth, 35,181)
+    doc.text(personalInfo.birth ? personalInfo.birth.format("DD/MM/YYYY"): '', 35,181)
     doc.text(personalInfo.placeBirth, 115,181)
     doc.text(personalInfo.address, 115,197)
     if(driverLic.procedure==='редовна'){

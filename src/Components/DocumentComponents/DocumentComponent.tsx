@@ -7,31 +7,34 @@ import { generateDriverLicenseDocumentMKD } from './DriverLicenseDocumentMKD';
 import { generateIDCardALB } from './IdCardDocumentALB';
 import { generatePassportDocumentALB } from './PassportDocumentALB';
 import { generateDriverLicenseALB } from './DriverLicenseDocumentALB';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+type DocumentComponentProps = {
+  savePdf:string
+}
 
-
-export const DocumentComponent = () => {
-  const{personalDetailsID,idCardDocument,child,passport,driverLicense, necessaryDocuments,documentLanguage,language} = useContext(GeneralContext)
+export const DocumentComponent = ({savePdf}: DocumentComponentProps) => {
+  const{personalDetailsID,idCardDocument,child,passport,driverLicense, necessaryDocuments,documentLanguage} = useContext(GeneralContext)
   const handleCreateDocuments = ()=>{
-    if(necessaryDocuments.idCard===true && documentLanguage==='macedonian'){
+    if(necessaryDocuments.idCard===true && documentLanguage==='мк'){
       generateIdCardDocumentMKD(idCardDocument,personalDetailsID,child)
-    }else if(necessaryDocuments.idCard===true && documentLanguage==='albanian'){
+    }else if(necessaryDocuments.idCard===true && documentLanguage==='ал'){
       generateIDCardALB(idCardDocument, personalDetailsID,child)
     }
-    if(necessaryDocuments.passport===true && documentLanguage==='macedonian'){
+    if(necessaryDocuments.passport===true && documentLanguage==='мк'){
       generatePassportDocumentMKD(personalDetailsID,passport,child)
-    }else if(necessaryDocuments.passport===true && documentLanguage==='albanian'){
+    }else if(necessaryDocuments.passport===true && documentLanguage==='ал'){
       generatePassportDocumentALB(personalDetailsID, passport,child)
     }
-    if(necessaryDocuments.driverLicense===true && documentLanguage==='macedonian'){
+    if(necessaryDocuments.driverLicense===true && documentLanguage==='мк'){
       generateDriverLicenseDocumentMKD(personalDetailsID,driverLicense)
-    }else if(necessaryDocuments.driverLicense===true && documentLanguage==='albanian'){
+    }else if(necessaryDocuments.driverLicense===true && documentLanguage==='ал'){
       generateDriverLicenseALB(driverLicense, personalDetailsID)
     }
   }
   
   return(
-    <Button onClick={handleCreateDocuments} sx={{ mt: 1, mr: 1 }}>
-      {language =='mkd'? 'Сними го барањето': 'Regjistroni kërkesën'}
+    <Button variant='contained' onClick={handleCreateDocuments} sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}><FileDownloadIcon/>
+      {savePdf}
     
     </Button>
    

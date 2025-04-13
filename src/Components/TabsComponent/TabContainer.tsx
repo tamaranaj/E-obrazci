@@ -9,25 +9,29 @@ import { IDCardForm } from "../IDCardFormComponent/IDCardForm";
 import { PassportForm } from "../PassportFormComponent/PassportFormComponent";
 import { DriverLicenseForm } from "../DriverLicenseFormComponent/DriverLicenseForm";
 import './TabContainer.css'
+import { TabsConfig } from "../HelperFunc/tabContainerProps";
 
 export interface TabsComponentChildrenProps{
     tabsProps: (newValue: string) => void
 }
+export interface TabContainerProps{
+  tabsConfig: TabsConfig
+  next:string
+}
 
-export const TabContainer = () => {
-    const{tabs, language} = useContext(GeneralContext)
+export const TabContainer = ({tabsConfig , next}: TabContainerProps) => {
+    const{tabs} = useContext(GeneralContext)
     const [value, setValue] = useState('1');
    
     const tabsProps = (newValue:string)=>{
         setValue(newValue);
     }
     const addTabLabel = (item: string)=>{
-        if(item==='idCard' && language === 'mkd')return 'Лична карта'
-        if(item==='idCard' && language === 'alb')return 'Лична карта'
-        if(item==='passport' && language === 'mkd')return 'Патна исправа'
-        if(item==='passport' && language === 'alb')return 'Dokument rrugor'
-        if(item==='driverLicense' && language === 'mkd')return 'Возачка дозвола'
-        if(item==='driverLicense' && language === 'alb')return 'Patentë shoferi'
+        if(item==='idCard')return tabsConfig.idCard
+        
+        if(item==='passport')return tabsConfig.passport
+       
+        if(item==='driverLicense' )return tabsConfig.driverLicense
     }
   return (
     <Box sx={{ typography: 'section' }} className="tabCont">
@@ -37,7 +41,7 @@ export const TabContainer = () => {
             {tabs.map((item,index)=> <Tab label={addTabLabel(item)} wrapped value={`${index +1}`} key={item}/>)}
           </TabList>
         </Box>
-        {tabs.map((item,index)=> <TabPanel value={`${index+1}`} key={index}>{item==='idCard'? <IDCardForm tabsProps={tabsProps}/> : item==='passport' ? <PassportForm tabsProps={tabsProps}/> : <DriverLicenseForm tabsProps={tabsProps}/>}</TabPanel>)}
+        {tabs.map((item,index)=> <TabPanel value={`${index+1}`} key={index}>{item==='idCard'? <IDCardForm next={next} tabsProps={tabsProps} notRequired={tabsConfig.notRequired} errorRequired={tabsConfig.errorRequired} idConfig={tabsConfig.idCardProps} languageFormProps={tabsConfig.languageFormProps}/> : item==='passport' ? <PassportForm next={next} passportConfig={tabsConfig.passportProps} languageFormProps={tabsConfig.languageFormProps} errorRequired={tabsConfig.errorRequired} notRequired={tabsConfig.notRequired} tabsProps={tabsProps}/> : <DriverLicenseForm next={next} dLicenseConfig={tabsConfig.driverLicenseProps} languageFormProps={tabsConfig.languageFormProps} errorRequired={tabsConfig.errorRequired} notRequired={tabsConfig.notRequired} tabsProps={tabsProps}/>}</TabPanel>)}
       </TabContext>
     </Box>
   );
