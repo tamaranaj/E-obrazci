@@ -1,199 +1,372 @@
 import { createContext, ReactNode, useState } from "react";
-import { IDCardDocument, NecessaryDocuments, PersonalDetailsID,Passport, DriverLicense, Children } from "../Types/interfaces";
-
+import {
+    IDCardDocument,
+    NecessaryDocuments,
+    PersonalDetailsID,
+    Passport,
+    DriverLicense,
+    Children,
+    Parents,
+} from "../Types/interfaces";
+import { Dayjs } from "dayjs";
 
 interface ContextDefault {
-    personalDetailsID: PersonalDetailsID
-    idCardDocument: IDCardDocument
-    language: string,
-    necessaryDocuments: NecessaryDocuments,
-    passport: Passport,
-    driverLicense: DriverLicense,
-    child: Children,
-    terms: boolean,
-    updatePersonalDetailsID(formResults: PersonalDetailsID): void,
-    updateIDCardDocument:(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
-    updatePassportDocument:(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
-    changeLanguage: () => void,
-    addNecessaryDocs: (event: React.ChangeEvent<HTMLInputElement>) => void,
-    updateDriverLicense: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
-    documentLanguage: string,
-    updateDocumentLanguage: (value:string) => void,
-    updateSetChild: (formValues: Children) => void,
-    updateSetTerms: (value: boolean) => void,
-    tabs: string[],
-    resetContext: () => void, 
-    haveChild: boolean,
-    handleHaveChild: (value: boolean) => void
+    personalDetailsID: PersonalDetailsID;
+    idCardDocument: IDCardDocument;
+    language: string;
+    necessaryDocuments: NecessaryDocuments;
+    passport: Passport;
+    driverLicense: DriverLicense;
+    child: Children;
+    terms: boolean;
+    documentLanguage: string|null;
+    tabs: string[];
+    haveChild: string;
+    married: null | string;
+    contact: string | null;
+    phone: boolean;
+    email: boolean;
+    visitedTabs: number[],
+    setParentToDefault: () => void;
+    updatePersonalDetailsID(formResults: PersonalDetailsID): void;
+    updateIDCardDocument: (
+        event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => void;
+    updatePassportDocument: (
+        event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => void;
+    changeLanguage: () => void;
+    addNecessaryDocs: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    updateDriverLicense: (
+        event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => void;
+    updateDocumentLanguage: (value: string) => void;
+    updateSetChild: (index: number, field: keyof Parents, value: string) => void;
+    updateSetTerms: (value: boolean) => void;
+    resetContext: () => void;
+    handleHaveChild: (value: string) => void;
+    personalInfo: (
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => void;
+    handleDate: (value: Dayjs | null) => void;
+    addParent: () => void;
+    removeParent: (index: number) => void;
+    handleSetMarried: (value: null | string) => void;
+    handleSetContact: (value: string) => void;
+    handleVisitedTabs: (tabIndex: number) => void
 
 }
 const contextDefaultValues: ContextDefault = {
     personalDetailsID: {
-        firstName:  '',
-        lastName: '',
-        marriedLastName:'',
-        fatherName: '',
-        motherName: '',
-        birth: '',
-        placeBirth: '',
-        socialNumber: '',
-        gender: '',
-        address: '',
-        phone: '',  
-        citizenship: '',
-        previousAddress: '',
-        city: '',
-        email:'',
-        nationality:''
+        firstName: "",
+        lastName: "",
+        marriedLastName: "",
+        fatherName: "",
+        motherName: "",
+        birth: null,
+        placeBirth: "",
+        socialNumber: "",
+        gender: null,
+        address: "",
+        phone: "",
+        citizenship: "",
+        previousAddress: "",
+        city: "",
+        email: "",
+        nationality: "",
     },
-    idCardDocument:{
-        reason:  '',
-        cardLanguage: '',
-        nameLanguage: '',
-        procedure: ''
+    idCardDocument: {
+        reason: "",
+        cardLanguage: "",
+        nameLanguage: "",
+        procedure: "",
     },
-    language:'mkd',
+    language: "mkd",
     necessaryDocuments: {
         idCard: false,
-        passport : false,
-        driverLicense: false
+        passport: false,
+        driverLicense: false,
     },
     passport: {
-        reason:  '',
-        cardLanguage: '',
-        nameLanguage: '',
-        formLanguage: '',
-        procedure: ''
+        reason: "",
+        cardLanguage: "",
+        nameLanguage: "",
+        formLanguage: "",
+        procedure: "",
     },
     driverLicense: {
-        reason: '',
-        nameLanguage: '',
-        procedure: ''
+        reason: "",
+        nameLanguage: "",
+        procedure: "",
     },
-    documentLanguage:'',
+    documentLanguage: null,
     child: {
-        parents:[]
+        parents: [{ firstName: "", lastName: "", relation: "", socialNumber: "" }],
     },
-    terms:true,
-    tabs:[],
-    haveChild: false,
-    updatePersonalDetailsID: ()=>{},
-    updateIDCardDocument: ()=>{},
-    updatePassportDocument: ()=>{},
-    addNecessaryDocs: () => {},
-    changeLanguage: ()=>{},
-    updateDriverLicense: ()=>{},
-    updateDocumentLanguage: ()=>{},
-    resetContext: () => {},
-    updateSetChild: ()=>{},
-    updateSetTerms: ()=>{},
-    handleHaveChild: () => {}
-    
+    terms: true,
+    tabs: [],
+    visitedTabs:[0],
+    haveChild: 'no',
+    married: null,
+    contact: null,
+    phone: false,
+    email: false,
+    addParent: () => { },
+    removeParent: () => { },
+    updatePersonalDetailsID: () => { },
+    updateIDCardDocument: () => { },
+    updatePassportDocument: () => { },
+    addNecessaryDocs: () => { },
+    changeLanguage: () => { },
+    updateDriverLicense: () => { },
+    updateDocumentLanguage: () => { },
+    resetContext: () => { },
+    updateSetChild: () => { },
+    updateSetTerms: () => { },
+    handleHaveChild: () => { },
+    personalInfo: () => { },
+    handleDate: () => { },
+    handleSetMarried: () => { },
+    handleSetContact: () => { },
+    setParentToDefault:()=>{},
+    handleVisitedTabs: ()=>{}
+};
+export const GeneralContext = createContext(contextDefaultValues);
+
+interface GeneralContextProviderProps {
+    children: ReactNode;
 }
-export const GeneralContext = createContext(contextDefaultValues)
 
-interface GeneralContextProviderProps{
-    children: ReactNode
-}
+export const GeneralContextProvider = ({
+    children,
+}: GeneralContextProviderProps) => {
+    const [personalDetailsID, setPersonalDetailsIDCard] = useState(
+        contextDefaultValues.personalDetailsID
+    );
+    const [language, setLanguage] = useState(contextDefaultValues.language);
+    const[visitedTabs,setVisitedTabs] = useState(contextDefaultValues.visitedTabs)
+    const [documentLanguage, setDocumentLanguage] = useState(
+        contextDefaultValues.documentLanguage
+    );
+    const [necessaryDocuments, setNecessaryDocuments] = useState(
+        contextDefaultValues.necessaryDocuments
+    );
+    const [idCardDocument, setIDCardDocument] = useState(
+        contextDefaultValues.idCardDocument
+    );
+    const [passport, setPassport] = useState(contextDefaultValues.passport);
+    const [driverLicense, setDriverLicense] = useState(
+        contextDefaultValues.driverLicense
+    );
+    const [child, setChild] = useState({
+        parents: [{ firstName: "", lastName: "", relation: "", socialNumber: "" }],
+    });
+    const [terms, setTerms] = useState(contextDefaultValues.terms);
+    const [tabs, setTabs] = useState(contextDefaultValues.tabs);
+    const [haveChild, setHaveChild] = useState(contextDefaultValues.haveChild);
+    const [married, setMarried] = useState(contextDefaultValues.married);
+    const [contact, setContact] = useState(contextDefaultValues.contact);
+    const [email, setEmail] = useState(contextDefaultValues.email);
+    const [phone, setPhone] = useState(contextDefaultValues.phone);
 
-export const GeneralContextProvider = ({children}:  GeneralContextProviderProps)=>{
-    
-    const[personalDetailsID, setPersonalDetailsIDCard] = useState(contextDefaultValues.personalDetailsID)
-    const [language, setLanguage] = useState(contextDefaultValues.language)
-    const [documentLanguage, setDocumentLanguage] = useState(contextDefaultValues.documentLanguage)
-    const [necessaryDocuments, setNecessaryDocuments] = useState(contextDefaultValues.necessaryDocuments)
-    const [idCardDocument, setIDCardDocument] = useState(contextDefaultValues.idCardDocument)
-    const [passport, setPassport] = useState(contextDefaultValues.passport)
-    const[driverLicense, setDriverLicense] = useState(contextDefaultValues.driverLicense)
-    const [child, setChild] = useState(contextDefaultValues.child)
-    const [terms, setTerms] = useState(contextDefaultValues.terms)
-    const [tabs,setTabs] = useState(contextDefaultValues.tabs)
-    const[haveChild, setHaveChild] = useState(contextDefaultValues.haveChild)
-
-    const updateSetTerms = (value: boolean)=>{
-        setTerms(value)
+    const handleVisitedTabs = (tabIndex:number)=>{
+        const check = visitedTabs.includes(tabIndex)
+        if(!check){
+            setVisitedTabs(prev=>[...prev,tabIndex])
+        }
     }
 
-    const updateSetChild = (formValues: Children)=>{
-        setChild(formValues)
-    }
+    const handleSetMarried = (value: null | string) => {
+        console.log("married", value, typeof value);
+        setMarried(value);
+    };
 
-    const updateDriverLicense = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> )=>{
+    const handleSetContact = (value: string) => {
+        setContact(value);
+        console.log(contact);
+        if (value === "email") {
+            setEmail(true);
+            setPhone(false);
+        }
+        if (value === "phone") {
+            setEmail(false);
+            setPhone(true);
+        }
+    };
+
+    const updateSetTerms = (value: boolean) => {
+        setTerms(value);
+    };
+    const addParent = () => {
+        setChild((prevChild) => ({
+            ...prevChild,
+            parents: [
+                ...prevChild.parents,
+                { firstName: "", lastName: "", socialNumber: "", relation: "" },
+            ],
+        }));
+
+        
+    };
+    const setParentToDefault = ()=>{
+        setChild(contextDefaultValues.child)
+    }
+    const removeParent = (index: number) => {
+        setChild((prevChild) => {
+            const updatedParents = [...prevChild.parents];
+            updatedParents.splice(index, 1); 
+            return {
+                ...prevChild,
+                parents: updatedParents,
+            };
+        });
+    };
+    const updateSetChild = (
+        index: number,
+        field: keyof Parents,
+        value: string
+    ) => {
+        const updatedParents = [...child.parents];
+        updatedParents[index][field] = value;
+
+        setChild((prev) => ({
+            ...prev,
+            parents: updatedParents,
+        }));
+    };
+
+    const updateDriverLicense = (
+        event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => {
         setDriverLicense({
             ...driverLicense,
-            [event.target.name]: event.target.value
-        })
+            [event.target.name]: event.target.value,
+        });
+    };
 
-    }
+    const handleHaveChild = (value: string) => {
+        setHaveChild(value);
+    };
 
-    const handleHaveChild = (value:boolean)=>{
-        setHaveChild(value)
-    }
-    
     const addNecessaryDocs = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNecessaryDocuments({
-          ...necessaryDocuments,
-          [event.target.name]: event.target.checked,
+            ...necessaryDocuments,
+            [event.target.name]: event.target.checked,
         });
-        if(event.target.checked == true){
-            let check=tabs.includes(event.target.name)
-            if(!check){
-                setTabs([...tabs,event.target.name])
+        if (event.target.checked == true) {
+            let check = tabs.includes(event.target.name);
+            if (!check) {
+                setTabs([...tabs, event.target.name]);
             }
-            
-        }else{
-            const filterTabs = tabs.filter(item=>item!==event.target.name)
-            setTabs(filterTabs)
+        } else {
+            const filterTabs = tabs.filter((item) => item !== event.target.name);
+            setTabs(filterTabs);
         }
-        
-      };
-    const updateDocumentLanguage = (value:string)=>{
-        setDocumentLanguage(value)
-        
-    }
-    const changeLanguage = ()=> {
-        language == 'mkd'? setLanguage('alb') : setLanguage('mkd')
-    }   
+    };
+    const updateDocumentLanguage = (value: string) => {
+        setDocumentLanguage(value);
+    };
+    const changeLanguage = () => {
+        language == "mkd" ? setLanguage("alb") : setLanguage("mkd");
+    };
 
-    function updatePersonalDetailsID(formResults: PersonalDetailsID){
-        setPersonalDetailsIDCard(formResults)
+    function updatePersonalDetailsID(formResults: PersonalDetailsID) {
+        setPersonalDetailsIDCard(formResults);
     }
 
-    function updatePassportDocument(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>){
+    const personalInfo = (
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        setPersonalDetailsIDCard({
+            ...personalDetailsID,
+            [event.target.name]: event.target.value,
+        });
+    };
+
+    function updatePassportDocument(
+        event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) {
         setPassport({
             ...passport,
-            [event.target.name]: event.target.value
-        })
-
+            [event.target.name]: event.target.value,
+        });
     }
 
+    const handleDate = (value: Dayjs | null) => {
+        console.log("value", value);
+        setPersonalDetailsIDCard({
+            ...personalDetailsID,
+            birth: value,
+        });
+    };
 
-    function updateIDCardDocument(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>){
+    function updateIDCardDocument(
+        event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) {
         setIDCardDocument({
             ...idCardDocument,
-            [event.target.name]: event.target.value
-        })
+            [event.target.name]: event.target.value,
+        });
     }
-    const resetContext= ()=>{
-        setPersonalDetailsIDCard(contextDefaultValues.personalDetailsID)
-        setNecessaryDocuments(contextDefaultValues.necessaryDocuments)
-        setIDCardDocument(contextDefaultValues.idCardDocument)
-        setPassport(contextDefaultValues.passport)
-        setDriverLicense(contextDefaultValues.driverLicense)
-        setDocumentLanguage(contextDefaultValues.documentLanguage)
-        setChild(contextDefaultValues.child)
-        setTerms(contextDefaultValues.terms)
-        setTabs(contextDefaultValues.tabs)
-        setHaveChild(contextDefaultValues.haveChild)
+    const resetContext = () => {
+        setPersonalDetailsIDCard(contextDefaultValues.personalDetailsID);
+        setNecessaryDocuments(contextDefaultValues.necessaryDocuments);
+        setIDCardDocument(contextDefaultValues.idCardDocument);
+        setPassport(contextDefaultValues.passport);
+        setDriverLicense(contextDefaultValues.driverLicense);
+        setDocumentLanguage(contextDefaultValues.documentLanguage);
+        setChild(contextDefaultValues.child);
+        setTerms(contextDefaultValues.terms);
+        setTabs(contextDefaultValues.tabs);
+        setHaveChild(contextDefaultValues.haveChild);
+        setMarried(contextDefaultValues.married);
+        setContact(contextDefaultValues.contact);
+        setEmail(contextDefaultValues.email);
+        setPhone(contextDefaultValues.phone);
+        setVisitedTabs(contextDefaultValues.visitedTabs)
+    };
 
-    }
-    
-    
-    return(
-        <GeneralContext.Provider 
-        value={{personalDetailsID,tabs,haveChild,idCardDocument,passport,necessaryDocuments,language,driverLicense,documentLanguage,child,terms,updateSetTerms,updateSetChild,updateDocumentLanguage,updateDriverLicense,updateIDCardDocument,updatePersonalDetailsID,changeLanguage, addNecessaryDocs, updatePassportDocument,handleHaveChild,resetContext  }}>
+    return (
+        <GeneralContext.Provider
+            value={{
+                personalDetailsID,
+                tabs,
+                haveChild,
+                idCardDocument,
+                passport,
+                necessaryDocuments,
+                language,
+                driverLicense,
+                documentLanguage,
+                child,
+                terms,
+                married,
+                email,
+                phone,
+                contact,
+                visitedTabs,
+                handleVisitedTabs,
+                setParentToDefault,
+                addParent,
+                removeParent,
+                handleSetContact,
+                handleSetMarried,
+                updateSetTerms,
+                updateSetChild,
+                updateDocumentLanguage,
+                updateDriverLicense,
+                updateIDCardDocument,
+                updatePersonalDetailsID,
+                changeLanguage,
+                addNecessaryDocs,
+                updatePassportDocument,
+                handleHaveChild,
+                personalInfo,
+                handleDate,
+                resetContext,
+            }}
+        >
             {children}
         </GeneralContext.Provider>
-    )
-
-}
+    );
+};

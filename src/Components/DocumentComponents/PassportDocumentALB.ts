@@ -192,16 +192,17 @@ export const generatePassportDocumentALB = (personalInfo: PersonalDetailsID, pas
   }
   doc.text(personalInfo.fatherName, 50, 176)
   doc.text(personalInfo.motherName, 135, 176)
-  doc.text(personalInfo.birth, 110, 127)
+  doc.text(personalInfo.birth ? personalInfo.birth.format("DD/MM/YYYY"): '', 110, 127)
   doc.text(personalInfo.placeBirth, 127, 135)
   doc.text(personalInfo.socialNumber, 97, 140.5)
   doc.text(personalInfo.citizenship, 80, 162)
   doc.text(personalInfo.nationality,150,149)
   doc.setFontSize(12)
   if (personalInfo.gender == 'машки') {
-    doc.text('X', 75.5, 148.5)
-  } else {
     doc.text('X', 45.5, 148.5)
+   
+  } else {
+    doc.text('X', 75.5, 148.5)
   }
 
   if (passport.procedure === 'редовна') {

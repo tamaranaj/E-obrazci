@@ -57,7 +57,7 @@ export const generateDriverLicenseDocumentMKD = (personalInfo: PersonalDetailsID
     doc.text(personalInfo.firstName, 35,134)
     doc.text(personalInfo.lastName, 120,134)
     doc.text(personalInfo.socialNumber, 120,159)
-    doc.text(personalInfo.birth, 30,183)
+    doc.text(personalInfo.birth ? personalInfo.birth.format("DD/MM/YYYY"): '', 30,183)
     doc.text(personalInfo.placeBirth, 120,183)
     doc.text(personalInfo.city,30,197)
     doc.text(personalInfo.address, 120,197)

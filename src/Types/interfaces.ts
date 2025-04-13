@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs"
+
 export interface Passport extends IDCardDocument{
     formLanguage: string
 
@@ -26,10 +28,10 @@ export interface PersonalDetailsID{
     marriedLastName: string ,
     fatherName: string,
     motherName: string ,
-    birth: string,
+    birth: Dayjs|null,
     placeBirth: string ,
     socialNumber: string,
-    gender: string ,
+    gender: string | null,
     address: string, 
     phone: string ,
     citizenship: string,
@@ -56,3 +58,61 @@ export interface SharedComponentProps{
 export interface StepperProps {
     handleNext: () => void
   }
+
+  import { TextFieldProps } from "@mui/material/TextField";
+import { StepperLabels } from "../Components/HelperFunc/stepperLabels"
+import { FormLabels } from "../Components/HelperFunc/formLabels"
+import { FormPlaceholder } from "../Components/HelperFunc/formPlaceholders"
+import { FormErrors } from "../Components/HelperFunc/formErrors"
+import { FormRegexPatterns } from "../Components/HelperFunc/formPatterns"
+import { ChildrenFormLabels } from "../Components/HelperFunc/childrenForm"
+import { CheckboxProps } from "../Components/HelperFunc/checkboxProps"
+import { TabsConfig } from "../Components/HelperFunc/tabContainerProps"
+
+export type DatePickerInputProps = {
+  inputRef: React.Ref<HTMLInputElement>;
+  inputProps: React.InputHTMLAttributes<HTMLInputElement>;
+  // other props related to DatePicker integration
+} & TextFieldProps;
+
+
+export interface ErrorsTypes{
+    invalid: boolean
+    required: boolean
+}
+
+
+export interface FormErrorsStates{
+    firstName: ErrorsTypes,
+    lastName: ErrorsTypes,
+    marriedLastName: ErrorsTypes,
+    fatherName: ErrorsTypes,
+    motherName: ErrorsTypes,
+    birth: ErrorsTypes,
+    placeBirth: ErrorsTypes,
+    socialNumber: ErrorsTypes,
+    gender:ErrorsTypes,
+    address: ErrorsTypes,
+    phone: ErrorsTypes,
+    citizenship: ErrorsTypes,
+    previousAddress: ErrorsTypes,
+    city: ErrorsTypes,
+    email: ErrorsTypes,
+    nationality: ErrorsTypes,
+}
+
+
+export interface StepperComponentProps{
+    stepperLabels: StepperLabels,
+    formLabels: FormLabels,
+    formPlaceholders: FormPlaceholder,
+    formErrorsMessages: FormErrors,
+    patterns: FormRegexPatterns,
+    childrenForm: ChildrenFormLabels,
+    termsInfo:string
+    checkboxProps: CheckboxProps,
+    tabsConfig: TabsConfig
+    savePdf: string,
+   
+   
+}

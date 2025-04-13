@@ -1,8 +1,13 @@
-import { SharedComponentProps } from "../../Types/interfaces"
-export const FormDocLanguageComponent = ({handleChange, state}: SharedComponentProps)=>{ 
+interface FormDocLanguageComponentProps{
+    handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
+    state: string
+    label:string
+    notRequired:string
+}
+export const FormDocLanguageComponent = ({handleChange, state, notRequired, label}: FormDocLanguageComponentProps)=>{ 
     return (
         <fieldset  className="reasons">
-            <legend>Барам образецот да биде изготвен на еден од наведените јазици и писмо:</legend>
+            <legend>{label}</legend>
             
             
             <select id="named-select" name="cardLanguage" onChange={handleChange} className="select" value={state}>
@@ -14,7 +19,7 @@ export const FormDocLanguageComponent = ({handleChange, state}: SharedComponentP
               <option value={"босански"}>Босански</option>
             </select>
 
-            <span className="description">Ова поле не е задолжително.</span>
+            <span className="description">{notRequired}</span>
         </fieldset>
     )
 }
