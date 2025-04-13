@@ -112,4 +112,7 @@ export interface StepperComponentProps{
     termsInfo:string
     checkboxProps: CheckboxProps,
     tabsConfig: TabsConfig
+    savePdf: string,
+   
+   
 }

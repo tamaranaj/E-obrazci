@@ -9,6 +9,7 @@ import { GeneralContext } from '../../context/general.context';
 import { useContext } from 'react';
 import Button from '@mui/material/Button';
 import { CheckboxProps } from '../HelperFunc/checkboxProps';
+import './CheckboxComponent.css'
 export interface CheckboxComponentProps{
   handleNext: ()=>void,
   checkboxProps: CheckboxProps
@@ -21,7 +22,8 @@ export const CheckboxComponent = ({handleNext,checkboxProps}: CheckboxComponentP
   console.log(error)
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column'}}>
+    <div className="checkboxContainer" >
+      <Box >
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard" required
         error={error}>
         <FormLabel component="legend">{checkboxProps.label}</FormLabel>
@@ -61,6 +63,9 @@ export const CheckboxComponent = ({handleNext,checkboxProps}: CheckboxComponentP
         </div>
 
     </Box>
+      
+    </div>
+    
 
     
   );

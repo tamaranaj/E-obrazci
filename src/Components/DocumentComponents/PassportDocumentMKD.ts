@@ -100,7 +100,7 @@ export const generatePassportDocumentMKD = (personalInfo: PersonalDetailsID,pass
     if(personalInfo.marriedLastName){
       doc.text(personalInfo.marriedLastName,135,177)
      }
-     doc.text(personalInfo.birth,110,187)
+     doc.text(personalInfo.birth ? personalInfo.birth.format("DD/MM/YYYY"): '',110,187)
      doc.text(personalInfo.placeBirth,145,194)
      doc.text(personalInfo.socialNumber,90,199)
      doc.text(personalInfo.address,90,213)

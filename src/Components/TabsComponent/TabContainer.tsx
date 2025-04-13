@@ -16,9 +16,10 @@ export interface TabsComponentChildrenProps{
 }
 export interface TabContainerProps{
   tabsConfig: TabsConfig
+  next:string
 }
 
-export const TabContainer = ({tabsConfig}: TabContainerProps) => {
+export const TabContainer = ({tabsConfig , next}: TabContainerProps) => {
     const{tabs} = useContext(GeneralContext)
     const [value, setValue] = useState('1');
    
@@ -40,7 +41,7 @@ export const TabContainer = ({tabsConfig}: TabContainerProps) => {
             {tabs.map((item,index)=> <Tab label={addTabLabel(item)} wrapped value={`${index +1}`} key={item}/>)}
           </TabList>
         </Box>
-        {tabs.map((item,index)=> <TabPanel value={`${index+1}`} key={index}>{item==='idCard'? <IDCardForm tabsProps={tabsProps} notRequired={tabsConfig.notRequired} errorRequired={tabsConfig.errorRequired} idConfig={tabsConfig.idCardProps} languageFormProps={tabsConfig.languageFormProps}/> : item==='passport' ? <PassportForm passportConfig={tabsConfig.passportProps} languageFormProps={tabsConfig.languageFormProps} errorRequired={tabsConfig.errorRequired} notRequired={tabsConfig.notRequired} tabsProps={tabsProps}/> : <DriverLicenseForm dLicenseConfig={tabsConfig.driverLicenseProps} languageFormProps={tabsConfig.languageFormProps} errorRequired={tabsConfig.errorRequired} notRequired={tabsConfig.notRequired} tabsProps={tabsProps}/>}</TabPanel>)}
+        {tabs.map((item,index)=> <TabPanel value={`${index+1}`} key={index}>{item==='idCard'? <IDCardForm next={next} tabsProps={tabsProps} notRequired={tabsConfig.notRequired} errorRequired={tabsConfig.errorRequired} idConfig={tabsConfig.idCardProps} languageFormProps={tabsConfig.languageFormProps}/> : item==='passport' ? <PassportForm next={next} passportConfig={tabsConfig.passportProps} languageFormProps={tabsConfig.languageFormProps} errorRequired={tabsConfig.errorRequired} notRequired={tabsConfig.notRequired} tabsProps={tabsProps}/> : <DriverLicenseForm next={next} dLicenseConfig={tabsConfig.driverLicenseProps} languageFormProps={tabsConfig.languageFormProps} errorRequired={tabsConfig.errorRequired} notRequired={tabsConfig.notRequired} tabsProps={tabsProps}/>}</TabPanel>)}
       </TabContext>
     </Box>
   );

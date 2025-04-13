@@ -20,11 +20,11 @@ function App() {
         
     <Routes>
       <Route path='/' element={<Home/>}/>
+      
+      <Route path="/е-образци/мк" element={<StepperComponent savePdf='Сними го барањето' tabsConfig={tabsConfigMkd}  checkboxProps={checkboxPropsMkd} termsInfo={termsMkd} formLabels={mkdLabels} formErrorsMessages={formErrorsMkd} formPlaceholders={mkdPlaceholders} stepperLabels={stepperLabelsMkd} patterns={mkdPattern} childrenForm={childrenFormLabelsMKD}/>}/>
+      <Route path='/е-образци/ал' element={<StepperComponent savePdf='Ruaj kërkesën' tabsConfig={tabsConfigAlb}  checkboxProps={checkboxPropsAlb} formLabels={albLabels} termsInfo={termsAlb} formErrorsMessages={formErrorsAlb} formPlaceholders={albPlaceholders} stepperLabels={stepperLabelsAlb} patterns={albPatterns} childrenForm={childrenFormLabelsAlb}/>}/>
 
-      <Route path="/е-образци/мк" element={<StepperComponent tabsConfig={tabsConfigMkd}  checkboxProps={checkboxPropsMkd} termsInfo={termsMkd} formLabels={mkdLabels} formErrorsMessages={formErrorsMkd} formPlaceholders={mkdPlaceholders} stepperLabels={stepperLabelsMkd} patterns={mkdPattern} childrenForm={childrenFormLabelsMKD}/>}/>
-      <Route path='/е-образци/ал' element={<StepperComponent  tabsConfig={tabsConfigAlb}  checkboxProps={checkboxPropsAlb} formLabels={albLabels} termsInfo={termsAlb} formErrorsMessages={formErrorsAlb} formPlaceholders={albPlaceholders} stepperLabels={stepperLabelsAlb} patterns={albPatterns} childrenForm={childrenFormLabelsAlb}/>}/>
-
-      <Route path="*" element={<p>Page not found</p>} />
+      <Route path="*" element={<p style={{color:"red", fontSize:'1.5em'}}>Error 404. Page not found</p>} />
     </Routes>
     <Footer/>
     </BrowserRouter>

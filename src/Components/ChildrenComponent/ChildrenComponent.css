@@ -3,7 +3,7 @@
     width: 100%;
     justify-content: center;
     align-items: center;
-    margin: 20px;
+    margin-top: 20px;
 }
 
 .childrenForm{
@@ -11,21 +11,19 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 20px;
-  width: 100%;
+    gap: 10px;
+  width: 90%;
 }
 .radioBtn{
   display: flex;
   justify-content: space-around;
 }
-.dynamicSection,.dynamicFieldsContainer{
-  width: 100%;
-}
+
 .dynamicFields{
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  margin: 20px;
+  margin-bottom: 10px;
   width: 100%;
 }
 .dynamicColumn{
@@ -54,14 +52,17 @@
   flex-direction: column;
   align-items: center;
 }
-
+.removeBtnCont{
+  display:flex;
+  align-items: center
+}
 
 @media only screen and (max-width:560px) {
 
   .dynamicFields{
     flex-direction: column;
     justify-content: center;
-    margin: 10px;
+    margin: 5px;
 }
 .dynamicColumn{
     gap: 10px;
@@ -75,7 +76,9 @@
     width: 90%;
   
 }
-
+.removeBtnCont{
+  justify-content: center;
+}
 .childrenContainer{
   margin: 0px;
   justify-content: flex-start;

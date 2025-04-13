@@ -11,12 +11,13 @@ interface PassportFormProps{
    passportConfig: DocumentProps,
     languageFormProps: LanguageForm,
     errorRequired:string,
-    notRequired:string
+    notRequired:string,
+    next:string
 }
 
-export const PassportForm = ({tabsProps,passportConfig,errorRequired,notRequired,languageFormProps}: PassportFormProps) => {
+export const PassportForm = ({tabsProps,passportConfig,next,errorRequired,notRequired,languageFormProps}: PassportFormProps) => {
 
-   const { updatePassportDocument, language, passport,documentLanguage, tabs } = useContext(GeneralContext);
+   const { updatePassportDocument, passport,documentLanguage, tabs } = useContext(GeneralContext);
  const index = tabs.indexOf('passport')
      const checkRadio = (event: React.ChangeEvent<HTMLInputElement> )=>{
          updatePassportDocument(event)
@@ -46,7 +47,7 @@ export const PassportForm = ({tabsProps,passportConfig,errorRequired,notRequired
             onChange={(event)=>checkRadio(event)}
             >
               {passportConfig.reasons.map((item,index)=>(
-                  <FormControlLabel value={index+1} key={`passport${index}`} control={<Radio/>} label={item}  />
+                  <FormControlLabel className="formRadioLabel" style={{ textAlign: 'start'}} value={index+1} key={`passport${index}`} control={<Radio/>} label={item}  />
 
               ))}
             
@@ -89,7 +90,7 @@ export const PassportForm = ({tabsProps,passportConfig,errorRequired,notRequired
                     onClick={handleNext}
                     sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
                 >
-                    {language==='mkd'? 'Следно': 'Tjetra'}
+                    {next}
                 </Button>)}
     </div>
 

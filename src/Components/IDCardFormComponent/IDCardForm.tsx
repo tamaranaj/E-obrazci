@@ -13,12 +13,13 @@ interface IdCardFormProps{
   idConfig: DocumentProps,
   languageFormProps: LanguageForm,
   errorRequired:string,
-  notRequired:string
+  notRequired:string,
+  next:string
 }
 
-export const IDCardForm = ({tabsProps, idConfig,languageFormProps,errorRequired,notRequired}: IdCardFormProps) => {
+export const IDCardForm = ({tabsProps, idConfig,languageFormProps,next,errorRequired,notRequired}: IdCardFormProps) => {
 
-  const { updateIDCardDocument,language, idCardDocument,documentLanguage,tabs} = useContext(GeneralContext);
+  const { updateIDCardDocument, idCardDocument,documentLanguage,tabs} = useContext(GeneralContext);
      const checkRadio = (event: React.ChangeEvent<HTMLInputElement> )=>{
          updateIDCardDocument(event)
      }
@@ -46,7 +47,7 @@ export const IDCardForm = ({tabsProps, idConfig,languageFormProps,errorRequired,
             onChange={(event)=>checkRadio(event)}
             >
               {idConfig.reasons.map((reason, index)=>(
-                <FormControlLabel value={index+1} key={`reason${index}`} control={<Radio/>} label={reason}  />
+                <FormControlLabel className="formRadioLabel" value={index+1} key={`reason${index}`} control={<Radio/>} label={reason}  />
               ))}
           
           </RadioGroup>
@@ -75,7 +76,7 @@ export const IDCardForm = ({tabsProps, idConfig,languageFormProps,errorRequired,
                     onClick={handleNext}
                     sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
                 >
-                    {language==='mkd'? 'Следно': 'Tjetra'}
+                    {next}
                 </Button>)}
           
       </div>

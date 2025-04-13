@@ -158,7 +158,9 @@ export const GeneralContextProvider = ({
     const [driverLicense, setDriverLicense] = useState(
         contextDefaultValues.driverLicense
     );
-    const [child, setChild] = useState(contextDefaultValues.child);
+    const [child, setChild] = useState({
+        parents: [{ firstName: "", lastName: "", relation: "", socialNumber: "" }],
+    });
     const [terms, setTerms] = useState(contextDefaultValues.terms);
     const [tabs, setTabs] = useState(contextDefaultValues.tabs);
     const [haveChild, setHaveChild] = useState(contextDefaultValues.haveChild);

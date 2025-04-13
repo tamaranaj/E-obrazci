@@ -12,11 +12,12 @@ interface DriverLicenseFormComponentProps{
    dLicenseConfig: DocumentProps,
       languageFormProps: LanguageForm,
       errorRequired:string,
-      notRequired:string
+      notRequired:string,
+      next:string
 }
 
-export const DriverLicenseForm = ({tabsProps, notRequired,errorRequired,dLicenseConfig,languageFormProps}: DriverLicenseFormComponentProps) => {
-    const { language, driverLicense, updateDriverLicense,documentLanguage,tabs } = useContext(GeneralContext)
+export const DriverLicenseForm = ({tabsProps, notRequired,next,errorRequired,dLicenseConfig,languageFormProps}: DriverLicenseFormComponentProps) => {
+    const { driverLicense, updateDriverLicense,documentLanguage,tabs } = useContext(GeneralContext)
     const index = tabs.indexOf('driverLicense')
     const checkRadio = (event: React.ChangeEvent<HTMLInputElement> )=>{
         updateDriverLicense(event)
@@ -45,7 +46,7 @@ export const DriverLicenseForm = ({tabsProps, notRequired,errorRequired,dLicense
 
             {dLicenseConfig.reasons.map((item,index)=>(
 
-              <FormControlLabel value={index+1} control={<Radio/>} label={item} key={`dLicense${index}`} />
+              <FormControlLabel value={index+1} className="formRadioLabel" control={<Radio/>} label={item} key={`dLicense${index}`} />
             ))}
 
             
@@ -67,9 +68,9 @@ export const DriverLicenseForm = ({tabsProps, notRequired,errorRequired,dLicense
                     variant="contained"
                     type='button'
                     onClick={handleNext}
-                    sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
+                    sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black', }}
                 >
-                    {language==='mkd'? 'Следно': 'Tjetra'}
+                    {next}
                 </Button>)}
                  
         </div>

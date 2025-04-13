@@ -44,7 +44,7 @@ export const generateIdCardDocumentMKD = (idCardDocument: IDCardDocument, person
     
     doc.text(personalDetailsID.fatherName, 60,173)
     doc.text(personalDetailsID.motherName,145, 173)
-    doc.text(personalDetailsID.birth,120,185 )
+    doc.text(personalDetailsID.birth ? personalDetailsID.birth.format("DD/MM/YYYY"): '',120,185 )
     doc.text(personalDetailsID.placeBirth,140,185 )
     doc.text(personalDetailsID.socialNumber,120,193)
     doc.text(personalDetailsID.address,90, 222)
