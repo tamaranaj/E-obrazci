@@ -14,10 +14,11 @@ interface IdCardFormProps{
   languageFormProps: LanguageForm,
   errorRequired:string,
   notRequired:string,
-  next:string
+  next:string,
+  hideButtons: () => boolean
 }
 
-export const IDCardForm = ({tabsProps, idConfig,languageFormProps,next,errorRequired,notRequired}: IdCardFormProps) => {
+export const IDCardForm = ({tabsProps, idConfig,languageFormProps,next,errorRequired,notRequired, hideButtons}: IdCardFormProps) => {
 
   const { updateIDCardDocument, idCardDocument,documentLanguage,tabs} = useContext(GeneralContext);
      const checkRadio = (event: React.ChangeEvent<HTMLInputElement> )=>{
@@ -29,6 +30,10 @@ export const IDCardForm = ({tabsProps, idConfig,languageFormProps,next,errorRequ
           return
         }else{
           tabsProps(index === 0? '2': '3')
+          window.scroll({
+            top: 120,
+            behavior: 'smooth'
+          })
         }
       }
   return (
@@ -70,7 +75,7 @@ export const IDCardForm = ({tabsProps, idConfig,languageFormProps,next,errorRequ
           
 
           </div>
-          {tabs.length > 1 && index+1!=tabs.length &&(<Button
+          {tabs.length > 1 && index+1!=tabs.length && !hideButtons() &&(<Button
                     variant="contained"
                     type='button'
                     onClick={handleNext}

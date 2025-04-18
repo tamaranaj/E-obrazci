@@ -12,10 +12,11 @@ interface PassportFormProps{
     languageFormProps: LanguageForm,
     errorRequired:string,
     notRequired:string,
-    next:string
+    next:string,
+    hideButtons: () => boolean
 }
 
-export const PassportForm = ({tabsProps,passportConfig,next,errorRequired,notRequired,languageFormProps}: PassportFormProps) => {
+export const PassportForm = ({tabsProps,passportConfig,next,errorRequired,notRequired,hideButtons,languageFormProps}: PassportFormProps) => {
 
    const { updatePassportDocument, passport,documentLanguage, tabs } = useContext(GeneralContext);
  const index = tabs.indexOf('passport')
@@ -28,7 +29,12 @@ export const PassportForm = ({tabsProps,passportConfig,next,errorRequired,notReq
         return
       }else{
         tabsProps(index === 0? '2': '3')
+        window.scroll({
+          top: 120,
+          behavior: 'smooth'
+        })
       }
+      
     }
   return (
 
@@ -84,7 +90,7 @@ export const PassportForm = ({tabsProps,passportConfig,next,errorRequired,notReq
           }     
 
         </div>
-        {tabs.length > 1 && index+1!=tabs.length &&(<Button
+        {tabs.length > 1 && index+1!=tabs.length && !hideButtons() && (<Button
                     variant="contained"
                     type='button'
                     onClick={handleNext}
