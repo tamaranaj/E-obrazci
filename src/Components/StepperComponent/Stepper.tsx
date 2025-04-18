@@ -56,7 +56,7 @@ export default function StepperComponent({ stepperLabels, formLabels, formErrors
           <Box >
             <Stepper activeStep={activeStep} orientation="vertical" >
               <Step >
-                <StepLabel style={{ cursor: 'pointer' }} sx={activeStep === 0 ? { bgcolor: '#3c5668', height:'40px' ,padding: '15px',borderRadius: '10px'} : { bgcolor: 'white',color:'black' }} onClick={() => handleOpenClickedTab(0)}>
+                <StepLabel style={{ cursor: 'pointer' }} onClick={() => handleOpenClickedTab(0)} sx={activeStep === 0 ? { bgcolor: '#3c5668', height:'40px' ,padding: '15px',borderRadius: '10px'} : { bgcolor: 'white',color:'black' }} >
                   <span style={activeStep === 0 ? { color: 'white' } : { color:'black' }}>{stepperLabels.thirdStep}</span>
                 </StepLabel>
                 <StepContent >
@@ -89,7 +89,10 @@ export default function StepperComponent({ stepperLabels, formLabels, formErrors
                       <Button
                       variant="contained"
                       type='button'
-                      onClick={handleNext}
+                      onClick={()=>{handleNext();  window.scroll({
+                        top: 100,
+                        behavior: 'smooth'
+                      })}}
                       sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
                     >
                       {formLabels.next}
