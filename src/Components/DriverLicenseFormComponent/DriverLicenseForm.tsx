@@ -13,10 +13,11 @@ interface DriverLicenseFormComponentProps{
       languageFormProps: LanguageForm,
       errorRequired:string,
       notRequired:string,
-      next:string
+      next:string,
+      hideButtons: () => boolean
 }
 
-export const DriverLicenseForm = ({tabsProps, notRequired,next,errorRequired,dLicenseConfig,languageFormProps}: DriverLicenseFormComponentProps) => {
+export const DriverLicenseForm = ({tabsProps, notRequired,next,errorRequired,dLicenseConfig,hideButtons,languageFormProps}: DriverLicenseFormComponentProps) => {
     const { driverLicense, updateDriverLicense,documentLanguage,tabs } = useContext(GeneralContext)
     const index = tabs.indexOf('driverLicense')
     const checkRadio = (event: React.ChangeEvent<HTMLInputElement> )=>{
@@ -29,6 +30,10 @@ export const DriverLicenseForm = ({tabsProps, notRequired,next,errorRequired,dLi
       }else{
 
         tabsProps(index === 0? '2': '3')
+        window.scroll({
+          top: 120,
+          behavior: 'smooth'
+        })
       }
     }
     return (
@@ -64,7 +69,7 @@ export const DriverLicenseForm = ({tabsProps, notRequired,next,errorRequired,dLi
 
         {documentLanguage==='мк' && (<BilingualNameComponent notRequired={notRequired} label={languageFormProps.bilingualNameLabel} handleChange={updateDriverLicense} state={driverLicense.nameLanguage}/> )}
           
-        {tabs.length > 1 && index+1!=tabs.length &&(<Button
+        {tabs.length > 1 && index+1!=tabs.length && !hideButtons() &&(<Button
                     variant="contained"
                     type='button'
                     onClick={handleNext}
