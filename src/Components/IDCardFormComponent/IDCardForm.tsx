@@ -8,84 +8,71 @@ import { Button, FormControl, FormControlLabel, Radio, RadioGroup } from "@mui/m
 
 import { DocumentProps, LanguageForm } from "../HelperFunc/tabContainerProps";
 
-interface IdCardFormProps{
+interface IdCardFormProps {
   tabsProps: (newValue: string) => void
   idConfig: DocumentProps,
   languageFormProps: LanguageForm,
-  errorRequired:string,
-  notRequired:string,
-  next:string,
+  errorRequired: string,
+  notRequired: string,
+  next: string,
   hideButtons: () => boolean
 }
 
-export const IDCardForm = ({tabsProps, idConfig,languageFormProps,next,errorRequired,notRequired, hideButtons}: IdCardFormProps) => {
+export const IDCardForm = ({ tabsProps, idConfig, languageFormProps, next, errorRequired, notRequired, hideButtons }: IdCardFormProps) => {
 
-  const { updateIDCardDocument, idCardDocument,documentLanguage,tabs} = useContext(GeneralContext);
-     const checkRadio = (event: React.ChangeEvent<HTMLInputElement> )=>{
-         updateIDCardDocument(event)
-     }
-     const index = tabs.indexOf('idCard')
-      const handleNext  = ()=>{
-        if(idCardDocument.reason ==='' || idCardDocument.procedure === ''){
-          return
-        }else{
-          tabsProps(index === 0? '2': '3')
-          window.scroll({
-            top: 120,
-            behavior: 'smooth'
-          })
-        }
-      }
+  const { updateIDCardDocument, idCardDocument, documentLanguage, tabs } = useContext(GeneralContext);
+  const checkRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
+    updateIDCardDocument(event)
+  }
+  const index = tabs.indexOf('idCard')
+  const handleNext = () => {
+    if (idCardDocument.reason === '' || idCardDocument.procedure === '') {
+      return
+    } else {
+      tabsProps(index === 0 ? '2' : '3')
+      window.scroll({
+        top: 120,
+        behavior: 'smooth'
+      })
+    }
+  }
   return (
-    
-      <div className="cardDetailsContainer" >
 
-          <div className="grid">
-          <fieldset className="reasons"  >
+    <div className="cardDetailsContainer" >
+
+      <div className="grid">
+        <fieldset className="reasons"  >
           <legend>{idConfig.label}</legend>
-        <FormControl>
-          
-          <RadioGroup
-            aria-labelledby="demo-controlled-radio-buttons-group"
-            name="reason"
-            value={idCardDocument.reason}
-            onChange={(event)=>checkRadio(event)}
+          <FormControl>
+            <RadioGroup
+              aria-labelledby="demo-controlled-radio-buttons-group"
+              name="reason"
+              value={idCardDocument.reason}
+              onChange={(event) => checkRadio(event)}
             >
-              {idConfig.reasons.map((reason, index)=>(
-                <FormControlLabel className="formRadioLabel" value={index+1} key={`reason${index}`} control={<Radio/>} label={reason}  />
+              {idConfig.reasons.map((reason, index) => (
+                <FormControlLabel className="formRadioLabel" value={index + 1} key={`reason${index}`} control={<Radio />} label={reason} />
               ))}
-          
-          </RadioGroup>
-        </FormControl>
+            </RadioGroup>
+          </FormControl>
+          {idCardDocument.reason === '' && <span className='errorMessage'>{errorRequired}</span>}
+        </fieldset>
 
-        {idCardDocument.reason === '' && <span className='errorMessage'>{errorRequired}</span>}
-      </fieldset>            
-          
-          <fieldset className="reasons">
-            
-          <ProcedureComponent handleChange={updateIDCardDocument} procedureConfig={idConfig.procedure} state={idCardDocument.procedure}/>
+        <fieldset className="reasons">
+          <ProcedureComponent handleChange={updateIDCardDocument} procedureConfig={idConfig.procedure} state={idCardDocument.procedure} />
           {idCardDocument.procedure === '' && <span className="errorMessage">{errorRequired}</span>}
-          </fieldset>
-          
-          {documentLanguage==='мк' && (<FormDocLanguageComponent label={languageFormProps.formDocLabel} notRequired={notRequired} handleChange={updateIDCardDocument} state={idCardDocument.cardLanguage}/>)}
-
-          {documentLanguage==='мк' && (<BilingualNameComponent notRequired={notRequired} label={languageFormProps.bilingualNameLabel} handleChange={updateIDCardDocument} state={idCardDocument.nameLanguage}/>  )}
-            
-                  
-          
-
-          </div>
-          {tabs.length > 1 && index+1!=tabs.length && !hideButtons() &&(<Button
-                    variant="contained"
-                    type='button'
-                    onClick={handleNext}
-                    sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
-                >
-                    {next}
-                </Button>)}
-          
+        </fieldset>
+        {documentLanguage === 'мк' && (<FormDocLanguageComponent label={languageFormProps.formDocLabel} notRequired={notRequired} handleChange={updateIDCardDocument} state={idCardDocument.cardLanguage} />)}
+        {documentLanguage === 'мк' && (<BilingualNameComponent notRequired={notRequired} label={languageFormProps.bilingualNameLabel} handleChange={updateIDCardDocument} state={idCardDocument.nameLanguage} />)}
       </div>
-
-    
+      {tabs.length > 1 && index + 1 != tabs.length && !hideButtons() && (<Button
+        variant="contained"
+        type='button'
+        onClick={handleNext}
+        sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}
+      >
+        {next}
+      </Button>)}
+    </div>
   );
 };

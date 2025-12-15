@@ -35,7 +35,6 @@ export const DocumentComponent = ({savePdf}: DocumentComponentProps) => {
   return(
     <Button variant='contained' onClick={handleCreateDocuments} sx={{ mt: 1, mr: 1, backgroundColor: '#1976D2', borderRadius: '10px', border: 'none', textShadow: '1px 1px 1px black' }}><FileDownloadIcon/>
       {savePdf}
-    
     </Button>
    
   )
