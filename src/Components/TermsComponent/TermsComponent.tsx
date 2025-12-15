@@ -24,11 +24,7 @@ export const TermsComponent = ({info, error}: TermsProp)=> {
     />
     <span className='terms'>{info}</span>
     </div>
-    
-
     {!terms && <span className='error'>{error}</span> }
-    
-    
     </div>
     
   );

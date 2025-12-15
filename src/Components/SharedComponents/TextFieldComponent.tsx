@@ -3,9 +3,6 @@ import { TextField } from "@mui/material";
 import { ErrorMessage } from "@hookform/error-message";
 import { FormErrors } from "../HelperFunc/formErrors";
 
-
-
-
 interface TextFieldProps<FormData extends FieldValues> {
   label: string;
   pattern: RegExp;
@@ -14,10 +11,12 @@ interface TextFieldProps<FormData extends FieldValues> {
   placeholder: string;
   errorsMessages: FormErrors;
   value: string;
-  min:number;
-  max:number;
+  min: number;
+  max: number;
   errors: Record<string, any>;
-  handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
+  handleChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
 }
 
 export const TextFieldComponent = <FormData extends FieldValues>({
@@ -28,8 +27,10 @@ export const TextFieldComponent = <FormData extends FieldValues>({
   name,
   placeholder,
   pattern,
-  errors,min,max,
-  handleChange
+  errors,
+  min,
+  max,
+  handleChange,
 }: TextFieldProps<FormData>) => {
   return (
     <>
@@ -43,14 +44,14 @@ export const TextFieldComponent = <FormData extends FieldValues>({
             value: pattern,
             message: errorsMessages.invalid,
           },
-          maxLength:{
-            value:max,
-            message:errorsMessages.maxLength
+          maxLength: {
+            value: max,
+            message: errorsMessages.maxLength,
           },
-          minLength:{
-            value:min,
-            message: errorsMessages.minLength
-          }
+          minLength: {
+            value: min,
+            message: errorsMessages.minLength,
+          },
         }}
         render={({ field }) => (
           <TextField
@@ -61,11 +62,9 @@ export const TextFieldComponent = <FormData extends FieldValues>({
             fullWidth
             error={!!errors[name]}
             onChange={(e) => {
-                field.onChange(e); 
-                handleChange(e)
-                console.log(errors)
-                console.log(name)
-              }}
+              field.onChange(e);
+              handleChange(e);
+            }}
           />
         )}
       />
