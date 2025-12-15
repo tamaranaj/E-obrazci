@@ -177,13 +177,11 @@ export const GeneralContextProvider = ({
     }
 
     const handleSetMarried = (value: null | string) => {
-        console.log("married", value, typeof value);
         setMarried(value);
     };
 
     const handleSetContact = (value: string) => {
         setContact(value);
-        console.log(contact);
         if (value === "email") {
             setEmail(true);
             setPhone(false);
@@ -293,7 +291,6 @@ export const GeneralContextProvider = ({
     }
 
     const handleDate = (value: Dayjs | null) => {
-        console.log("value", value);
         setPersonalDetailsIDCard({
             ...personalDetailsID,
             birth: value,

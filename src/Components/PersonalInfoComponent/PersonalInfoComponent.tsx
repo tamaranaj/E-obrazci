@@ -23,7 +23,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { FormRegexPatterns } from "../HelperFunc/formPatterns";
 import { TextFieldComponent } from "../SharedComponents/TextFieldComponent";
 
-
 export interface PersonalInfoProps {
   labels: FormLabels;
   examples: FormPlaceholder;
@@ -39,7 +38,6 @@ export const PersonalInfoComponent = ({
   patterns,
   handleNext,
 }: PersonalInfoProps) => {
-
   let genderOptions = [
     { label: labels.gender.female, value: "женски" },
     { label: labels.gender.male, value: "машки" },
@@ -100,23 +98,20 @@ export const PersonalInfoComponent = ({
     handleSetMarried(value);
   };
 
-  const submitForm = (data: FormData) => {
-    console.log(data);
-    console.log(personalDetailsID);
+  const submitForm = () => {
     handleNext();
   };
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    console.log(event.target.value);
     personalInfo(event);
   };
 
   return (
     <form className="personalDetailsForm" onSubmit={handleSubmit(submitForm)}>
       <div className="gridWrapper">
-        {documentLanguage==='мк' && (
+        {documentLanguage === "мк" && (
           <p className="error">
             Пополнете ја формата користејќи кирилично писмо
           </p>
@@ -137,7 +132,6 @@ export const PersonalInfoComponent = ({
               placeholder={examples.firstName}
               handleChange={handleChange}
             />
-
             <TextFieldComponent<FormData>
               name="lastName"
               label={labels.lastName}
@@ -146,12 +140,11 @@ export const PersonalInfoComponent = ({
               errorsMessages={errorsMessages}
               errors={errors}
               min={2}
-                        max={30}
+              max={30}
               value={personalDetailsID.lastName}
               placeholder={examples.lastName}
               handleChange={handleChange}
             />
-
             <div className="column">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <Controller
@@ -184,7 +177,6 @@ export const PersonalInfoComponent = ({
                 />
               </LocalizationProvider>
             </div>
-
             <TextFieldComponent<FormData>
               name="placeBirth"
               label={labels.placeBirth}
@@ -193,12 +185,11 @@ export const PersonalInfoComponent = ({
               errorsMessages={errorsMessages}
               errors={errors}
               min={2}
-                        max={30}
+              max={30}
               value={personalDetailsID.placeBirth}
               placeholder={examples.placeBirth}
               handleChange={handleChange}
             />
-
             <div className="column">
               <TextFieldComponent<FormData>
                 name="socialNumber"
@@ -218,7 +209,6 @@ export const PersonalInfoComponent = ({
               </FormHelperText>
             </div>
           </section>
-
           <section className="column">
             <TextFieldComponent<FormData>
               name="fatherName"
@@ -228,12 +218,11 @@ export const PersonalInfoComponent = ({
               errorsMessages={errorsMessages}
               errors={errors}
               min={2}
-                        max={30}
+              max={30}
               value={personalDetailsID.fatherName}
               placeholder={examples.fatherName}
               handleChange={handleChange}
             />
-
             <TextFieldComponent<FormData>
               name="motherName"
               label={labels.motherName}
@@ -242,12 +231,11 @@ export const PersonalInfoComponent = ({
               errorsMessages={errorsMessages}
               errors={errors}
               min={2}
-                        max={30}
+              max={30}
               value={personalDetailsID.motherName}
               placeholder={examples.motherName}
               handleChange={handleChange}
             />
-
             <TextFieldComponent<FormData>
               name="address"
               label={labels.address}
@@ -256,12 +244,11 @@ export const PersonalInfoComponent = ({
               errorsMessages={errorsMessages}
               errors={errors}
               min={5}
-                        max={50}
+              max={50}
               value={personalDetailsID.address}
               placeholder={examples.address}
               handleChange={handleChange}
             />
-
             <TextFieldComponent<FormData>
               name="city"
               label={labels.city}
@@ -270,12 +257,11 @@ export const PersonalInfoComponent = ({
               errorsMessages={errorsMessages}
               errors={errors}
               min={2}
-                        max={30}
+              max={30}
               value={personalDetailsID.city}
               placeholder={examples.city}
               handleChange={handleChange}
             />
-
             {idCardDocument.reason === "3" && (
               <TextFieldComponent<FormData>
                 name="previousAddress"
@@ -285,13 +271,12 @@ export const PersonalInfoComponent = ({
                 errorsMessages={errorsMessages}
                 errors={errors}
                 min={5}
-                        max={50}
+                max={50}
                 value={personalDetailsID.previousAddress}
                 placeholder={examples.previousAddress}
                 handleChange={handleChange}
               />
             )}
-
             <TextFieldComponent<FormData>
               name="citizenship"
               label={labels.citizenship}
@@ -305,8 +290,7 @@ export const PersonalInfoComponent = ({
               placeholder={examples.citizenship}
               handleChange={handleChange}
             />
-
-            {necessaryDocuments.passport && documentLanguage==='ал' && (
+            {necessaryDocuments.passport && documentLanguage === "ал" && (
               <TextFieldComponent<FormData>
                 name="nationality"
                 label={labels.nationality}
@@ -362,45 +346,44 @@ export const PersonalInfoComponent = ({
                 )}
               />
             </fieldset>
-            
-            {haveChild==='no' && (<fieldset className="fieldsetGroups">
-              <FormLabel component="legend">{labels.marriage}</FormLabel>
-              <Controller
-                rules={{ required: errorsMessages.required }}
-                control={control}
-                name="married"
-                defaultValue={married ?? ""}
-                render={({ field }) => (
-                  <RadioGroup
-                    {...field}
-                    value={field.value ?? ""}
-                    onBlur={field.onBlur}
-                    onChange={({ target: { value } }) => {
-                      field.onChange(value);
-                      handleMarried(value);
-                    }}
-                  >
-                    {marriedOptions.map((option, index) => (
-                      <FormControlLabel
-                        key={index}
-                        value={option.value}
-                        control={<Radio />}
-                        label={option.label}
-                      />
-                    ))}
-                  </RadioGroup>
-                )}
-              />
-              <ErrorMessage
-                errors={errors}
-                name="married"
-                render={({ message }) => (
-                  <span className="errorMessage">{message}</span>
-                )}
-              />
-            </fieldset>)}
-            
-
+            {haveChild === "no" && (
+              <fieldset className="fieldsetGroups">
+                <FormLabel component="legend">{labels.marriage}</FormLabel>
+                <Controller
+                  rules={{ required: errorsMessages.required }}
+                  control={control}
+                  name="married"
+                  defaultValue={married ?? ""}
+                  render={({ field }) => (
+                    <RadioGroup
+                      {...field}
+                      value={field.value ?? ""}
+                      onBlur={field.onBlur}
+                      onChange={({ target: { value } }) => {
+                        field.onChange(value);
+                        handleMarried(value);
+                      }}
+                    >
+                      {marriedOptions.map((option, index) => (
+                        <FormControlLabel
+                          key={index}
+                          value={option.value}
+                          control={<Radio />}
+                          label={option.label}
+                        />
+                      ))}
+                    </RadioGroup>
+                  )}
+                />
+                <ErrorMessage
+                  errors={errors}
+                  name="married"
+                  render={({ message }) => (
+                    <span className="errorMessage">{message}</span>
+                  )}
+                />
+              </fieldset>
+            )}
             <fieldset className="fieldsetGroups">
               <FormLabel component="legend">{labels.contactBy.how}</FormLabel>
               <Controller
@@ -437,7 +420,6 @@ export const PersonalInfoComponent = ({
               />
             </fieldset>
           </div>
-
           {married === "yes" && (
             <TextFieldComponent<FormData>
               name="marriedLastName"
@@ -453,7 +435,6 @@ export const PersonalInfoComponent = ({
               handleChange={handleChange}
             />
           )}
-
           {phone && (
             <div className="column">
               <TextFieldComponent<FormData>
@@ -474,7 +455,6 @@ export const PersonalInfoComponent = ({
               </FormHelperText>
             </div>
           )}
-
           {email && (
             <TextFieldComponent<FormData>
               name="email"
@@ -492,26 +472,22 @@ export const PersonalInfoComponent = ({
           )}
         </div>
       </div>
-
-      
-        
-        <div>
-          <Button
-            variant="contained"
-            type="submit"
-            sx={{
-              mt: 1,
-              mr: 1,
-              backgroundColor: "#1976D2",
-              borderRadius: "10px",
-              border: "none",
-              textShadow: "1px 1px 1px black",
-            }}
-          >
-            {labels.next}
-          </Button>
-        </div>
-      
+      <div>
+        <Button
+          variant="contained"
+          type="submit"
+          sx={{
+            mt: 1,
+            mr: 1,
+            backgroundColor: "#1976D2",
+            borderRadius: "10px",
+            border: "none",
+            textShadow: "1px 1px 1px black",
+          }}
+        >
+          {labels.next}
+        </Button>
+      </div>
     </form>
   );
 };

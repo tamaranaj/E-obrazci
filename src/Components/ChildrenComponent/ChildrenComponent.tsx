@@ -35,7 +35,6 @@ export const ChildrenComponent = ({ handleNext, formProps, errorsMessages, patte
       if(!fields.length){
         append({ firstName: "", lastName: "", relation: "", socialNumber: "" })
       }
-      console.log(child)
     } else {
       
       handleHaveChild('no')
