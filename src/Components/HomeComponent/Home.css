@@ -8,8 +8,17 @@
     gap: 5px;
     background-color: transparent;
     color: black;
+
 }
 
+.navigationButton{
+    background-color:'#1976D2' ;
+    border-radius: 10px;
+    border: none;
+    text-shadow: 1px 1px 1px black;
+    width: 130px;
+    height: 40px;
+}
 
 .infoCheckbox{
     width: 60%;

@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { GeneralContext } from "../../context/general.context";
 import { BilingualNameComponent } from "../SharedComponents/BilingualNameComponent";
-import { FormDocLanguageComponent } from "../SharedComponents/FormDocLanguageComponents ";
 import { ProcedureComponent } from "../SharedComponents/ProcedureComponent";
 import {
   FormControl,
@@ -87,7 +86,8 @@ export const PassportForm = ({
           )}
         </fieldset>
         {documentLanguage === "мк" && (
-          <FormDocLanguageComponent
+          <BilingualNameComponent
+          name="cardLanguage"
             notRequired={notRequired}
             label={languageFormProps.formDocLabel}
             handleChange={updatePassportDocument}
@@ -100,27 +100,15 @@ export const PassportForm = ({
             label={languageFormProps.bilingualNameLabel}
             handleChange={updatePassportDocument}
             state={passport.nameLanguage}
+            name='nameLanguage'
           />
         )}
         {documentLanguage === "мк" && (
-          <fieldset className="reasons">
-            <legend>{passportConfig?.formLanguage}</legend>
-            <select
-              id="named-select"
-              name="formLanguage"
-              onChange={updatePassportDocument}
-              className="select"
-              value={passport.formLanguage}
-            >
-              <option value={""}>Ниту еден</option>
-              <option value={"турски"}>Tурски</option>
-              <option value={"влашки"}>Влашки</option>
-              <option value={"српски"}>Српски</option>
-              <option value={"ромски"}>Ромски</option>
-              <option value={"босански"}>Босански</option>
-            </select>
-            <span className="description">{notRequired}</span>
-          </fieldset>
+          <BilingualNameComponent label={passportConfig?.formLanguage} 
+          state={passport.formLanguage} handleChange={updatePassportDocument} 
+          notRequired ={notRequired}
+          name="formLanguage"
+          />
         )}
       </div>
       {tabs.length > 1 && index + 1 != tabs.length && !hideButtons() && (

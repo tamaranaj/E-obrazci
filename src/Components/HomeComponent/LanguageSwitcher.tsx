@@ -17,12 +17,10 @@ export const LanguageSwitcher=()=> {
     { label: language==='mkd'? "Македонски": 'Maqedonase', value: "мк" },
     { label: language==='mkd'?"Албански":'Shqiptare', value: "ал" },
   ];
-  ;
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
 
-  
   useEffect(() => {
     const currentLang = documentLanguage; 
     const foundIndex = options.findIndex((opt) => opt.value === currentLang);
