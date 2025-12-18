@@ -3,7 +3,6 @@ import { GeneralContext } from "../../context/general.context";
 import "./IDCardForm.css";
 import { ProcedureComponent } from "../SharedComponents/ProcedureComponent";
 import { BilingualNameComponent } from "../SharedComponents/BilingualNameComponent";
-import { FormDocLanguageComponent } from "../SharedComponents/FormDocLanguageComponents ";
 import { Button, FormControl, FormControlLabel, Radio, RadioGroup } from "@mui/material";
 
 import { DocumentProps, LanguageForm } from "../HelperFunc/tabContainerProps";
@@ -37,9 +36,7 @@ export const IDCardForm = ({ tabsProps, idConfig, languageFormProps, next, error
     }
   }
   return (
-
     <div className="cardDetailsContainer" >
-
       <div className="grid">
         <fieldset className="reasons"  >
           <legend>{idConfig.label}</legend>
@@ -57,13 +54,12 @@ export const IDCardForm = ({ tabsProps, idConfig, languageFormProps, next, error
           </FormControl>
           {idCardDocument.reason === '' && <span className='errorMessage'>{errorRequired}</span>}
         </fieldset>
-
         <fieldset className="reasons">
           <ProcedureComponent handleChange={updateIDCardDocument} procedureConfig={idConfig.procedure} state={idCardDocument.procedure} />
           {idCardDocument.procedure === '' && <span className="errorMessage">{errorRequired}</span>}
         </fieldset>
-        {documentLanguage === 'мк' && (<FormDocLanguageComponent label={languageFormProps.formDocLabel} notRequired={notRequired} handleChange={updateIDCardDocument} state={idCardDocument.cardLanguage} />)}
-        {documentLanguage === 'мк' && (<BilingualNameComponent notRequired={notRequired} label={languageFormProps.bilingualNameLabel} handleChange={updateIDCardDocument} state={idCardDocument.nameLanguage} />)}
+        {documentLanguage === 'мк' && (<BilingualNameComponent name="cardLanguage" label={languageFormProps.formDocLabel} notRequired={notRequired} handleChange={updateIDCardDocument} state={idCardDocument.cardLanguage} />)}
+        {documentLanguage === 'мк' && (<BilingualNameComponent name='nameLanguage' notRequired={notRequired} label={languageFormProps.bilingualNameLabel} handleChange={updateIDCardDocument} state={idCardDocument.nameLanguage} />)}
       </div>
       {tabs.length > 1 && index + 1 != tabs.length && !hideButtons() && (<Button
         variant="contained"

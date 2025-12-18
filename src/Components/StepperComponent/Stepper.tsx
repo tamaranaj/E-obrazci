@@ -63,114 +63,112 @@ export default function StepperComponent({
   };
 
   return (
-    <>
-      <div className="stepperContainer">
-        <div className="stepper">
-          <Box>
-            <Stepper activeStep={activeStep} orientation="vertical">
-              <Step>
-                <StepLabel
-                  style={{ cursor: "pointer" }}
-                  onClick={() => handleOpenClickedTab(0)}
-                  sx={
-                    activeStep === 0
-                      ? {
-                          bgcolor: "#3c5668",
-                          height: "40px",
-                          padding: "15px",
-                          borderRadius: "10px",
-                        }
-                      : { bgcolor: "white", color: "black" }
+    <div className="stepperContainer">
+      <div className="stepper">
+        <Box>
+          <Stepper activeStep={activeStep} orientation="vertical">
+            <Step>
+              <StepLabel
+                style={{ cursor: "pointer" }}
+                onClick={() => handleOpenClickedTab(0)}
+                sx={
+                  activeStep === 0
+                    ? {
+                      bgcolor: "#3c5668",
+                      height: "40px",
+                      padding: "15px",
+                      borderRadius: "10px",
+                    }
+                    : { bgcolor: "white", color: "black" }
+                }
+              >
+                <span
+                  style={
+                    activeStep === 0 ? { color: "white" } : { color: "black" }
                   }
                 >
-                  <span
-                    style={
-                      activeStep === 0 ? { color: "white" } : { color: "black" }
+                  {stepperLabels.thirdStep}
+                </span>
+              </StepLabel>
+              <StepContent>
+                <Typography component={"div"} className="stepDiv">
+                  <CheckboxComponent
+                    handleNext={handleNext}
+                    checkboxProps={checkboxProps}
+                  />
+                </Typography>
+              </StepContent>
+            </Step>
+            <Step>
+              <StepLabel
+                style={{ cursor: "pointer" }}
+                sx={
+                  activeStep === 1
+                    ? {
+                      bgcolor: "#3c5668",
+                      height: "40px",
+                      padding: "15px",
+                      borderRadius: "10px",
                     }
-                  >
-                    {stepperLabels.thirdStep}
-                  </span>
-                </StepLabel>
-                <StepContent>
-                  <Typography component={"div"} className="stepDiv">
-                    <CheckboxComponent
-                      handleNext={handleNext}
-                      checkboxProps={checkboxProps}
-                    />
-                  </Typography>
-                </StepContent>
-              </Step>
-              <Step>
-                <StepLabel
-                  style={{ cursor: "pointer" }}
-                  sx={
-                    activeStep === 1
-                      ? {
-                          bgcolor: "#3c5668",
-                          height: "40px",
-                          padding: "15px",
-                          borderRadius: "10px",
-                        }
-                      : { bgcolor: "white", color: "black" }
+                    : { bgcolor: "white", color: "black" }
+                }
+                onClick={() => handleOpenClickedTab(1)}
+              >
+                <span
+                  style={
+                    activeStep === 1 ? { color: "white" } : { color: "black" }
                   }
-                  onClick={() => handleOpenClickedTab(1)}
                 >
-                  <span
-                    style={
-                      activeStep === 1 ? { color: "white" } : { color: "black" }
+                  {stepperLabels.secondStep}
+                </span>
+              </StepLabel>
+              <StepContent>
+                <Typography component={"div"} className="stepDiv">
+                  <ChildrenComponent
+                    handleNext={handleNext}
+                    termsInfo={termsInfo}
+                    errorsMessages={formErrorsMessages}
+                    formProps={childrenForm}
+                    patterns={patterns}
+                  />
+                </Typography>
+              </StepContent>
+            </Step>
+            <Step>
+              <StepLabel
+                style={{ cursor: "pointer" }}
+                sx={
+                  activeStep === 2
+                    ? {
+                      bgcolor: "#3c5668",
+                      height: "40px",
+                      padding: "15px",
+                      borderRadius: "10px",
                     }
-                  >
-                    {stepperLabels.secondStep}
-                  </span>
-                </StepLabel>
-                <StepContent>
-                  <Typography component={"div"} className="stepDiv">
-                    <ChildrenComponent
-                      handleNext={handleNext}
-                      termsInfo={termsInfo}
-                      errorsMessages={formErrorsMessages}
-                      formProps={childrenForm}
-                      patterns={patterns}
-                    />
-                  </Typography>
-                </StepContent>
-              </Step>
-              <Step>
-                <StepLabel
-                  style={{ cursor: "pointer" }}
-                  sx={
-                    activeStep === 2
-                      ? {
-                          bgcolor: "#3c5668",
-                          height: "40px",
-                          padding: "15px",
-                          borderRadius: "10px",
-                        }
-                      : { bgcolor: "white", color: "black" }
+                    : { bgcolor: "white", color: "black" }
+                }
+                onClick={() => handleOpenClickedTab(2)}
+              >
+                <span
+                  style={
+                    activeStep === 2 ? { color: "white" } : { color: "black" }
                   }
-                  onClick={() => handleOpenClickedTab(2)}
                 >
-                  <span
-                    style={
-                      activeStep === 2 ? { color: "white" } : { color: "black" }
-                    }
-                  >
-                    {stepperLabels.sixthStep}
-                  </span>
-                </StepLabel>
-                <StepContent>
-                  <Typography component={"div"} className="stepDiv">
-                    <TabContainer
-                      tabsConfig={tabsConfig}
-                      next={formLabels.next}
-                    />
-
-                    {!check(
-                      necessaryDocuments,
-                      idCardDocument,
-                      passport,
-                      driverLicense
-                    ) && (
+                  {stepperLabels.sixthStep}
+                </span>
+              </StepLabel>
+              <StepContent>
+                <Typography component={"div"} className="stepDiv">
+                  <TabContainer
+                    tabsConfig={tabsConfig}
+                    next={formLabels.next}
+                  />
+                  {!check(
+                    necessaryDocuments,
+                    idCardDocument,
+                    passport,
+                    driverLicense
+                  ) && (
                       <div
                         style={{
                           display: "flex",
@@ -201,93 +199,93 @@ export default function StepperComponent({
                         </Button>
                       </div>
                     )}
-                  </Typography>
-                </StepContent>
-              </Step>
-              <Step>
-                <StepLabel
-                  style={{ cursor: "pointer" }}
-                  sx={
-                    activeStep === 3
-                      ? {
-                          bgcolor: "#3c5668",
-                          height: "40px",
-                          padding: "15px",
-                          borderRadius: "10px",
-                        }
-                      : { bgcolor: "white", color: "black" }
-                  }
-                  onClick={() => handleOpenClickedTab(3)}
-                >
-                  <span
-                    style={
-                      activeStep === 3 ? { color: "white" } : { color: "black" }
-                    }
-                  >
-                    {stepperLabels.fourthStep}
-                  </span>
-                </StepLabel>
-                <StepContent>
-                  <Typography component={"div"} className="stepDiv">
-                    <PersonalInfoComponent
-                      labels={formLabels}
-                      patterns={patterns}
-                      examples={formPlaceholders}
-                      errorsMessages={formErrorsMessages}
-                      handleNext={handleNext}
-                    />
-                  </Typography>
-                </StepContent>
-              </Step>
-            </Stepper>
-            {activeStep == 4 && (
-              <Paper
-                square
-                elevation={0}
-                sx={{ p: 3, backgroundColor: "transparent" }}
-                className="stepDiv"
-                onClick={() => handleOpenClickedTab(4)}
-              >
-                <Typography component={"section"}>
-                  <div>
-                    <p>{stepperLabels.fifthStep}</p>
-                  </div>
                 </Typography>
-                <DocumentComponent savePdf={savePdf} />
-                <Button
-                  variant="contained"
-                  onClick={resetApp}
-                  sx={{
-                    mt: 1,
-                    mr: 1,
-                    backgroundColor: "#1976D2",
-                    borderRadius: "10px",
-                    border: "none",
-                    textShadow: "1px 1px 1px black",
-                  }}
+              </StepContent>
+            </Step>
+            <Step>
+              <StepLabel
+                style={{ cursor: "pointer" }}
+                sx={
+                  activeStep === 3
+                    ? {
+                      bgcolor: "#3c5668",
+                      height: "40px",
+                      padding: "15px",
+                      borderRadius: "10px",
+                    }
+                    : { bgcolor: "white", color: "black" }
+                }
+                onClick={() => handleOpenClickedTab(3)}
+              >
+                <span
+                  style={
+                    activeStep === 3 ? { color: "white" } : { color: "black" }
+                  }
                 >
-                  {stepperLabels.newDocument}
-                </Button>
-              </Paper>
-            )}
-          </Box>
-        </div>
-        {activeStep != 4 && (
-          <div className="fixed">
-            <IconButton
-              aria-label="home"
-              size="large"
-              className="absolute"
-              onClick={handleBackHome}
+                  {stepperLabels.fourthStep}
+                </span>
+              </StepLabel>
+              <StepContent>
+                <Typography component={"div"} className="stepDiv">
+                  <PersonalInfoComponent
+                    labels={formLabels}
+                    patterns={patterns}
+                    examples={formPlaceholders}
+                    errorsMessages={formErrorsMessages}
+                    handleNext={handleNext}
+                  />
+                </Typography>
+              </StepContent>
+            </Step>
+          </Stepper>
+          {activeStep == 4 && (
+            <Paper
+              square
+              elevation={0}
+              sx={{ p: 3, backgroundColor: "transparent" }}
+              className="stepDiv"
+              onClick={() => handleOpenClickedTab(4)}
             >
-              <HomeIcon
-                fontSize="inherit"
-                sx={{ fontSize: 40, color: "#1976D2" }}
-              />
-            </IconButton>
-          </div>
-        )}
+              <Typography component={"section"}>
+                <div>
+                  <p>{stepperLabels.fifthStep}</p>
+                </div>
+              </Typography>
+              <DocumentComponent savePdf={savePdf} />
+              <Button
+                variant="contained"
+                onClick={resetApp}
+                sx={{
+                  mt: 1,
+                  mr: 1,
+                  backgroundColor: "#1976D2",
+                  borderRadius: "10px",
+                  border: "none",
+                  textShadow: "1px 1px 1px black",
+                }}
+              >
+                {stepperLabels.newDocument}
+              </Button>
+            </Paper>
+          )}
+        </Box>
       </div>
-    </>
+      {activeStep != 4 && (
+        <div className="fixed">
+          <IconButton
+            aria-label="home"
+            size="large"
+            className="absolute"
+            onClick={handleBackHome}
+          >
+            <HomeIcon
+              fontSize="inherit"
+              sx={{ fontSize: 40, color: "#1976D2" }}
+            />
+          </IconButton>
+        </div>
+      )}
+    </div>
+
   );
 }

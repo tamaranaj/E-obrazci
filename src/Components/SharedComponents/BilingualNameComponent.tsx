@@ -1,23 +1,27 @@
-interface BilingualNameComponentProps{
+interface BilingualNameComponentProps {
     handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
-    state:string,
-    label:string,
-    notRequired:string
+    state: string,
+    label?: string,
+    notRequired: string
+    name: string
 }
-export const BilingualNameComponent=({handleChange, state,label,notRequired}: BilingualNameComponentProps)=>{
-
-    return(
+const options = [
+    { value: '', optionLabel: 'Ниту еден' },
+    { value: 'турски', optionLabel: 'Турски' },
+    { value: 'влашки', optionLabel: 'Влашки' },
+    { value: 'српски', optionLabel: 'Српски' },
+    { value: 'ромски', optionLabel: 'Ромски' },
+    { value: 'босански', optionLabel: 'Босански' },
+]
+export const BilingualNameComponent = ({ handleChange, state, label, notRequired, name }: BilingualNameComponentProps) => {
+    return (
         <fieldset className="reasons">
-            <legend style={{textWrap:'wrap'}}>{label}</legend>
-            <select id="language-select" name="nameLanguage" onChange={handleChange} className="select" value={state}>
-                <option value={""}>Ниту еден</option>
-              <option value={"турски"}>Турски</option>
-              <option value={"влашки"}>Влашки</option>
-              <option value={"српски"}>Српски</option>
-              <option value={"ромски"}>Ромски</option>
-              <option value={"босански"}>Босански</option>
+            <legend style={{ textWrap: 'wrap' }}>{label}</legend>
+            <select id="language-select" name={name} onChange={handleChange} className="select" value={state}>
+                {options.map(({ value, optionLabel }) => (
+                    <option key={optionLabel} value={value}>{optionLabel}</option>
+                ))}
             </select>
-
             <span className="description">{notRequired}</span>
         </fieldset>
     )
