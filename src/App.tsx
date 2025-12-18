@@ -12,6 +12,7 @@ import { childrenFormLabelsAlb, childrenFormLabelsMKD } from './Components/Helpe
 import { termsAlb, termsMkd } from './Components/HelperFunc/terms'
 import { checkboxPropsAlb, checkboxPropsMkd } from './Components/HelperFunc/checkboxProps'
 import { tabsConfigAlb, tabsConfigMkd } from './Components/HelperFunc/tabContainerProps'
+import { PageNotFound } from './Components/Page404/PageNotFound'
 
 function App() {
   
@@ -24,7 +25,7 @@ function App() {
       <Route path="/е-образци/мк" element={<StepperComponent savePdf='Сними го барањето' tabsConfig={tabsConfigMkd}  checkboxProps={checkboxPropsMkd} termsInfo={termsMkd} formLabels={mkdLabels} formErrorsMessages={formErrorsMkd} formPlaceholders={mkdPlaceholders} stepperLabels={stepperLabelsMkd} patterns={mkdPattern} childrenForm={childrenFormLabelsMKD}/>}/>
       <Route path='/е-образци/ал' element={<StepperComponent savePdf='Ruaj kërkesën' tabsConfig={tabsConfigAlb}  checkboxProps={checkboxPropsAlb} formLabels={albLabels} termsInfo={termsAlb} formErrorsMessages={formErrorsAlb} formPlaceholders={albPlaceholders} stepperLabels={stepperLabelsAlb} patterns={albPatterns} childrenForm={childrenFormLabelsAlb}/>}/>
 
-      <Route path="*" element={<p style={{color:"red", fontSize:'1.5em'}}>Error 404. Page not found</p>} />
+      <Route path="*" element={<PageNotFound/>} />
     </Routes>
     <Footer/>
     </BrowserRouter>
